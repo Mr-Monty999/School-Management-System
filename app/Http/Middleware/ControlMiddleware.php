@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Models\Admin;
 use App\Models\School;
+use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -22,14 +23,16 @@ class ControlMiddleware
 
 
 
-        $school = null;
+        $school = School::first();
         if (School::count() < 1)
             $school = School::create([]);
 
-        if (Admin::count() < 1)
-            Admin::create([
-                "admin_name" => "admin",
+        if (User::count() < 1)
+            User::create([
+                "name" => "admin",
+                "email" => "admin@admin.com",
                 "password" => Hash::make("admin"),
+                "permission" => "owner",
                 "school_id" => $school->id
             ]);
 

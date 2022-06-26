@@ -81,7 +81,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " href="{{ route('student.index') }}">
+                    <a class="nav-link " href="{{ route('students.index') }}">
                         <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
                             <i class="fa-solid fa-graduation-cap"></i>
                         </div>
@@ -90,7 +90,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link " href="{{ route('parent.index') }}">
+                    <a class="nav-link " href="{{ route('parents.index') }}">
                         <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
                             <i class="fa-solid fa-user-group"></i>
                         </div>
@@ -98,7 +98,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " href="{{ route('subject.index') }}">
+                    <a class="nav-link " href="{{ route('subjects.index') }}">
                         <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
                             <i class="fa-solid fa-book"></i>
                         </div>
@@ -107,7 +107,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link " href="{{ route('teacher.index') }}">
+                    <a class="nav-link " href="{{ route('teachers.index') }}">
                         <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
                             <i class="fa-solid fa-person-chalkboard"></i>
                         </div>
@@ -116,7 +116,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link " href="{{ route('employe.index') }}">
+                    <a class="nav-link " href="{{ route('employees.index') }}">
                         <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
                             <i class="fa-solid fa-user-tie"></i>
                         </div>
@@ -124,11 +124,11 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " href="{{ route('admin.index') }}">
+                    <a class="nav-link " href="{{ route('users.index') }}">
                         <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
                             <i class="fa-solid fa-user-gear"></i>
                         </div>
-                        <span class="nav-link-text me-1">مشرفين النظام</span>
+                        <span class="nav-link-text me-1">مستخدمي النظام</span>
                     </a>
                 </li>
 
@@ -143,7 +143,7 @@
 
 
                 <li class="nav-item">
-                    <a class="nav-link " href="{{ route('school.index') }}">
+                    <a class="nav-link " href="{{ route('schools.index') }}">
                         <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
                             <i class="fa-solid fa-school-flag"></i>
                         </div>

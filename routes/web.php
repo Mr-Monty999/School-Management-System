@@ -18,20 +18,19 @@ use Illuminate\Support\Facades\Route;
 /*
   Notes:
 
-     admin middleware => If He is Not Auth redirect to login Panel
 
-     admin.redirect middleware => If He is Auth redirect to dashboard Panel
 
 */
 
-Route::group(["middleware" => "admin.redirect"], function () {
+
+route::group(["middleware" => "guest"], function () {
     route::get("/login", "DashboardController@login")->name("dashboard.login");
     route::post("/login/attempt", "DashboardController@loginAttempt")->name("dashboard.login.attempt");
 });
 
 
 ////// All Routes /////
-route::group(["middleware" => "admin"], function () {
+route::group(["middleware" => "auth"], function () {
 
 
     /// Logout Route ///
@@ -43,13 +42,13 @@ route::group(["middleware" => "admin"], function () {
 
 
 
-    ////  Admins Routes  //////
-    Route::group(["prefix" => "admin"], function () {
-        Route::get("/", "AdminController@index")->name("admin.index");
-        Route::get("/edit/{id}", "AdminController@edit")->name("admin.edit");
-        Route::post("/store", "AdminController@store")->name("admin.store");
-        Route::put("/update/{id}", "AdminController@update")->name("admin.update");
-        Route::delete("/delete/{id}", "AdminController@destroy")->name("admin.delete");
+    ////  Users Routes  //////
+    Route::group(["prefix" => "users"], function () {
+        Route::get("/", "UserController@index")->name("users.index");
+        Route::get("/edit/{id}", "UserController@edit")->name("users.edit");
+        Route::post("/store", "UserController@store")->name("users.store");
+        Route::put("/update/{id}", "UserController@update")->name("users.update");
+        Route::delete("/delete/{id}", "UserController@destroy")->name("users.delete");
     });
 
 
@@ -57,90 +56,90 @@ route::group(["middleware" => "admin"], function () {
 
 
     ////  Classes Routes  //////
-    Route::group(["prefix" => "class"], function () {
-        Route::get("/", "ClassesController@index")->name("class.index");
-        Route::get("/edit/{id}", "ClassesController@edit")->name("class.edit");
-        Route::post("/store", "ClassesController@store")->name("class.store");
-        Route::put("/update/{id}", "ClassesController@update")->name("class.update");
-        Route::delete("/delete/{id}", "ClassesController@destroy")->name("class.delete");
+    Route::group(["prefix" => "classes"], function () {
+        Route::get("/", "ClassesController@index")->name("classes.index");
+        Route::get("/edit/{id}", "ClassesController@edit")->name("classes.edit");
+        Route::post("/store", "ClassesController@store")->name("classes.store");
+        Route::put("/update/{id}", "ClassesController@update")->name("classes.update");
+        Route::delete("/delete/{id}", "ClassesController@destroy")->name("classes.delete");
     });
 
 
 
 
     ////  Employees Routes  //////
-    Route::group(["prefix" => "employe"], function () {
-        Route::get("/", "EmployeController@index")->name("employe.index");
-        Route::get("/edit/{id}", "EmployeController@edit")->name("employe.edit");
-        Route::post("/store", "EmployeController@store")->name("employe.store");
-        Route::put("/update/{id}", "EmployeController@update")->name("employe.update");
-        Route::delete("/delete/{id}", "EmployeController@destroy")->name("employe.delete");
+    Route::group(["prefix" => "employees"], function () {
+        Route::get("/", "EmployeController@index")->name("employees.index");
+        Route::get("/edit/{id}", "EmployeController@edit")->name("employees.edit");
+        Route::post("/store", "EmployeController@store")->name("employees.store");
+        Route::put("/update/{id}", "EmployeController@update")->name("employees.update");
+        Route::delete("/delete/{id}", "EmployeController@destroy")->name("employees.delete");
     });
 
 
 
 
     ////  Jobs Routes  //////
-    Route::group(["prefix" => "job"], function () {
-        Route::get("/", "JobController@index")->name("job.index");
-        Route::get("/edit/{id}", "JobController@edit")->name("job.edit");
-        Route::post("/store", "JobController@store")->name("job.store");
-        Route::put("/update/{id}", "JobController@update")->name("job.update");
-        Route::delete("/delete/{id}", "JobController@destroy")->name("job.delete");
+    Route::group(["prefix" => "jobs"], function () {
+        Route::get("/", "JobController@index")->name("jobs.index");
+        Route::get("/edit/{id}", "JobController@edit")->name("jobs.edit");
+        Route::post("/store", "JobController@store")->name("jobs.store");
+        Route::put("/update/{id}", "JobController@update")->name("jobs.update");
+        Route::delete("/delete/{id}", "JobController@destroy")->name("jobs.delete");
     });
 
 
 
     ////  Parents Routes  //////
-    Route::group(["prefix" => "parent"], function () {
-        Route::get("/", "ParentsController@index")->name("parent.index");
-        Route::get("/edit/{id}", "ParentsController@edit")->name("parent.edit");
-        Route::post("/store", "ParentsController@store")->name("parent.store");
-        Route::put("/update/{id}", "ParentsController@update")->name("parent.update");
-        Route::delete("/delete/{id}", "ParentsController@destroy")->name("parent.delete");
+    Route::group(["prefix" => "parents"], function () {
+        Route::get("/", "ParentsController@index")->name("parents.index");
+        Route::get("/edit/{id}", "ParentsController@edit")->name("parents.edit");
+        Route::post("/store", "ParentsController@store")->name("parents.store");
+        Route::put("/update/{id}", "ParentsController@update")->name("parents.update");
+        Route::delete("/delete/{id}", "ParentsController@destroy")->name("parents.delete");
     });
 
 
 
 
     ////  School Routes  //////
-    Route::group(["prefix" => "school"], function () {
-        Route::get("/", "SchoolController@index")->name("school.index");
-        Route::get("/edit/{id}", "SchoolController@edit")->name("school.edit");
-        Route::post("/store", "SchoolController@store")->name("school.store");
-        Route::put("/update/{id}", "SchoolController@update")->name("school.update");
-        Route::delete("/delete/{id}", "SchoolController@destroy")->name("school.delete");
+    Route::group(["prefix" => "schools"], function () {
+        Route::get("/", "SchoolController@index")->name("schools.index");
+        Route::get("/edit/{id}", "SchoolController@edit")->name("schools.edit");
+        Route::post("/store", "SchoolController@store")->name("schools.store");
+        Route::put("/update/{id}", "SchoolController@update")->name("schools.update");
+        Route::delete("/delete/{id}", "SchoolController@destroy")->name("schools.delete");
     });
 
 
 
     ////  Students Routes  //////
-    Route::group(["prefix" => "student"], function () {
-        Route::get("/", "StudentController@index")->name("student.index");
-        Route::get("/edit/{id}", "StudentController@edit")->name("student.edit");
-        Route::post("/store", "StudentController@store")->name("student.store");
-        Route::put("/update/{id}", "StudentController@update")->name("student.update");
-        Route::delete("/delete/{id}", "StudentController@destroy")->name("student.delete");
+    Route::group(["prefix" => "students"], function () {
+        Route::get("/", "StudentController@index")->name("students.index");
+        Route::get("/edit/{id}", "StudentController@edit")->name("students.edit");
+        Route::post("/store", "StudentController@store")->name("students.store");
+        Route::put("/update/{id}", "StudentController@update")->name("students.update");
+        Route::delete("/delete/{id}", "StudentController@destroy")->name("students.delete");
     });
 
 
     ////  Subjects Routes  //////
-    Route::group(["prefix" => "subject"], function () {
-        Route::get("/", "SubjectController@index")->name("subject.index");
-        Route::get("/edit/{id}", "SubjectController@edit")->name("subject.edit");
-        Route::post("/store", "SubjectController@store")->name("subject.store");
-        Route::put("/update/{id}", "SubjectController@update")->name("subject.update");
-        Route::delete("/delete/{id}", "SubjectController@destroy")->name("subject.delete");
+    Route::group(["prefix" => "subjects"], function () {
+        Route::get("/", "SubjectController@index")->name("subjects.index");
+        Route::get("/edit/{id}", "SubjectController@edit")->name("subjects.edit");
+        Route::post("/store", "SubjectController@store")->name("subjects.store");
+        Route::put("/update/{id}", "SubjectController@update")->name("subjects.update");
+        Route::delete("/delete/{id}", "SubjectController@destroy")->name("subjects.delete");
     });
 
 
     ////  Teachers Routes  //////
-    Route::group(["prefix" => "teacher"], function () {
-        Route::get("/", "TeacherController@index")->name("teacher.index");
-        Route::get("/edit/{id}", "TeacherController@edit")->name("teacher.edit");
-        Route::post("/store", "TeacherController@store")->name("teacher.store");
-        Route::put("/update/{id}", "TeacherController@update")->name("teacher.update");
-        Route::delete("/delete/{id}", "TeacherController@destroy")->name("teacher.delete");
+    Route::group(["prefix" => "teachers"], function () {
+        Route::get("/", "TeacherController@index")->name("teachers.index");
+        Route::get("/edit/{id}", "TeacherController@edit")->name("teachers.edit");
+        Route::post("/store", "TeacherController@store")->name("teachers.store");
+        Route::put("/update/{id}", "TeacherController@update")->name("teachers.update");
+        Route::delete("/delete/{id}", "TeacherController@destroy")->name("teachers.delete");
     });
 
 

@@ -24,7 +24,7 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
-            "admin_name" => "required",
+            "name" => "required",
             "password" => "required"
         ];
     }
@@ -32,7 +32,7 @@ class LoginRequest extends FormRequest
     public function messages()
     {
         return [
-            "admin_name.required" => "الرجاء ادخال اسم المدير !",
+            "admin_name.required" => "الرجاء ادخال اسم المستخدم !",
             "password.required" => "الرجاء ادخال كلمة المرور !"
         ];
     }

@@ -23,7 +23,7 @@ class DashboardController extends Controller
 
     public function logout()
     {
-        Auth::guard("admin")->logout();
+        Auth::logout();
 
         return redirect()->route("dashboard.login");
     }
@@ -33,9 +33,9 @@ class DashboardController extends Controller
 
         //Check Login Inputs From User
 
-        $input = $request->only("admin_name", "password");
+        $input = $request->only("name", "password");
 
-        if (Auth::guard("admin")->attempt($input))
+        if (Auth::attempt($input))
             return redirect()->route("dashboard.index");
 
         return redirect()->route("dashboard.login")->with("error", "الرجاء التحقق من البيانات !");
