@@ -19,6 +19,9 @@ class ControlMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
+
+
+
         $school = null;
         if (School::count() < 1)
             $school = School::create([]);

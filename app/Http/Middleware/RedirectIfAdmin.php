@@ -5,9 +5,8 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
 
-class AdminMiddleware
+class RedirectIfAdmin
 {
     /**
      * Handle an incoming request.
@@ -19,14 +18,9 @@ class AdminMiddleware
     public function handle(Request $request, Closure $next)
     {
 
-        $currentRoute = Route::currentRouteName();
-
-
-        if (!Auth::guard("admin")->check()) {
-            return redirect()->route("dashboard.login");
+        if (Auth::guard("admin")->check()) {
+            return redirect()->route("dashboard.index");
         }
-
-
         return $next($request);
     }
 }

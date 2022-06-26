@@ -135,7 +135,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link bg-danger" href="">
+                    <a class="nav-link bg-danger" href="{{ route('dashboard.logout') }}">
                         <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
                             <i class="fa-solid fa-right-from-bracket"></i>
                         </div>

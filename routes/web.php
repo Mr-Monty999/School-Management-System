@@ -14,20 +14,32 @@ use Illuminate\Support\Facades\Route;
 */
 
 ////  Login Routes  ////
-route::get("/login", "DashboardController@login")->name("dashboard.login");
-route::post("/login/attempt", "DashboardController@loginAttempt")->name("dashboard.login.attempt");
 
+/*
+  Notes:
+
+     admin middleware => If He is Not Auth redirect to login Panel
+
+     admin.redirect middleware => If He is Auth redirect to dashboard Panel
+
+*/
+
+Route::group(["middleware" => "admin.redirect"], function () {
+    route::get("/login", "DashboardController@login")->name("dashboard.login");
+    route::post("/login/attempt", "DashboardController@loginAttempt")->name("dashboard.login.attempt");
+});
 
 
 ////// All Routes /////
 route::group(["middleware" => "admin"], function () {
 
 
+    ///Logout Route
+    route::get("/logout", "DashboardController@logout")->name("dashboard.logout");
+
 
     ///Dashboard Route///
     route::get("/", "DashboardController@dashboard")->name("dashboard.index");
-
-
 
 
 
