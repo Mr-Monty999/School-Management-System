@@ -241,6 +241,7 @@
         </div>
     </main>
     <!--   Core JS Files   -->
+    <script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
     <script src="{{ asset('js/popper.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/perfect-scrollbar.min.js') }}"></script>
@@ -508,7 +509,7 @@
     <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="{{ asset('js/material-dashboard.min.js') }}"></script>
 
-
+    @stack('ajax')
 </body>
 
 </html>

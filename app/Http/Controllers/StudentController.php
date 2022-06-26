@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StudentRequest;
 use App\Models\Student;
 use Illuminate\Http\Request;
 
@@ -17,25 +18,14 @@ class StudentController extends Controller
         return view("students.index");
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(StudentRequest $request)
     {
-        //
+        // $input =  $request->validated();
+        $teacher = null;
+        $class = null;
+        return response()->json(["success" => true]);
+        // if(Teac)
     }
 
     /**
