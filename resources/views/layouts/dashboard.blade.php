@@ -157,7 +157,8 @@
 
                     <ul class="navbar-nav me-auto ms-0 justify-content-end">
                         <li class="nav-item d-flex align-items-center">
-                            <a href="" class="nav-link text-body font-weight-bold px-0">
+                            <a href="{{ route('dashboard.logout') }}"
+                                class="nav-link text-body font-weight-bold px-0">
                                 <i class="fa-solid fa-right-from-bracket"></i>
                                 <span class="d-sm-inline d-none">تسجيل
                                     خروج</span>
