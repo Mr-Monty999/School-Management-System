@@ -55,17 +55,25 @@
                 aria-hidden="true" id="iconSidenav"></i>
             <a class="navbar-brand m-0" target="_blank">
 
-                <img src="" class="navbar-brand-img h-100 border-radius-2xl" alt="main_logo">
-
+                {{-- <img src="" class="navbar-brand-img h-100 border-radius-2xl" alt="main_logo"> --}}
+                <i class="fa-solid fa-school text-white"></i>
 
                 <span class="me-1 font-weight-bold text-white">لوحة التحكم</span>
             </a>
         </div>
         <hr class="horizontal light mt-0 mb-2">
-        <div class="collapse navbar-collapse px-0 w-auto " id="sidenav-collapse-main">
+        <div class="collapse navbar-collapse px-0 w-auto fixed-height" id="sidenav-collapse-main">
             <ul class="navbar-nav">
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link bg-success" href="">
+                        <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
+                            <i class="fa-solid fa-house-chimney"></i>
+                        </div>
+                        <span class="nav-link-text me-1">الصفحة الرئيسية</span>
+                    </a>
+                </li> --}}
+                <li class="nav-item">
+                    <a class="nav-link " href="{{ route('dashboard.index') }}">
                         <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
                             <i class="fa-solid fa-house-chimney"></i>
                         </div>
@@ -73,62 +81,57 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " href="">
+                    <a class="nav-link " href="{{ route('student.index') }}">
                         <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
-                            <i class="fa-solid fa-house-chimney"></i>
+                            <i class="fa-solid fa-graduation-cap"></i>
                         </div>
-                        <span class="nav-link-text me-1">لوحة التحكم</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link " href="">
-                        <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
-                            <i class="fa-solid fa-tags"></i>
-                        </div>
-                        <span class="nav-link-text me-1">ادارة الاصناف</span>
+                        <span class="nav-link-text me-1">ادارة الطلاب</span>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link " href="">
+                    <a class="nav-link " href="{{ route('parent.index') }}">
                         <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
-                            <i class="fa-solid fa-cart-shopping"></i>
+                            <i class="fa-solid fa-user-group"></i>
                         </div>
-                        <span class="nav-link-text me-1">ادارة المنتجات</span>
+                        <span class="nav-link-text me-1">ادارة اولياء الامور</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " href="">
+                    <a class="nav-link " href="{{ route('subject.index') }}">
                         <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
-                            <i class="fa-solid fa-envelope"></i>
+                            <i class="fa-solid fa-book"></i>
                         </div>
-                        <span class="nav-link-text me-1">رسائل الزوار</span>
+                        <span class="nav-link-text me-1">المواد الدراسية</span>
                     </a>
                 </li>
+
                 <li class="nav-item">
-                    <a class="nav-link " href="">
+                    <a class="nav-link " href="{{ route('teacher.index') }}">
                         <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
-                            <i class="fa-solid fa-shield"></i>
+                            <i class="fa-solid fa-person-chalkboard"></i>
                         </div>
-                        <span class="nav-link-text me-1">اعدادات الخصوصية</span>
+                        <span class="nav-link-text me-1">ادارة المعلمين</span>
                     </a>
                 </li>
+
                 <li class="nav-item">
-                    <a class="nav-link " href="">
+                    <a class="nav-link " href="{{ route('employe.index') }}">
                         <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
                             <i class="fa-solid fa-user-tie"></i>
                         </div>
-                        <span class="nav-link-text me-1">اعدادات المشرفين</span>
+                        <span class="nav-link-text me-1"> ادارة الموظفين</span>
                     </a>
                 </li>
 
 
+
                 <li class="nav-item">
-                    <a class="nav-link " href="">
+                    <a class="nav-link " href="{{ route('school.index') }}">
                         <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
-                            <i class="fa-solid fa-gears"></i>
+                            <i class="fa-solid fa-school-flag"></i>
                         </div>
-                        <span class="nav-link-text me-1">اعدادات الموقع</span>
+                        <span class="nav-link-text me-1">اعدادت المدرسة</span>
                     </a>
                 </li>
                 <li class="nav-item">

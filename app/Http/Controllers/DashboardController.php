@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DashboardRequest;
+use App\Http\Requests\LoginRequest;
 use Illuminate\Http\Request;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 class DashboardController extends Controller
 {
 
-    public function index()
+    public function dashboard()
     {
         return view("index");
     }
@@ -19,7 +20,7 @@ class DashboardController extends Controller
         return view("login");
     }
 
-    public function loginAttempt(DashboardRequest $request)
+    public function loginAttempt(LoginRequest $request)
     {
     }
 }

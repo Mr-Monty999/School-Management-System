@@ -14,8 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 ////  Login Routes  ////
-route::get("/login", "DashboardController@login");
-route::post("/login/attempt", "DashboardController@loginAttempt");
+route::get("/login", "DashboardController@login")->name("dashboard.login");
+route::post("/login/attempt", "DashboardController@loginAttempt")->name("dashboard.login.attempt");
 
 
 
@@ -25,7 +25,7 @@ route::group(["middleware" => "admin"], function () {
 
 
     ///Dashboard Route///
-    route::get("/", "DashboardController@index");
+    route::get("/", "DashboardController@dashboard")->name("dashboard.index");
 
 
 
@@ -92,7 +92,7 @@ route::group(["middleware" => "admin"], function () {
 
 
     ////  School Routes  //////
-    Route::group(["prefix" => "parent"], function () {
+    Route::group(["prefix" => "school"], function () {
         Route::get("/", "SchoolController@index")->name("school.index");
         Route::get("/edit/{id}", "SchoolController@edit")->name("school.edit");
         Route::post("/store", "SchoolController@store")->name("school.store");
@@ -103,7 +103,7 @@ route::group(["middleware" => "admin"], function () {
 
 
     ////  Students Routes  //////
-    Route::group(["prefix" => "parent"], function () {
+    Route::group(["prefix" => "student"], function () {
         Route::get("/", "StudentController@index")->name("student.index");
         Route::get("/edit/{id}", "StudentController@edit")->name("student.edit");
         Route::post("/store", "StudentController@store")->name("student.store");
@@ -113,7 +113,7 @@ route::group(["middleware" => "admin"], function () {
 
 
     ////  Subjects Routes  //////
-    Route::group(["prefix" => "parent"], function () {
+    Route::group(["prefix" => "subject"], function () {
         Route::get("/", "SubjectController@index")->name("subject.index");
         Route::get("/edit/{id}", "SubjectController@edit")->name("subject.edit");
         Route::post("/store", "SubjectController@store")->name("subject.store");
@@ -123,7 +123,7 @@ route::group(["middleware" => "admin"], function () {
 
 
     ////  Teachers Routes  //////
-    Route::group(["prefix" => "parent"], function () {
+    Route::group(["prefix" => "teacher"], function () {
         Route::get("/", "TeacherController@index")->name("teacher.index");
         Route::get("/edit/{id}", "TeacherController@edit")->name("teacher.edit");
         Route::post("/store", "TeacherController@store")->name("teacher.store");
