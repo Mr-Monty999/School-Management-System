@@ -34,11 +34,11 @@ Route::group(["middleware" => "admin.redirect"], function () {
 route::group(["middleware" => "admin"], function () {
 
 
-    ///Logout Route
+    /// Logout Route ///
     route::get("/logout", "DashboardController@logout")->name("dashboard.logout");
 
 
-    ///Dashboard Route///
+    /// Dashboard Route ///
     route::get("/", "DashboardController@dashboard")->name("dashboard.index");
 
 
@@ -141,5 +141,15 @@ route::group(["middleware" => "admin"], function () {
         Route::post("/store", "TeacherController@store")->name("teacher.store");
         Route::put("/update/{id}", "TeacherController@update")->name("teacher.update");
         Route::delete("/delete/{id}", "TeacherController@destroy")->name("teacher.delete");
+    });
+
+
+    ////  Privacy Routes  //////
+    Route::group(["prefix" => "privacy"], function () {
+        Route::get("/", "PrivacyController@index")->name("privacy.index");
+        Route::get("/edit/{id}", "PrivacyController@edit")->name("privacy.edit");
+        Route::post("/store", "PrivacyController@store")->name("privacy.store");
+        Route::put("/update/{id}", "PrivacyController@update")->name("privacy.update");
+        Route::delete("/delete/{id}", "PrivacyController@destroy")->name("privacy.delete");
     });
 });

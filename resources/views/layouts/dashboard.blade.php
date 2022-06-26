@@ -123,7 +123,23 @@
                         <span class="nav-link-text me-1"> ادارة الموظفين</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="{{ route('employe.index') }}">
+                        <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
+                            <i class="fa-solid fa-user-gear"></i>
+                        </div>
+                        <span class="nav-link-text me-1">مشرفين النظام</span>
+                    </a>
+                </li>
 
+                <li class="nav-item">
+                    <a class="nav-link " href="{{ route('privacy.index') }}">
+                        <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <span class="nav-link-text me-1">الخصوصية</span>
+                    </a>
+                </li>
 
 
                 <li class="nav-item">
