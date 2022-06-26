@@ -37,7 +37,7 @@ route::group(["middleware" => "admin"], function () {
         Route::get("/edit/{id}", "AdminController@edit")->name("admin.edit");
         Route::post("/store", "AdminController@store")->name("admin.store");
         Route::put("/update/{id}", "AdminController@update")->name("admin.update");
-        Route::delete("/delete/{id}", "AdminController@delete")->name("admin.delete");
+        Route::delete("/delete/{id}", "AdminController@destroy")->name("admin.delete");
     });
 
 
@@ -50,7 +50,7 @@ route::group(["middleware" => "admin"], function () {
         Route::get("/edit/{id}", "ClassesController@edit")->name("class.edit");
         Route::post("/store", "ClassesController@store")->name("class.store");
         Route::put("/update/{id}", "ClassesController@update")->name("class.update");
-        Route::delete("/delete/{id}", "ClassesController@delete")->name("class.delete");
+        Route::delete("/delete/{id}", "ClassesController@destroy")->name("class.delete");
     });
 
 
@@ -62,7 +62,7 @@ route::group(["middleware" => "admin"], function () {
         Route::get("/edit/{id}", "EmployeController@edit")->name("employe.edit");
         Route::post("/store", "EmployeController@store")->name("employe.store");
         Route::put("/update/{id}", "EmployeController@update")->name("employe.update");
-        Route::delete("/delete/{id}", "EmployeController@delete")->name("employe.delete");
+        Route::delete("/delete/{id}", "EmployeController@destroy")->name("employe.delete");
     });
 
 
@@ -74,7 +74,7 @@ route::group(["middleware" => "admin"], function () {
         Route::get("/edit/{id}", "JobController@edit")->name("job.edit");
         Route::post("/store", "JobController@store")->name("job.store");
         Route::put("/update/{id}", "JobController@update")->name("job.update");
-        Route::delete("/delete/{id}", "JobController@delete")->name("job.delete");
+        Route::delete("/delete/{id}", "JobController@destroy")->name("job.delete");
     });
 
 
@@ -85,7 +85,7 @@ route::group(["middleware" => "admin"], function () {
         Route::get("/edit/{id}", "ParentsController@edit")->name("parent.edit");
         Route::post("/store", "ParentsController@store")->name("parent.store");
         Route::put("/update/{id}", "ParentsController@update")->name("parent.update");
-        Route::delete("/delete/{id}", "ParentsController@delete")->name("parent.delete");
+        Route::delete("/delete/{id}", "ParentsController@destroy")->name("parent.delete");
     });
 
 
@@ -97,7 +97,7 @@ route::group(["middleware" => "admin"], function () {
         Route::get("/edit/{id}", "SchoolController@edit")->name("school.edit");
         Route::post("/store", "SchoolController@store")->name("school.store");
         Route::put("/update/{id}", "SchoolController@update")->name("school.update");
-        Route::delete("/delete/{id}", "SchoolController@delete")->name("school.delete");
+        Route::delete("/delete/{id}", "SchoolController@destroy")->name("school.delete");
     });
 
 
@@ -108,7 +108,7 @@ route::group(["middleware" => "admin"], function () {
         Route::get("/edit/{id}", "StudentController@edit")->name("student.edit");
         Route::post("/store", "StudentController@store")->name("student.store");
         Route::put("/update/{id}", "StudentController@update")->name("student.update");
-        Route::delete("/delete/{id}", "StudentController@delete")->name("student.delete");
+        Route::delete("/delete/{id}", "StudentController@destroy")->name("student.delete");
     });
 
 
@@ -118,7 +118,7 @@ route::group(["middleware" => "admin"], function () {
         Route::get("/edit/{id}", "SubjectController@edit")->name("subject.edit");
         Route::post("/store", "SubjectController@store")->name("subject.store");
         Route::put("/update/{id}", "SubjectController@update")->name("subject.update");
-        Route::delete("/delete/{id}", "SubjectController@delete")->name("subject.delete");
+        Route::delete("/delete/{id}", "SubjectController@destroy")->name("subject.delete");
     });
 
 
@@ -128,6 +128,6 @@ route::group(["middleware" => "admin"], function () {
         Route::get("/edit/{id}", "TeacherController@edit")->name("teacher.edit");
         Route::post("/store", "TeacherController@store")->name("teacher.store");
         Route::put("/update/{id}", "TeacherController@update")->name("teacher.update");
-        Route::delete("/delete/{id}", "TeacherController@delete")->name("teacher.delete");
+        Route::delete("/delete/{id}", "TeacherController@destroy")->name("teacher.delete");
     });
 });
