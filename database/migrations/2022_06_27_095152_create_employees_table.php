@@ -14,7 +14,7 @@ class CreateEmployeesTable extends Migration
     public function up()
     {
         Schema::create('employees', function (Blueprint $table) {
-            $table->integer('id')->primary();
+            $table->increments("id");
             $table->string('employe_name')->index('admin_name');
             $table->string('employe_address');
             $table->string('employe_phone');
@@ -23,7 +23,7 @@ class CreateEmployeesTable extends Migration
             $table->date('employe_hiredate');
             $table->string('employe_genre');
             $table->string('employe_photo')->nullable();
-            $table->integer('job_id')->nullable();
+            $table->integer('job_id')->nullable()->unsigned();
             $table->timestamps();
 
             $table->foreign('job_id', 'employees_ibfk_2')->references('id')->on('employees_jobs')->onDelete('set NULL')->onUpdate('set NULL');

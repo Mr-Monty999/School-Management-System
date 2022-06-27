@@ -14,7 +14,7 @@ class CreateClassesTable extends Migration
     public function up()
     {
         Schema::create('classes', function (Blueprint $table) {
-            $table->integer('id')->primary();
+            $table->increments("id");
             $table->string('class_name')->index('class_name');
             $table->timestamps();
         });

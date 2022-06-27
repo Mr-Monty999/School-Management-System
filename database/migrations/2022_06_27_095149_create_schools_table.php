@@ -14,7 +14,7 @@ class CreateSchoolsTable extends Migration
     public function up()
     {
         Schema::create('schools', function (Blueprint $table) {
-            $table->integer('id')->primary();
+            $table->increments("id");
             $table->string('school_name')->nullable()->index()->unique();
             $table->string('school_owner')->nullable();
             $table->string('school_address')->nullable();
