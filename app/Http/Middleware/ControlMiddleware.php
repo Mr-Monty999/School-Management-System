@@ -23,6 +23,8 @@ class ControlMiddleware
 
 
 
+        ////If Users Table Is Empty, Make Defualt Row ///
+
 
         if (User::count() < 1)
             User::create([
