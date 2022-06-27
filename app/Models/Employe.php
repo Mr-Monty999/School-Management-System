@@ -24,10 +24,12 @@ class Employe extends Model
 
     protected $table = "employees";
 
+    /*
     public function school()
     {
         return $this->belongsTo(School::class, "school_id");
     }
+    */
 
     public function job()
     {

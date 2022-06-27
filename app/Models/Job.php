@@ -13,10 +13,13 @@ class Job extends Model
     protected $fillable = ["job_name", "school_id"];
     protected $table = "employees_jobs";
 
+    /*
     public function school()
     {
         return $this->belongsTo(School::class, "school_id");
     }
+    */
+
     public function employees()
     {
         return $this->hasMany(Employe::class, "job_id");

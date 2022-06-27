@@ -9,10 +9,12 @@ class TeacherSubject extends Model
 {
     use HasFactory;
 
-    ///////// Leave It Null /////////
+    ///////// Leave This Model Null /////////
 
+    /*
     public function school()
     {
         return $this->belongsTo(School::class, "school_id");
     }
+    */
 }

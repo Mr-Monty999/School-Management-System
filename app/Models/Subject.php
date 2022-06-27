@@ -13,10 +13,12 @@ class Subject extends Model
     protected $fillable = ["subject_name", "class_id", "school_id"];
     protected $table = "subjects";
 
+    /*
     public function school()
     {
         return $this->belongsTo(School::class, "school_id");
     }
+    */
 
     public function teachers()
     {

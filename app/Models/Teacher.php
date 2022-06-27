@@ -23,11 +23,12 @@ class Teacher extends Model
     ];
     protected $table = "teachers";
 
+    /*
     public function school()
     {
         return $this->belongsTo(School::class, "school_id");
     }
-
+*/
     public function subjects()
     {
         return $this->belongsToMany(Subject::class, "teacher_subject", "subject_id");

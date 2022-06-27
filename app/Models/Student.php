@@ -23,10 +23,12 @@ class Student extends Model
     ];
     protected $table = "students";
 
+    /*
     public function school()
     {
         return $this->belongsTo(School::class, "school_id");
     }
+    */
 
     public function class()
     {

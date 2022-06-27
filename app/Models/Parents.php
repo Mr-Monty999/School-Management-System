@@ -20,10 +20,13 @@ class Parents extends Model
     ];
     protected $table = "parents";
 
+    /*
     public function school()
     {
         return $this->belongsTo(School::class, "school_id");
     }
+    */
+
     public function students()
     {
 

@@ -19,6 +19,7 @@ class School extends Model
     ];
     protected $table = "schools";
 
+    /*
     public function admins()
     {
         return $this->hasMany(Admin::class, "school_id");
@@ -58,4 +59,5 @@ class School extends Model
     {
         return $this->hasMany(TeacherSubject::class, "school_id");
     }
+    */
 }
