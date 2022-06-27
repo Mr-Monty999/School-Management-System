@@ -30,9 +30,24 @@ class StudentRequest extends FormRequest
             "student_registered_date" => "required|date",
             "student_paid_price" => "required|numeric",
             "student_genre" => "required",
-            "student_photo" => "image",
+            "student_photo" => "nullable|image",
             "student_class" => "required",
             "parent_name" => "required"
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            "student_name.required" => "الرجاء ادخال اسم الطالب !",
+            "student_address.required" => "الرجاء ادخال عنوان الطالب !",
+            "student_birthdate.required" => "الرجاء ادخال تاريخ ميلاد الطالب !",
+            "student_registered_date.required" => "الرجاء ادخال تاريخ تسجيل الطالب !",
+            "student_paid_price.required" => " الرجاء ادخال رسوم الطالب ! المدفوعة",
+            "student_genre.required" => "الرجاء ادخال جنس الطالب !",
+            "student_photo.image" => "صورة الطالب ! غير صالحة",
+            "student_class.required" => "الرجاء ادخال فصل الطالب !",
+            "parent_name.required" => "الرجاء ادخال اسم ولي أمر الطالب !",
         ];
     }
 }

@@ -32,7 +32,7 @@ class LoginRequest extends FormRequest
     public function messages()
     {
         return [
-            "admin_name.required" => "الرجاء ادخال اسم المستخدم !",
+            "username.required" => "الرجاء ادخال اسم المستخدم !",
             "password.required" => "الرجاء ادخال كلمة المرور !"
         ];
     }
