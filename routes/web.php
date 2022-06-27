@@ -1,5 +1,16 @@
 <?php
 
+use App\Http\Controllers\ClassesController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EmployeController;
+use App\Http\Controllers\JobController;
+use App\Http\Controllers\ParentsController;
+use App\Http\Controllers\PrivacyController;
+use App\Http\Controllers\SchoolController;
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,8 +35,8 @@ use Illuminate\Support\Facades\Route;
 
 
 route::group(["middleware" => "guest"], function () {
-    route::get("/login", "DashboardController@login")->name("dashboard.login");
-    route::post("/login/attempt", "DashboardController@loginAttempt")->name("dashboard.login.attempt");
+    route::get("/login", [DashboardController::class, "login"])->name("dashboard.login");
+    route::post("/login/attempt", [DashboardController::class, "loginAttempt"])->name("dashboard.login.attempt");
 });
 
 
@@ -34,21 +45,21 @@ route::group(["middleware" => "auth"], function () {
 
 
     /// Logout Route ///
-    route::get("/logout", "DashboardController@logout")->name("dashboard.logout");
+    route::get("/logout", [DashboardController::class, "logout"])->name("dashboard.logout");
 
 
     /// Dashboard Route ///
-    route::get("/", "DashboardController@dashboard")->name("dashboard.index");
+    route::get("/", [DashboardController::class, "dashboard"])->name("dashboard.index");
 
 
 
     ////  Users Routes  //////
     Route::group(["prefix" => "users"], function () {
-        Route::get("/", "UserController@index")->name("users.index");
-        Route::get("/edit/{id}", "UserController@edit")->name("users.edit");
-        Route::post("/store", "UserController@store")->name("users.store");
-        Route::put("/update/{id}", "UserController@update")->name("users.update");
-        Route::delete("/delete/{id}", "UserController@destroy")->name("users.delete");
+        Route::get("/", [UserController::class, "index"])->name("users.index");
+        Route::get("/edit/{id}", [UserController::class, "edit"])->name("users.edit");
+        Route::post("/store", [UserController::class, "store"])->name("users.store");
+        Route::put("/update/{id}", [UserController::class, "update"])->name("users.update");
+        Route::delete("/delete/{id}", [UserController::class, "destroy"])->name("users.delete");
     });
 
 
@@ -57,11 +68,11 @@ route::group(["middleware" => "auth"], function () {
 
     ////  Classes Routes  //////
     Route::group(["prefix" => "classes"], function () {
-        Route::get("/", "ClassesController@index")->name("classes.index");
-        Route::get("/edit/{id}", "ClassesController@edit")->name("classes.edit");
-        Route::post("/store", "ClassesController@store")->name("classes.store");
-        Route::put("/update/{id}", "ClassesController@update")->name("classes.update");
-        Route::delete("/delete/{id}", "ClassesController@destroy")->name("classes.delete");
+        Route::get("/", [ClassesController::class, "index"])->name("classes.index");
+        Route::get("/edit/{id}", [ClassesController::class, "edit"])->name("classes.edit");
+        Route::post("/store", [ClassesController::class, "store"])->name("classes.store");
+        Route::put("/update/{id}", [ClassesController::class, "update"])->name("classes.update");
+        Route::delete("/delete/{id}", [ClassesController::class, "destroy"])->name("classes.delete");
     });
 
 
@@ -69,11 +80,11 @@ route::group(["middleware" => "auth"], function () {
 
     ////  Employees Routes  //////
     Route::group(["prefix" => "employees"], function () {
-        Route::get("/", "EmployeController@index")->name("employees.index");
-        Route::get("/edit/{id}", "EmployeController@edit")->name("employees.edit");
-        Route::post("/store", "EmployeController@store")->name("employees.store");
-        Route::put("/update/{id}", "EmployeController@update")->name("employees.update");
-        Route::delete("/delete/{id}", "EmployeController@destroy")->name("employees.delete");
+        Route::get("/", [EmployeController::class, "index"])->name("employees.index");
+        Route::get("/edit/{id}", [EmployeController::class, "edit"])->name("employees.edit");
+        Route::post("/store", [EmployeController::class, "store"])->name("employees.store");
+        Route::put("/update/{id}", [EmployeController::class, "update"])->name("employees.update");
+        Route::delete("/delete/{id}", [EmployeController::class, "destroy"])->name("employees.delete");
     });
 
 
@@ -81,22 +92,22 @@ route::group(["middleware" => "auth"], function () {
 
     ////  Jobs Routes  //////
     Route::group(["prefix" => "jobs"], function () {
-        Route::get("/", "JobController@index")->name("jobs.index");
-        Route::get("/edit/{id}", "JobController@edit")->name("jobs.edit");
-        Route::post("/store", "JobController@store")->name("jobs.store");
-        Route::put("/update/{id}", "JobController@update")->name("jobs.update");
-        Route::delete("/delete/{id}", "JobController@destroy")->name("jobs.delete");
+        Route::get("/", [JobController::class, "index"])->name("jobs.index");
+        Route::get("/edit/{id}", [JobController::class, "edit"])->name("jobs.edit");
+        Route::post("/store", [JobController::class, "store"])->name("jobs.store");
+        Route::put("/update/{id}", [JobController::class, "update"])->name("jobs.update");
+        Route::delete("/delete/{id}", [JobController::class, "destroy"])->name("jobs.delete");
     });
 
 
 
     ////  Parents Routes  //////
     Route::group(["prefix" => "parents"], function () {
-        Route::get("/", "ParentsController@index")->name("parents.index");
-        Route::get("/edit/{id}", "ParentsController@edit")->name("parents.edit");
-        Route::post("/store", "ParentsController@store")->name("parents.store");
-        Route::put("/update/{id}", "ParentsController@update")->name("parents.update");
-        Route::delete("/delete/{id}", "ParentsController@destroy")->name("parents.delete");
+        Route::get("/", [ParentsController::class, "index"])->name("parents.index");
+        Route::get("/edit/{id}", [ParentsController::class, "edit"])->name("parents.edit");
+        Route::post("/store", [ParentsController::class, "store"])->name("parents.store");
+        Route::put("/update/{id}", [ParentsController::class, "update"])->name("parents.update");
+        Route::delete("/delete/{id}", [ParentsController::class, "destroy"])->name("parents.delete");
     });
 
 
@@ -104,51 +115,52 @@ route::group(["middleware" => "auth"], function () {
 
     ////  School Routes  //////
     Route::group(["prefix" => "schools"], function () {
-        Route::get("/", "SchoolController@index")->name("schools.index");
-        Route::get("/edit/{id}", "SchoolController@edit")->name("schools.edit");
-        Route::post("/store", "SchoolController@store")->name("schools.store");
-        Route::put("/update/{id}", "SchoolController@update")->name("schools.update");
-        Route::delete("/delete/{id}", "SchoolController@destroy")->name("schools.delete");
+        Route::get("/", [SchoolController::class, "index"])->name("schools.index");
+        Route::get("/edit/{id}", [SchoolController::class, "edit"])->name("schools.edit");
+        Route::post("/store", [SchoolController::class, "store"])->name("schools.store");
+        Route::put("/update/{id}", [SchoolController::class, "update"])->name("schools.update");
+        Route::delete("/delete/{id}", [SchoolController::class, "destroy"])->name("schools.delete");
     });
 
 
 
     ////  Students Routes  //////
     Route::group(["prefix" => "students"], function () {
-        Route::get("/", "StudentController@index")->name("students.index");
-        Route::get("/edit/{id}", "StudentController@edit")->name("students.edit");
-        Route::post("/store", "StudentController@store")->name("students.store");
-        Route::put("/update/{id}", "StudentController@update")->name("students.update");
-        Route::delete("/delete/{id}", "StudentController@destroy")->name("students.delete");
+        Route::get("/", [StudentController::class, "index"])->name("students.index");
+        Route::get("/edit/{id}", [StudentController::class, "edit"])->name("students.edit");
+        Route::post("/store", [StudentController::class, "store"])->name("students.store");
+        Route::put("/update/{id}", [StudentController::class, "update"])->name("students.update");
+        Route::delete("/delete/{id}", [StudentController::class, "destroy"])->name("students.delete");
     });
+
 
 
     ////  Subjects Routes  //////
     Route::group(["prefix" => "subjects"], function () {
-        Route::get("/", "SubjectController@index")->name("subjects.index");
-        Route::get("/edit/{id}", "SubjectController@edit")->name("subjects.edit");
-        Route::post("/store", "SubjectController@store")->name("subjects.store");
-        Route::put("/update/{id}", "SubjectController@update")->name("subjects.update");
-        Route::delete("/delete/{id}", "SubjectController@destroy")->name("subjects.delete");
+        Route::get("/", [SubjectController::class, "index"])->name("subjects.index");
+        Route::get("/edit/{id}", [SubjectController::class, "edit"])->name("subjects.edit");
+        Route::post("/store", [SubjectController::class, "store"])->name("subjects.store");
+        Route::put("/update/{id}", [SubjectController::class, "update"])->name("subjects.update");
+        Route::delete("/delete/{id}", [SubjectController::class, "destroy"])->name("subjects.delete");
     });
 
 
     ////  Teachers Routes  //////
     Route::group(["prefix" => "teachers"], function () {
-        Route::get("/", "TeacherController@index")->name("teachers.index");
-        Route::get("/edit/{id}", "TeacherController@edit")->name("teachers.edit");
-        Route::post("/store", "TeacherController@store")->name("teachers.store");
-        Route::put("/update/{id}", "TeacherController@update")->name("teachers.update");
-        Route::delete("/delete/{id}", "TeacherController@destroy")->name("teachers.delete");
+        Route::get("/", [TeacherController::class, "index"])->name("teachers.index");
+        Route::get("/edit/{id}", [TeacherController::class, "edit"])->name("teachers.edit");
+        Route::post("/store", [TeacherController::class, "store"])->name("teachers.store");
+        Route::put("/update/{id}", [TeacherController::class, "update"])->name("teachers.update");
+        Route::delete("/delete/{id}", [TeacherController::class, "destroy"])->name("teachers.delete");
     });
 
 
     ////  Privacy Routes  //////
     Route::group(["prefix" => "privacy"], function () {
-        Route::get("/", "PrivacyController@index")->name("privacy.index");
-        Route::get("/edit/{id}", "PrivacyController@edit")->name("privacy.edit");
-        Route::post("/store", "PrivacyController@store")->name("privacy.store");
-        Route::put("/update/{id}", "PrivacyController@update")->name("privacy.update");
-        Route::delete("/delete/{id}", "PrivacyController@destroy")->name("privacy.delete");
+        Route::get("/", [PrivacyController::class, "index"])->name("privacy.index");
+        Route::get("/edit/{id}", [PrivacyController::class, "edit"])->name("privacy.edit");
+        Route::post("/store", [PrivacyController::class, "store"])->name("privacy.store");
+        Route::put("/update/{id}", [PrivacyController::class, "update"])->name("privacy.update");
+        Route::delete("/delete/{id}", [PrivacyController::class, "destroy"])->name("privacy.delete");
     });
 });
