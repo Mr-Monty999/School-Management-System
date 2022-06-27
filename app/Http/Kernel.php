@@ -21,7 +21,6 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
-        \App\Http\Middleware\ControlMiddleware::class,
     ];
 
     /**
@@ -65,6 +64,8 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         "admin" => \App\Http\Middleware\AdminMiddleware::class,
-        "admin.redirect" => \App\Http\Middleware\RedirectIfAdmin::class
+        "owner" => \App\Http\Middleware\OwnerMiddleware::class,
+        "student" => \App\Http\Middleware\StudentMiddleware::class,
+        "employe" => \App\Http\Middleware\EmployeMiddleware::class
     ];
 }

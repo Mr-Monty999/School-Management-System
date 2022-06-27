@@ -46,7 +46,7 @@ class DashboardController extends Controller
 
         //Check Login Inputs From User
 
-        $input = $request->only("name", "password");
+        $input = $request->only("username", "password");
 
         if (Auth::attempt($input))
             return redirect()->route("dashboard.index");
