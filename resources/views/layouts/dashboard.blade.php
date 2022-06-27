@@ -80,6 +80,7 @@
                         <span class="nav-link-text me-1">الصفحة الرئيسية</span>
                     </a>
                 </li>
+                @can('student.view')
                 <li class="nav-item">
                     <a class="nav-link " href="{{ route('students.index') }}">
                         <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
@@ -97,6 +98,9 @@
                         <span class="nav-link-text me-1">ادارة اولياء الامور</span>
                     </a>
                 </li>
+                @endcan
+
+                @can('subject.view')
                 <li class="nav-item">
                     <a class="nav-link " href="{{ route('subjects.index') }}">
                         <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
@@ -105,7 +109,9 @@
                         <span class="nav-link-text me-1">المواد الدراسية</span>
                     </a>
                 </li>
+                @endcan
 
+                @can('teacher.view')
                 <li class="nav-item">
                     <a class="nav-link " href="{{ route('teachers.index') }}">
                         <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
@@ -114,7 +120,9 @@
                         <span class="nav-link-text me-1">ادارة المعلمين</span>
                     </a>
                 </li>
+                @endcan
 
+                @can('employe.view')
                 <li class="nav-item">
                     <a class="nav-link " href="{{ route('employees.index') }}">
                         <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
@@ -123,6 +131,20 @@
                         <span class="nav-link-text me-1"> ادارة الموظفين</span>
                     </a>
                 </li>
+                @endcan
+
+                @can('result.view')
+                <li class="nav-item">
+                    <a class="nav-link " href="{{ route('employees.index') }}">
+                        <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
+                            <i class="fa-solid fa-user-tie"></i>
+                        </div>
+                        <span class="nav-link-text me-1"> النتائج</span>
+                    </a>
+                </li>
+                @endcan
+
+                @can('admin.view')
                 <li class="nav-item">
                     <a class="nav-link " href="{{ route('users.index') }}">
                         <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
@@ -131,7 +153,9 @@
                         <span class="nav-link-text me-1">مستخدمي النظام</span>
                     </a>
                 </li>
+                @endcan
 
+                @role('Super-Admin')
                 <li class="nav-item">
                     <a class="nav-link " href="{{ route('privacy.index') }}">
                         <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
@@ -141,7 +165,6 @@
                     </a>
                 </li>
 
-
                 <li class="nav-item">
                     <a class="nav-link " href="{{ route('schools.index') }}">
                         <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
@@ -150,6 +173,8 @@
                         <span class="nav-link-text me-1">اعدادت المدرسة</span>
                     </a>
                 </li>
+                @endrole
+
                 <li class="nav-item">
                     <a class="nav-link bg-danger" href="{{ route('dashboard.logout') }}">
                         <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">

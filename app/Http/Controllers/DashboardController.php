@@ -11,7 +11,7 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 class DashboardController extends Controller
 {
 
-    public function ownerDashboard()
+    /* public function ownerDashboard()
     {
         return view("dashboards.owner");
     }
@@ -27,6 +27,10 @@ class DashboardController extends Controller
     public function studentDashboard()
     {
         return view("dashboards.student");
+    } */
+
+    public function index() {
+        return view('dashboard');
     }
 
     public function login()

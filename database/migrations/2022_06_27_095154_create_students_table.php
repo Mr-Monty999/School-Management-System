@@ -14,7 +14,7 @@ class CreateStudentsTable extends Migration
     public function up()
     {
         Schema::create('students', function (Blueprint $table) {
-            $table->increments("id");
+            $table->id();
             $table->string('student_name')->index('student_name');
             $table->string('student_address');
             $table->date('student_birthdate');
@@ -22,12 +22,14 @@ class CreateStudentsTable extends Migration
             $table->double('student_paid_price');
             $table->string('student_genre');
             $table->string('student_photo')->nullable();
-            $table->integer('parent_id')->nullable()->unsigned();
-            $table->integer('class_id')->nullable()->unsigned();
+            //$table->integer('parent_id')->nullable()->unsigned();
+            //$table->integer('class_id')->nullable()->unsigned();
             $table->timestamps();
 
-            $table->foreign('parent_id', 'students_ibfk_2')->references('id')->on('parents')->onDelete('set NULL')->onUpdate('set NULL');
-            $table->foreign('class_id', 'students_ibfk_3')->references('id')->on('classes')->onDelete('set NULL')->onUpdate('set NULL');
+            $table->foreignId('parent_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('class_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            /* $table->foreign('parent_id', 'students_ibfk_2')->references('id')->on('parents')->onDelete('set NULL')->onUpdate('set NULL');
+            $table->foreign('class_id', 'students_ibfk_3')->references('id')->on('classes')->onDelete('set NULL')->onUpdate('set NULL'); */
         });
     }
 
