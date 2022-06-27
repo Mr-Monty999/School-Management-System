@@ -23,9 +23,6 @@ class ControlMiddleware
 
 
 
-        $school = School::first();
-        if (School::count() < 1)
-            $school = School::create([]);
 
         if (User::count() < 1)
             User::create([
@@ -33,7 +30,6 @@ class ControlMiddleware
                 "email" => "admin@admin.com",
                 "password" => Hash::make("admin"),
                 "permission" => "owner",
-                "school_id" => $school->id
             ]);
 
 
