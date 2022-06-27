@@ -69,7 +69,7 @@ Route::group(["middleware" => "auth"], function () {
             Route::delete("/delete/{id}", [UserController::class, "destroy"])->name("users.delete");
         }); */
 
-        Route::resource('users',[UserController::class]);
+        Route::resource('users',UserController::class);
 
 
 
@@ -82,7 +82,7 @@ Route::group(["middleware" => "auth"], function () {
             Route::delete("/delete/{id}", [ClassesController::class, "destroy"])->name("classes.delete");
         }); */
 
-        Route::resource('classes',[ClassController::class]);
+        Route::resource('classes',ClassController::class);
 
 
 
@@ -95,7 +95,7 @@ Route::group(["middleware" => "auth"], function () {
             Route::delete("/delete/{id}", [EmployeController::class, "destroy"])->name("employees.delete");
         }); */
 
-        Route::resource('employees',[EmployeController::class]);
+        Route::resource('employees',EmployeController::class);
 
 
         ////  Jobs Routes  //////
@@ -107,7 +107,7 @@ Route::group(["middleware" => "auth"], function () {
             Route::delete("/delete/{id}", [JobController::class, "destroy"])->name("jobs.delete");
         }); */
 
-        Route::resource('jobs',[JobController::class]);
+        Route::resource('jobs',JobController::class);
 
 
         ////  Parents Routes  //////
@@ -119,7 +119,7 @@ Route::group(["middleware" => "auth"], function () {
             Route::delete("/delete/{id}", [ParentsController::class, "destroy"])->name("parents.delete");
         }); */
 
-        Route::resource('parents',[ParentsController::class]);
+        Route::resource('parents',ParentsController::class);
 
 
         ////  School Routes  //////
@@ -131,7 +131,7 @@ Route::group(["middleware" => "auth"], function () {
             Route::delete("/delete/{id}", [SchoolController::class, "destroy"])->name("schools.delete");
         }); */
 
-        Route::resource('schools',[SchoolController::class]);
+        Route::resource('schools',SchoolController::class);
 
 
         ////  Students Routes  //////
@@ -143,7 +143,7 @@ Route::group(["middleware" => "auth"], function () {
             Route::delete("/delete/{id}", [StudentController::class, "destroy"])->name("students.delete");
         }); */
 
-        Route::resource('students',[StudentController::class]);
+        Route::resource('students',StudentController::class);
 
 
         ////  Subjects Routes  //////
@@ -155,7 +155,7 @@ Route::group(["middleware" => "auth"], function () {
             Route::delete("/delete/{id}", [SubjectController::class, "destroy"])->name("subjects.delete");
         }); */
 
-        Route::resource('subjects',[SubjectController::class]);
+        Route::resource('subjects',SubjectController::class);
 
 
         ////  Teachers Routes  //////
@@ -167,7 +167,7 @@ Route::group(["middleware" => "auth"], function () {
             Route::delete("/delete/{id}", [TeacherController::class, "destroy"])->name("teachers.delete");
         }); */
 
-        Route::resource('teachers',[TeacherController::class]);
+        Route::resource('teachers',TeacherController::class);
 
 
         ////  Privacy Routes  //////
@@ -179,6 +179,6 @@ Route::group(["middleware" => "auth"], function () {
             Route::delete("/delete/{id}", [PrivacyController::class, "destroy"])->name("privacy.delete");
         }); */
 
-        Route::resource('privacy',[PrivacyController::class]);
+        Route::resource('privacy',PrivacyController::class);
     });
 });
