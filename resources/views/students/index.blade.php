@@ -241,7 +241,7 @@
 
 
 @push('ajax')
-    {{-- <script>
+    <script>
         $("input[type=date]").val(new Date().toISOString().slice(0, 10));
 
 
@@ -324,5 +324,5 @@
             });
 
         });
-    </script> --}}
+    </script>
 @endpush
