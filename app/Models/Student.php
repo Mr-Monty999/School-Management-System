@@ -19,7 +19,6 @@ class Student extends Model
         "student_photo",
         "parent_id",
         "class_id",
-        "school_id"
     ];
     protected $table = "students";
 
@@ -40,7 +39,8 @@ class Student extends Model
         return $this->belongsTo(Parents::class, "parent_id");
     }
 
-    public function user() {
+    public function user()
+    {
         return $this->hasOne(User::class);
     }
 }

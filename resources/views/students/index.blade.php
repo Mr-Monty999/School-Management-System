@@ -86,6 +86,7 @@
 
             <button type="submit" class="btn btn-success margin my-3 col-6">اضافة</button>
             <div style="display:none" class="alert alert-success text-white text-center validate_success"></div>
+            <div style="display:none" class="alert alert-danger text-white text-center validate_error"></div>
 
         </form>
 
@@ -199,6 +200,9 @@
 
 @push('ajax')
     <script>
+        $("input[type=date]").val(new Date().toISOString().slice(0, 10));
+
+
         let form = $("form");
 
         form.on("submit", function(e) {
@@ -219,10 +223,16 @@
                 contentType: false,
                 success: function(response) {
 
-                    $("form .validate_success").text(response.success).show();
+                    if (response.success)
+                        $("form .validate_success").text(response.message).show();
+                    else
+                        $("form .validate_error").text(response.message).show();
+
 
                 },
                 error: function(response) {
+
+                    console.log(response);
 
                     //errors = Validtion Errors keys
                     let errors = response.responseJSON.errors;
