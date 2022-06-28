@@ -24,7 +24,7 @@
             <div class="input-group input-group-outline  bg-white">
                 <select class="form-control" name="class_id" id="">
                     @foreach ($classes as $class)
-                    <option value="{{$class->id}}">{{$class->class_name}}</option>
+                        <option value="{{ $class->id }}">{{ $class->class_name }}</option>
                     @endforeach
 
                 </select>
@@ -115,34 +115,38 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($students as $student)
-
                                         <tr>
                                             <td>
-                                                <p class="text-dark text-center">{{$student->student->id}}</p>
+                                                <p class="text-dark text-center">{{ $student->student->id }}</p>
                                             </td>
 
                                             <td>
-                                                <p class="text-dark text-center">{{$student->student->student_name}}</p>
+                                                <p class="text-dark text-center">{{ $student->student->student_name }}</p>
                                             </td>
 
                                             <td>
-                                                <p class="text-dark text-center">{{$student->student->class->class_name}}</p>
+                                                <p class="text-dark text-center">
+                                                    {{ $student->student->class->class_name }}
+                                                </p>
                                             </td>
 
-                                           {{--  <td>
+                                            {{-- <td>
                                                 <p class="text-dark text-center">{{$student->student->student_photo ?? 'لا توجد صورة'}}</p>
                                             </td> --}}
 
                                             <td>
-                                                <img class="text-dark text-center" src="{{asset($student->student->student_photo)}}">
+                                                <img class="text-dark text-center"
+                                                    src="{{ asset($student->student->student_photo) }}">
                                             </td>
 
                                             <td>
-                                                <p class="text-dark text-center">{{$student->student->student_registered_date}}</p>
+                                                <p class="text-dark text-center">
+                                                    {{ $student->student->student_registered_date }}</p>
                                             </td>
 
                                             <td>
-                                                <p class="text-dark text-center">{{$student->student->student_paid_price}}</p>
+                                                <p class="text-dark text-center">
+                                                    {{ $student->student->student_paid_price }}</p>
                                             </td>
 
                                             <td>
@@ -177,15 +181,20 @@
 
 @push('ajax')
     <script>
-        let form = $("form");
+        let form = $("form"),
+            token = $("input[name=_token]").val();
 
         form.on("submit", function(e) {
             e.preventDefault();
+
             let formData = new FormData(this);
             $.ajax({
                 method: "post",
-                url: {{ route('students.store') }},
-                data: formData,
+                url: "students/store",
+                data: {
+                    "_token": token,
+                    "data": formData
+                },
                 dataType: "json",
                 processData: false,
                 contentType: false,
@@ -193,9 +202,10 @@
                     console.log("success");
                 },
                 error: function(xhr) {
-                    console.log("error");
+                    console.log(token);
                 }
             });
+
         });
     </script>
 @endpush

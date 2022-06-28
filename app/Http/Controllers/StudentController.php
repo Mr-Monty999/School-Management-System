@@ -22,33 +22,33 @@ class StudentController extends Controller
     {
         $classes = Classes::all();
         // Get all users have relationship with students table with their class
-        $students = User::has('student')->with('student','student.class')->get();
+        $students = User::has('student')->with('student', 'student.class')->get();
 
-        return view("students.index",compact('classes','students'));
+        return view("students.index", compact('classes', 'students'));
     }
 
 
-    public function store(StudentRequest $request , RegisterationService $registerationService , FileUploadService $fileUploadService)
+    public function store(StudentRequest $request, RegisterationService $registerationService, FileUploadService $fileUploadService)
     {
-        //Store validated arguments into data array
-        $data = $request->validated();
+        // //Store validated arguments into data array
+        // $data = $request->validated();
 
-        // Store student's parent data in Parents table
-        $parent = Parents::create($request->validated());
-        // Add parent_id foreign key to data array
-        $data['parent_id'] = $parent->id;
-        // Add image path to data array
+        // // Store student's parent data in Parents table
+        // $parent = Parents::create($request->validated());
+        // // Add parent_id foreign key to data array
+        // $data['parent_id'] = $parent->id;
+        // // Add image path to data array
 
-        /*
-            Note:
-                Follow the service class (FileUploadService) to fix student image issues
-        */
-        $data['student_photo'] = $fileUploadService->handleStudentImage($request->student_photo);
+        // /*
+        //     Note:
+        //         Follow the service class (FileUploadService) to fix student image issues
+        // */
+        // $data['student_photo'] = $fileUploadService->handleStudentImage($request->student_photo);
 
-        // Store student data in students table
-        $student = Student::create($data);
-        // Create username and password for student
-        $registerationService->createUserAcount('student',$student->id);
+        // // Store student data in students table
+        // $student = Student::create($data);
+        // // Create username and password for student
+        // $registerationService->createUserAcount('student', $student->id);
 
         return redirect()->route('students.index')->with(['success' => 'تم حفظ بيانات الطالب بنجاح']);
     }
@@ -62,9 +62,9 @@ class StudentController extends Controller
     public function show(Student $student)
     {
         // Load student relationships
-        $student->load('user','class','parent');
+        $student->load('user', 'class', 'parent');
 
-        return view('students.show',compact('student'));
+        return view('students.show', compact('student'));
     }
 
     /**
