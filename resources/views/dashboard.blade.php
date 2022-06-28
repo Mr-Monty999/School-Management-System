@@ -38,6 +38,6 @@
 @endsection
 @section('section')
     <div class="">
-        <h2>مرحبا بك admin</h2>
+        <h2>مرحبا بك {{auth()->user()->username}}</h2>
     </div>
 @endsection

@@ -47,17 +47,17 @@ Route::group(["middleware" => "auth"], function () {
         /// Owner Dashboard Route ///
         Route::get("/", [DashboardController::class, "index"])->name("dashboard.index");
 
-        Route::resource('users',UserController::class);
+        Route::resource('users',UserController::class)->middleware('role:Super-Admin');
 
 
 
         ////  Classes Routes  //////
-        Route::resource('classes',ClassesController::class);
+        Route::resource('classes',ClassesController::class)->middleware('permission:class.view');
 
 
 
         ////  Employees Routes  //////
-        Route::resource('employees',EmployeController::class);
+        Route::resource('employees',EmployeController::class)->middleware('permission:employe.view');
 
 
         ////  Jobs Routes  //////
@@ -65,26 +65,26 @@ Route::group(["middleware" => "auth"], function () {
 
 
         ////  Parents Routes  //////
-        Route::resource('parents',ParentsController::class);
+        Route::resource('parents',ParentsController::class)->middleware('permission:student.view');;
 
 
         ////  School Routes  //////
-        Route::resource('schools',SchoolController::class);
+        Route::resource('schools',SchoolController::class)->middleware('role:Super-Admin');
 
 
         ////  Students Routes  //////
-        Route::resource('students',StudentController::class);
+        Route::resource('students',StudentController::class)->middleware('permission:student.view');;
 
 
         ////  Subjects Routes  //////
-        Route::resource('subjects',SubjectController::class);
+        Route::resource('subjects',SubjectController::class)->middleware('permission:subject.view');;
 
 
         ////  Teachers Routes  //////
-        Route::resource('teachers',TeacherController::class);
+        Route::resource('teachers',TeacherController::class)->middleware('permission:teacher.view');;
 
 
         ////  Privacy Routes  //////
-        Route::resource('privacy',PrivacyController::class);
+        Route::resource('privacy',PrivacyController::class)->middleware('role:Super-Admin');
     });
 
