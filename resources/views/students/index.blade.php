@@ -135,17 +135,17 @@
                                     @foreach ($students as $student)
                                         <tr>
                                             <td>
-                                                <p class="text-dark text-center">{{ $student->student->id }}</p>
+                                                <p class="text-dark text-center">{{ $student->id }}</p>
                                             </td>
 
                                             <td>
-                                                <p class="text-dark text-center">{{ $student->student->student_name }}
+                                                <p class="text-dark text-center">{{ $student->student_name }}
                                                 </p>
                                             </td>
 
                                             <td>
                                                 <p class="text-dark text-center">
-                                                    {{ $student->student->class->class_name }}
+                                                    {{ $student->class->class_name }}
                                                 </p>
                                             </td>
 
@@ -155,17 +155,17 @@
 
                                             <td>
                                                 <img class="text-dark text-center"
-                                                    src="{{ asset($student->student->student_photo) }}">
+                                                    src="{{ asset($student->student_photo) }}">
                                             </td>
 
                                             <td>
                                                 <p class="text-dark text-center">
-                                                    {{ $student->student->student_registered_date }}</p>
+                                                    {{ $student->student_registered_date }}</p>
                                             </td>
 
                                             <td>
                                                 <p class="text-dark text-center">
-                                                    {{ $student->student->student_paid_price }}</p>
+                                                    {{ $student->student_paid_price }}</p>
                                             </td>
 
                                             <td>

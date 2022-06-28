@@ -22,7 +22,11 @@ class StudentController extends Controller
     {
         $classes = Classes::all();
         // Get all users have relationship with students table with their class
-        $students = User::has('student')->with('student', 'student.class')->get();
+        // $students = User::has('student')->with('student', 'student.class')->get();
+
+
+        ///Get All Students From Latest
+        $students = Student::latest()->paginate(5);
 
         return view("students.index", compact('classes', 'students'));
     }

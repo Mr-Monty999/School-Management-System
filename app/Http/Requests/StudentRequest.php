@@ -52,6 +52,7 @@ class StudentRequest extends FormRequest
             "parent_name.required" => "الرجاء ادخال اسم ولي أمر الطالب !",
             "parent_phone.required" => "الرجاء ادخال رقم ولي أمر الطالب !",
             "parent_job.required" => "الرجاء ادخال مهنة ولي أمر الطالب !",
+            "student_paid_price.numeric" => "الرجاء ادخال ارقام فقط"
         ];
     }
 }
