@@ -26,7 +26,7 @@ class StudentController extends Controller
 
 
         ///Get All Students From Latest
-        $students = Student::latest()->paginate(1);
+        $students = Student::latest()->paginate(5);
 
         return view("students.index", compact('classes', 'students'));
     }
