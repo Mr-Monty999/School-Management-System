@@ -7,6 +7,7 @@ use App\Models\Classes;
 use App\Models\Parents;
 use App\Models\Student;
 use App\Models\User;
+use App\Services\FileUploadService;
 use App\Services\RegisterationService;
 use Illuminate\Http\Request;
 
@@ -27,7 +28,7 @@ class StudentController extends Controller
     }
 
 
-    public function store(StudentRequest $request , RegisterationService $registerationService)
+    public function store(StudentRequest $request , RegisterationService $registerationService , FileUploadService $fileUploadService)
     {
         //Store validated arguments into data array
         $data = $request->validated();
@@ -36,13 +37,20 @@ class StudentController extends Controller
         $parent = Parents::create($request->validated());
         // Add parent_id foreign key to data array
         $data['parent_id'] = $parent->id;
+        // Add image path to data array
+
+        /*
+            Note:
+                Follow the service class (FileUploadService) to fix student image issues
+        */
+        $data['student_photo'] = $fileUploadService->handleStudentImage($request->student_photo);
 
         // Store student data in students table
         $student = Student::create($data);
         // Create username and password for student
         $registerationService->createUserAcount('student',$student->id);
 
-        return redirect()->route('students.index');
+        return redirect()->route('students.index')->with(['success' => 'تم حفظ بيانات الطالب بنجاح']);
     }
 
     /**
