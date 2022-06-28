@@ -11,25 +11,10 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 class DashboardController extends Controller
 {
 
-    /* public function ownerDashboard()
-    {
-        return view("dashboards.owner");
-    }
-    public function adminDashboard()
-    {
-        return view("dashboards.admin");
-    }
-    public function teacherDashboard()
-    {
-        return view("dashboards.teacher");
-    }
 
-    public function studentDashboard()
-    {
-        return view("dashboards.student");
-    } */
 
-    public function index() {
+    public function index()
+    {
         return view('dashboard');
     }
 
