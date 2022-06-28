@@ -65,7 +65,7 @@
             </div>
 
             <label class="text-dark">رقم هاتف ولي أمر الطالب </label>
-            <div class="input-group input-group-outline  bg-white">
+            <div class="input-group input-group-outline my-3 bg-white">
                 <input type="text" name="parent_phone" class="form-control">
             </div>
 
@@ -129,9 +129,14 @@
                                                 <p class="text-dark text-center">{{$student->student->class->class_name}}</p>
                                             </td>
 
-                                            <td>
+                                           {{--  <td>
                                                 <p class="text-dark text-center">{{$student->student->student_photo ?? 'لا توجد صورة'}}</p>
+                                            </td> --}}
+
+                                            <td>
+                                                <img class="text-dark text-center" src="{{asset($student->student->student_photo)}}">
                                             </td>
+
                                             <td>
                                                 <p class="text-dark text-center">{{$student->student->student_registered_date}}</p>
                                             </td>

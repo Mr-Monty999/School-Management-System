@@ -50,6 +50,8 @@ class StudentRequest extends FormRequest
             "student_photo.image" => "صورة الطالب ! غير صالحة",
             "student_class.required" => "الرجاء ادخال فصل الطالب !",
             "parent_name.required" => "الرجاء ادخال اسم ولي أمر الطالب !",
+            "parent_phone.required" => "الرجاء ادخال رقم ولي أمر الطالب !",
+            "parent_job.required" => "الرجاء ادخال مهنة ولي أمر الطالب !",
         ];
     }
 }
