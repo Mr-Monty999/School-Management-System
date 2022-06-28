@@ -34,10 +34,6 @@
                 <label class="form-label">السكن</label>
                 <input type="text" name="student_address" class="form-control">
             </div>
-            <div class="input-group input-group-outline my-3 bg-white">
-                <label class="form-label">السنة الدراسية</label>
-                <input type="text" name="student_class" class="form-control">
-            </div>
             <label class="text-dark">تاريخ ميلاد الطالب :</label>
             <div class="input-group input-group-outline  bg-white">
                 <input type="date" name="student_birthdate" class="form-control">

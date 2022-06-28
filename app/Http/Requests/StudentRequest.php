@@ -31,7 +31,6 @@ class StudentRequest extends FormRequest
             "student_paid_price" => "required|numeric",
             "student_genre" => "required",
             "student_photo" => "nullable|image",
-            "student_class" => "required",
             "parent_name" => "required",
             'parent_job' => 'required',
             'parent_phone' => 'required',

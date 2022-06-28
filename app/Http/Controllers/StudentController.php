@@ -7,9 +7,8 @@ use App\Models\Classes;
 use App\Models\Parents;
 use App\Models\Student;
 use App\Models\User;
+use App\Services\RegisterationService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 class StudentController extends Controller
 {
@@ -28,7 +27,7 @@ class StudentController extends Controller
     }
 
 
-    public function store(StudentRequest $request)
+    public function store(StudentRequest $request , RegisterationService $registerationService)
     {
         //Store validated arguments into data array
         $data = $request->validated();
@@ -38,20 +37,10 @@ class StudentController extends Controller
         // Add parent_id foreign key to data array
         $data['parent_id'] = $parent->id;
 
-        // Store student data in student table
+        // Store student data in students table
         $student = Student::create($data);
-
-        /*
-        Nots:
-            This method will be removed later to a service class ,
-            that creates random username and password for every student .
-        */
-        $user = User::create([
-            'username' => Str::random(7),
-            'password' => Hash::make('password'),
-            'student_id' => $student->id
-        ]);
-        $user->assignRole('student');
+        // Create username and password for student
+        $registerationService->createUserAcount('student',$student->id);
 
         return redirect()->route('students.index');
     }
@@ -64,7 +53,10 @@ class StudentController extends Controller
      */
     public function show(Student $student)
     {
-        //
+        // Load student relationships
+        $student->load('user','class','parent');
+
+        return view('students.show',compact('student'));
     }
 
     /**
