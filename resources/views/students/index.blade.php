@@ -5,6 +5,8 @@
         <h1>ادارة الطلاب</h1>
         <form action="" enctype="multipart/form-data" method="post">
             @csrf
+            <br>
+            <h4>بيانات الطالب</h4>
             <div class="input-group input-group-outline my-3 bg-white">
                 <label class="form-label">اسم الطالب</label>
                 <input type="text" name="student_name" class="form-control">
@@ -17,6 +19,17 @@
 
                 </select>
             </div>
+
+            <label class="text-dark">السنة الدراسية :</label>
+            <div class="input-group input-group-outline  bg-white">
+                <select class="form-control" name="class_id" id="">
+                    @foreach ($classes as $class)
+                    <option value="{{$class->id}}">{{$class->class_name}}</option>
+                    @endforeach
+
+                </select>
+            </div>
+
             <div class="input-group input-group-outline my-3 bg-white">
                 <label class="form-label">السكن</label>
                 <input type="text" name="student_address" class="form-control">
@@ -34,12 +47,6 @@
                 <input type="date" name="student_registered_date" class="form-control">
             </div>
 
-            <label class="text-dark">ولي الامر</label>
-            <div class="input-group input-group-outline  bg-white">
-                <input type="text" name="parent_name" class="form-control">
-
-            </div>
-
             <label class="text-dark">صورة الطالب :</label>
             <div class="input-group input-group-outline  bg-white">
                 <input type="file" name="student_photo" class="form-control">
@@ -49,6 +56,23 @@
                 <label class="form-label">الرسوم المدفوعة</label>
                 <input type="text" name="student_paid_price" class="form-control">
             </div>
+            <h4>بيانات ولي أمر الطالب</h4>
+
+            <label class="text-dark">اسم ولي أمر الطالب </label>
+            <div class="input-group input-group-outline  bg-white">
+                <input type="text" name="parent_name" class="form-control">
+            </div>
+
+            <label class="text-dark">مهنة ولي أمر الطالب </label>
+            <div class="input-group input-group-outline  bg-white">
+                <input type="text" name="parent_job" class="form-control">
+            </div>
+
+            <label class="text-dark">رقم هاتف ولي أمر الطالب </label>
+            <div class="input-group input-group-outline  bg-white">
+                <input type="text" name="parent_phone" class="form-control">
+            </div>
+
             <button type="submit" class="btn btn-success margin my-3 col-6">اضافة</button>
         </form>
 
@@ -81,15 +105,9 @@
                                         <th class="text-uppercase text-primary  font-weight-bolder  ps-2">
                                             اسم الطالب</th>
                                         <th class="text-uppercase text-primary  font-weight-bolder  ps-2">
-                                            ولي الامر</th>
-                                        <th class="text-uppercase text-primary  font-weight-bolder  ps-2">
-                                            النوع</th>
-                                        <th class="text-uppercase text-primary  font-weight-bolder  ps-2">
                                             السنة الدراسية</th>
                                         <th class="text-uppercase text-primary  font-weight-bolder  ps-2">
                                             صورة الطالب</th>
-                                        <th class="text-uppercase text-primary  font-weight-bolder  ps-2">
-                                            تاريخ الميلاد</th>
                                         <th class="text-uppercase text-primary  font-weight-bolder  ps-2">
                                             تاريخ التسجيل</th>
                                         <th class="text-uppercase text-primary  font-weight-bolder  ps-2">
@@ -100,53 +118,45 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @php
-                                        $i = 0;
-                                    @endphp
-                                    <tr>
-                                        <td>
-                                            <p class="text-dark text-center">{{ ++$i }}</p>
-                                        </td>
-                                        <td>
-                                            <p class="text-dark text-center">منتصر محمد</p>
-                                        </td>
-                                        <td>
-                                            <p class="text-dark text-center">محمد عبدالله</p>
+                                    @foreach ($students as $student)
 
-                                        </td>
-                                        <td>
-                                            <p class="text-dark text-center">ذكر</p>
+                                        <tr>
+                                            <td>
+                                                <p class="text-dark text-center">{{$student->student->id}}</p>
+                                            </td>
 
-                                        </td>
-                                        <td>
-                                            <p class="text-dark text-center">الصف الثالث</p>
+                                            <td>
+                                                <p class="text-dark text-center">{{$student->student->student_name}}</p>
+                                            </td>
 
-                                        </td>
-                                        <td>
-                                            <p class="text-dark text-center">لاتوجد صورة</p>
-                                        </td>
+                                            <td>
+                                                <p class="text-dark text-center">{{$student->student->class->class_name}}</p>
+                                            </td>
 
-                                        <td>
-                                            <p class="text-dark text-center">2000</p>
-                                        </td>
-                                        <td>
-                                            <p class="text-dark text-center">2022</p>
-                                        </td>
-                                        <td>
-                                            <p class="text-dark text-center">1,9000</p>
-                                        </td>
-                                        <td>
-                                            <p class="text-dark text-center">5,600</p>
-                                        </td>
-                                        <td class="align-middle text-center">
-                                            <a href="" class="btn btn-dark">تعديل </a>
-                                            <form action="" method="post">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger">حذف </button>
-                                            </form>
-                                        </td>
-                                    </tr>
+                                            <td>
+                                                <p class="text-dark text-center">{{$student->student->student_photo ?? 'لا توجد صورة'}}</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-dark text-center">{{$student->student->student_registered_date}}</p>
+                                            </td>
+
+                                            <td>
+                                                <p class="text-dark text-center">{{$student->student->student_paid_price}}</p>
+                                            </td>
+
+                                            <td>
+                                                <p class="text-dark text-center">-</p>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <a href="" class="btn btn-dark">تعديل </a>
+                                                <form action="" method="post">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger">حذف </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
 
 
                                 </tbody>

@@ -3,8 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StudentRequest;
+use App\Models\Classes;
+use App\Models\Parents;
 use App\Models\Student;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class StudentController extends Controller
 {
@@ -15,17 +20,40 @@ class StudentController extends Controller
      */
     public function index()
     {
-        return view("students.index");
+        $classes = Classes::all();
+        // Get all users have relationship with students table with their class
+        $students = User::has('student')->with('student','student.class')->get();
+
+        return view("students.index",compact('classes','students'));
     }
 
 
     public function store(StudentRequest $request)
     {
-        // $input =  $request->validated();
-        $teacher = null;
-        $class = null;
-        return response()->json(["success" => true]);
-        // if(Teac)
+        //Store validated arguments into data array
+        $data = $request->validated();
+
+        // Store student's parent data in Parents table
+        $parent = Parents::create($request->validated());
+        // Add parent_id foreign key to data array
+        $data['parent_id'] = $parent->id;
+
+        // Store student data in student table
+        $student = Student::create($data);
+
+        /*
+        Nots:
+            This method will be removed later to a service class ,
+            that creates random username and password for every student .
+        */
+        $user = User::create([
+            'username' => Str::random(7),
+            'password' => Hash::make('password'),
+            'student_id' => $student->id
+        ]);
+        $user->assignRole('student');
+
+        return redirect()->route('students.index');
     }
 
     /**

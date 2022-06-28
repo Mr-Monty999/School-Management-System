@@ -122,6 +122,17 @@
                 </li>
                 @endcan
 
+                @can('class.view')
+                <li class="nav-item">
+                    <a class="nav-link " href="{{ route('classes.index') }}">
+                        <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
+                            <i class="fa-solid fa-person-chalkboard"></i>
+                        </div>
+                        <span class="nav-link-text me-1">ادارة الفصول</span>
+                    </a>
+                </li>
+                @endcan
+
                 @can('employe.view')
                 <li class="nav-item">
                     <a class="nav-link " href="{{ route('employees.index') }}">

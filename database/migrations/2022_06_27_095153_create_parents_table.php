@@ -16,11 +16,8 @@ class CreateParentsTable extends Migration
         Schema::create('parents', function (Blueprint $table) {
             $table->id();
             $table->string('parent_name')->index('parent_name');
-            $table->string('parent_address');
             $table->string('parent_job');
-            $table->string('parent_genre');
             $table->string('parent_phone');
-            $table->string('parent_photo')->nullable();
             $table->timestamps();
         });
     }
