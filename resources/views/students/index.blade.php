@@ -11,14 +11,15 @@
                 <label class="form-label">اسم الطالب</label>
                 <input type="text" name="student_name" class="form-control">
             </div>
+            <div style="display:none" class="alert alert-danger text-white text-center student_name"></div>
             <label class="text-dark">النوع :</label>
             <div class="input-group input-group-outline  bg-white">
                 <select class="form-control" name="student_genre" id="">
                     <option value="ذكر">ذكر</option>
                     <option value="انثى">انثى</option>
-
                 </select>
             </div>
+            <div style="display:none" class="alert alert-danger text-white text-center student_genre"></div>
 
             <label class="text-dark">السنة الدراسية :</label>
             <div class="input-group input-group-outline  bg-white">
@@ -34,42 +35,58 @@
                 <label class="form-label">السكن</label>
                 <input type="text" name="student_address" class="form-control">
             </div>
+            <div style="display:none" class="alert alert-danger text-white text-center student_address"></div>
+
             <label class="text-dark">تاريخ ميلاد الطالب :</label>
             <div class="input-group input-group-outline  bg-white">
                 <input type="date" name="student_birthdate" class="form-control">
             </div>
+            <div style="display:none" class="alert alert-danger text-white text-center student_birthdate"></div>
+
             <label class="text-dark">تاريخ التسجيل :</label>
             <div class="input-group input-group-outline  bg-white">
                 <input type="date" name="student_registered_date" class="form-control">
             </div>
+            <div style="display:none" class="alert alert-danger text-white text-center student_registered_date"></div>
 
             <label class="text-dark">صورة الطالب :</label>
             <div class="input-group input-group-outline  bg-white">
                 <input type="file" name="student_photo" class="form-control">
             </div>
+            <div style="display:none" class="alert alert-danger text-white text-center student_photo"></div>
+
 
             <div class="input-group input-group-outline my-3 bg-white">
                 <label class="form-label">الرسوم المدفوعة</label>
                 <input type="text" name="student_paid_price" class="form-control">
             </div>
+            <div style="display:none" class="alert alert-danger text-white text-center student_paid_price"></div>
+
             <h4>بيانات ولي أمر الطالب</h4>
 
-            <label class="text-dark">اسم ولي أمر الطالب </label>
             <div class="input-group input-group-outline  bg-white">
+                <label class="form-label">اسم ولي أمر الطالب </label>
                 <input type="text" name="parent_name" class="form-control">
             </div>
+            <div style="display:none" class="alert alert-danger text-white text-center parent_name"></div>
 
-            <label class="text-dark">مهنة ولي أمر الطالب </label>
-            <div class="input-group input-group-outline  bg-white">
+
+            <div class="input-group input-group-outline my-3 bg-white">
+                <label class="form-label">مهنة ولي أمر الطالب </label>
                 <input type="text" name="parent_job" class="form-control">
             </div>
+            <div style="display:none" class="alert alert-danger text-white text-center parent_job"></div>
 
-            <label class="text-dark">رقم هاتف ولي أمر الطالب </label>
+
             <div class="input-group input-group-outline my-3 bg-white">
+                <label class="form-label">رقم هاتف ولي أمر الطالب </label>
                 <input type="text" name="parent_phone" class="form-control">
             </div>
+            <div style="display:none" class="alert alert-danger text-white text-center parent_phone"></div>
 
             <button type="submit" class="btn btn-success margin my-3 col-6">اضافة</button>
+            <div style="display:none" class="alert alert-success text-white text-center validate_success"></div>
+
         </form>
 
         @foreach ($errors->all() as $error)
@@ -121,7 +138,8 @@
                                             </td>
 
                                             <td>
-                                                <p class="text-dark text-center">{{ $student->student->student_name }}</p>
+                                                <p class="text-dark text-center">{{ $student->student->student_name }}
+                                                </p>
                                             </td>
 
                                             <td>
@@ -181,29 +199,42 @@
 
 @push('ajax')
     <script>
-        let form = $("form"),
-            token = $("input[name=_token]").val();
+        let form = $("form");
 
         form.on("submit", function(e) {
             e.preventDefault();
 
             let formData = new FormData(this);
+            $("form .alert").hide();
+
             $.ajax({
-                method: "post",
-                url: "students/store",
-                data: {
-                    "_token": token,
-                    "data": formData
+                headers: {
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
                 },
+                method: "post",
+                url: "{{ route('students.store') }}",
+                data: formData,
                 dataType: "json",
                 processData: false,
                 contentType: false,
                 success: function(response) {
-                    console.log("success");
+
+                    $("form .validate_success").text(response.success).show();
+
                 },
-                error: function(xhr) {
-                    console.log(token);
+                error: function(response) {
+
+                    //errors = Validtion Errors keys
+                    let errors = response.responseJSON.errors;
+
+                    for (let errorName in errors) {
+
+                        ///errorName = input field name (key) like student_name
+                        $("form ." + errorName + "").text(errors[errorName]).show();
+                    }
+
                 }
+
             });
 
         });

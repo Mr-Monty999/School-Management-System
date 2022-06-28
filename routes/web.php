@@ -43,7 +43,6 @@ Route::group(["middleware" => "auth"], function () {
     /// Logout Route ///
     Route::get("/logout", [DashboardController::class, "logout"])->name("dashboard.logout");
 
-
     /// Owner Dashboard Route ///
     Route::get("/", [DashboardController::class, "index"])->name("dashboard.index");
 
