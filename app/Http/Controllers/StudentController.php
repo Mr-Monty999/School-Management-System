@@ -9,7 +9,9 @@ use App\Models\Student;
 use App\Models\User;
 use App\Services\FileUploadService;
 use App\Services\RegisterationService;
+use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
 
 class StudentController extends Controller
 {
@@ -20,10 +22,12 @@ class StudentController extends Controller
      */
     public function index()
     {
+
         $classes = Classes::all();
+
+
         // Get all users have relationship with students table with their class
         // $students = User::has('student')->with('student', 'student.class')->get();
-
 
         ///Get All Students From Latest
         $students = Student::latest()->paginate(5);
@@ -68,6 +72,10 @@ class StudentController extends Controller
 
 
 
+        ///Additional Data For Ajax
+        $data["student_class"] = $student->class->class_name;
+        $data["id"] = $student->id;
+
         return response()->json(["success" => true, "message" => "تم اضافة الطالب بنجاح", "data" => $data]);
     }
 
@@ -93,7 +101,9 @@ class StudentController extends Controller
      */
     public function edit(Student $student)
     {
-        //
+        $classes = Classes::all();
+
+        return view("students.edit", compact("classes", "student"));
     }
 
     /**
@@ -103,9 +113,41 @@ class StudentController extends Controller
      * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Student $student)
+    public function update(StudentRequest $request, Student $student, RegisterationService $registerationService, FileUploadService $fileUploadService)
     {
-        //
+        // //Store validated arguments into data array
+        $data = $request->validated();
+
+        //Check If Student Exist
+        $existStudent = Student::where("student_name", $request->student_name);
+        if ($existStudent->exists() && $data["student_name"] == $student->student_name)
+            return response()->json(["success" => false, "message" => "اسم هذا الطالب موجود بالفعل"]);
+
+
+        //Update Parent
+        $parent = Parent::where("parent_name", $student->parent_name)->first();
+
+        $parent->update($data);
+
+
+        ///Get Parent Id
+        $data["parent_id"] = $parent->id;
+
+
+        //Upload Student Image And return Image name
+        $data["student_photo"] = $fileUploadService->handleStudentImage($request->file("student_photo"));
+
+        // Update student
+        $student->update($data);
+
+
+
+
+        ///Additional Data For Ajax
+        $data["student_class"] = $student->class->class_name;
+        $data["id"] = $student->id;
+
+        return response()->json(["success" => true, "message" => "تم الحفظ بنجاح", "data" => $data]);
     }
 
     /**
@@ -116,6 +158,8 @@ class StudentController extends Controller
      */
     public function destroy(Student $student)
     {
-        //
+        $student->delete();
+
+        return back()->with("success", "تم حذف الطالب بنجاح");
     }
 }

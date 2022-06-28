@@ -3,11 +3,11 @@
 @section('section')
     <div class="d-flex flex-column justify-content-center align-items-center">
         <h1>ادارة الطلاب</h1>
-        <form action="" enctype="multipart/form-data" method="post">
+        <form class="students" action="" enctype="multipart/form-data" method="post">
             @csrf
             <br>
             <h4>بيانات الطالب</h4>
-            <div class="input-group input-group-outline my-3 bg-white">
+            <div class="input-group input-group-outline  bg-white">
                 <label class="form-label">اسم الطالب</label>
                 <input type="text" name="student_name" class="form-control">
             </div>
@@ -22,7 +22,7 @@
             <div style="display:none" class="alert alert-danger text-white text-center student_genre"></div>
 
             <label class="text-dark">السنة الدراسية :</label>
-            <div class="input-group input-group-outline  bg-white">
+            <div class="input-group input-group-outline my-3 bg-white">
                 <select class="form-control" name="class_id" id="">
                     @foreach ($classes as $class)
                         <option value="{{ $class->id }}">{{ $class->class_name }}</option>
@@ -31,7 +31,7 @@
                 </select>
             </div>
 
-            <div class="input-group input-group-outline my-3 bg-white">
+            <div class="input-group input-group-outline  bg-white">
                 <label class="form-label">السكن</label>
                 <input type="text" name="student_address" class="form-control">
             </div>
@@ -106,7 +106,7 @@
                 <div class="card my-4">
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                         <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                            <h6 class="text-white text-capitalize ps-3 text-center">جدول المنتجات</h6>
+                            <h6 class="text-white text-capitalize ps-3 text-center">جدول الطلاب</h6>
                         </div>
                     </div>
                     <div class="card-body px-0 pb-2">
@@ -119,15 +119,25 @@
                                         <th class="text-uppercase text-primary  font-weight-bolder  ps-2">
                                             اسم الطالب</th>
                                         <th class="text-uppercase text-primary  font-weight-bolder  ps-2">
+                                            النوع</th>
+                                        <th class="text-uppercase text-primary  font-weight-bolder  ps-2">
+                                            السكن</th>
+                                        <th class="text-uppercase text-primary  font-weight-bolder  ps-2">
                                             السنة الدراسية</th>
                                         <th class="text-uppercase text-primary  font-weight-bolder  ps-2">
                                             صورة الطالب</th>
                                         <th class="text-uppercase text-primary  font-weight-bolder  ps-2">
                                             تاريخ التسجيل</th>
                                         <th class="text-uppercase text-primary  font-weight-bolder  ps-2">
+                                            تاريخ الميلاد</th>
+                                        <th class="text-uppercase text-primary  font-weight-bolder  ps-2">
+                                            العمر</th>
+                                        <th class="text-uppercase text-primary  font-weight-bolder  ps-2">
                                             الرسوم المدفوعة</th>
                                         <th class="text-uppercase text-primary  font-weight-bolder  ps-2">
                                             الرسوم المتبقية</th>
+                                        <th class="text-uppercase text-primary  font-weight-bolder  ps-2">
+                                            ولي الامر</th>
                                         <th class="text-uppercase text-primary  font-weight-bolder">الاحداث</th>
                                     </tr>
                                 </thead>
@@ -142,27 +152,48 @@
                                                 <p class="text-dark text-center">{{ $student->student_name }}
                                                 </p>
                                             </td>
-
+                                            <td>
+                                                <p class="text-dark text-center">{{ $student->student_genre }}
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p class="text-dark text-center">{{ $student->student_address }}
+                                                </p>
+                                            </td>
                                             <td>
                                                 <p class="text-dark text-center">
                                                     {{ $student->class->class_name }}
                                                 </p>
                                             </td>
 
-                                            {{-- <td>
-                                                <p class="text-dark text-center">{{$student->student->student_photo ?? 'لا توجد صورة'}}</p>
-                                            </td> --}}
-
-                                            <td>
-                                                <img class="text-dark text-center"
-                                                    src="{{ asset($student->student_photo) }}">
-                                            </td>
+                                            @if (!is_null($student->student_photo))
+                                                <td>
+                                                    <img class="text-dark text-center"
+                                                        src="{{ asset($student->student_photo) }}">
+                                                </td>
+                                            @else
+                                                <td>
+                                                    لاتوجد صورة
+                                                </td>
+                                            @endif
 
                                             <td>
                                                 <p class="text-dark text-center">
                                                     {{ $student->student_registered_date }}</p>
                                             </td>
-
+                                            <td>
+                                                <p class="text-dark text-center">
+                                                    {{ $student->student_birthdate }}</p>
+                                            </td>
+                                            <td>
+                                                @php
+                                                    $birth = new DateTime($student->student_birthdate);
+                                                    $now = new DateTime();
+                                                    $age = $now->diff($birth)->y;
+                                                @endphp
+                                                <p class="text-dark text-center">
+                                                    {{ $age }}</p>
+                                            </td>
                                             <td>
                                                 <p class="text-dark text-center">
                                                     {{ $student->student_paid_price }}</p>
@@ -171,9 +202,17 @@
                                             <td>
                                                 <p class="text-dark text-center">-</p>
                                             </td>
+                                            <td>
+                                                <p class="text-dark text-center">
+                                                    <a href="">{{ $student->parent->parent_name }}
+                                                    </a>
+                                                </p>
+                                            </td>
                                             <td class="align-middle text-center">
-                                                <a href="" class="btn btn-dark">تعديل </a>
-                                                <form action="" method="post">
+                                                <a href="{{ route('students.edit', $student->id) }}"
+                                                    class="btn btn-dark">تعديل</a>
+                                                <form action="{{ route('students.destroy', $student->id) }}"
+                                                    method="post">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger">حذف </button>
@@ -200,12 +239,13 @@
     </div>
 @endsection
 
+
 @push('ajax')
-    <script>
+    {{-- <script>
         $("input[type=date]").val(new Date().toISOString().slice(0, 10));
 
 
-        let form = $("form");
+        let form = $(".students");
 
         form.on("submit", function(e) {
             e.preventDefault();
@@ -225,16 +265,50 @@
                 contentType: false,
                 success: function(response) {
 
-                    if (response.success)
-                        $("form .validate_success").text(response.message).show();
-                    else
-                        $("form .validate_error").text(response.message).show();
 
+
+
+
+                    ///Show Success Or Error Message
+                    if (response.success) {
+                        $("form .validate_success").text(response.message).show();
+
+                        /* Not Finished Yet !
+                                                console.log(response);
+                                                ///if Rows Less Than 5 , Then Append
+                                                if ($("tbody").children().length < 100) {
+                                                    $("tbody").prepend("<tr>");
+                                                    $("tbody").prepend("<td><p class='text-dark text-center'></p>" + response
+                                                        .data.id + "</td>");
+                                                    $("tbody").prepend("<td><p class='text-dark text-center'></p>" + response
+                                                        .data.student_name + "</td>");
+                                                    $("tbody").prepend("<td><p class='text-dark text-center'>" + response
+                                                        .data.student_class + "</p></td>");
+                                                    $("tbody").prepend(
+                                                        "<td><p class='text-dark text-center'>{{ asset('+response.data.student_photo+') }}</p></td>"
+                                                    );
+                                                    $("tbody").prepend("<td><p class='text-dark text-center'>" + response
+                                                        .data.student_registered_date + "</p></td>");
+                                                    $("tbody").prepend("<td><p class='text-dark text-center'>" + response
+                                                        .data.student_birthdate + "</p></td>");
+                                                    $("tbody").prepend("<td><p class='text-dark text-center'>" + response
+                                                        .data.student_birthdate + "</p></td>");
+                                                    $("tbody").prepend("<td><p class='text-dark text-center'>" + response
+                                                        .data.student_paid_price + "</p></td>");
+                                                    $("tbody").prepend("<td><p class='text-dark text-center'>-</p></td>");
+                                                    $("tbody").prepend("<td><p class='text-dark text-center'>" + response
+                                                        .data.parent_name + "</p></td>");
+
+                                                    $("tbody").prepend("</tr>");
+
+                                                }
+                        */
+                    } else
+                        $("form .validate_error").text(response.message).show();
 
                 },
                 error: function(response) {
 
-                    console.log(response);
 
                     //errors = Validtion Errors keys
                     let errors = response.responseJSON.errors;
@@ -250,5 +324,5 @@
             });
 
         });
-    </script>
+    </script> --}}
 @endpush
