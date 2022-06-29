@@ -17,7 +17,7 @@ class Teacher extends Model
         "teacher_salary",
         "teacher_genre",
         "teacher_photo",
-        "teacher_birth_date",
+        "teacher_birthdate",
         "teacher_hire_date",
         "school_id"
     ];

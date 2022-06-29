@@ -10,6 +10,27 @@ use Illuminate\Support\Str;
 class FileUploadService
 {
 
+    /**
+     *  $type : plural name of user type => students|employees|teachers
+     */
+    public function handleImage($image,$type) {
+        if (!is_null($image)) {
+            ////Rename Image to timestamp name
+            $imageNewName = time() . "." . $image->getClientOriginalExtension();
+
+            //Employees Images Path
+            $uploadPath = "images/{$type}/";
+
+            ////Move Image To Employees Images Path
+            $image->move(public_path($uploadPath), $imageNewName);
+
+
+            ///return Image Full Path To Store In database
+            return $uploadPath . $imageNewName;
+        }
+    }
+
+    /*
     public function handleStudentImage($image)
     {
 
@@ -50,6 +71,7 @@ class FileUploadService
             return $uploadPath . $imageNewName;
         }
     }
+
     public function handleEmployeImage($image)
     {
 
@@ -70,4 +92,7 @@ class FileUploadService
             return $uploadPath . $imageNewName;
         }
     }
+
+    */
+
 }

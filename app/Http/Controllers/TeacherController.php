@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TeacherRequest;
 use App\Models\Teacher;
+use App\Services\FileUploadService;
+use App\Services\RegisterationService;
 use Illuminate\Http\Request;
 
 class TeacherController extends Controller
@@ -14,17 +17,8 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        return view("teachers.index");
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $teachers = Teacher::latest()->paginate(5);
+        return view("teachers.index",compact('teachers'));
     }
 
     /**
@@ -33,9 +27,15 @@ class TeacherController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TeacherRequest $request , FileUploadService $fileUploadService , RegisterationService $registerationService)
     {
-        //
+        $data = $request->validated();
+        $data['teacher_photo'] = $fileUploadService->handleImage($request->file('teacher_photo'),'teacher');
+        $teacher = Teacher::create($data);
+
+        $registerationService->createUserAcount("teacher", $teacher->id);
+
+        return response()->json(["success" => true, "message" => "تم اضافة المعلم بنجاح", "data" => $data]);
     }
 
     /**
