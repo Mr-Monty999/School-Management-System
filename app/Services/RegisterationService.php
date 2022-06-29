@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 
 class RegisterationService {
 
-    public function createUserAcount($type , $foreinId) {
+    public static function createUserAcount($type , $foreinId) {
         $user = User::create([
             'username' => Str::random(7),
             'password' => Hash::make('password'),

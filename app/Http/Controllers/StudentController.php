@@ -30,13 +30,18 @@ class StudentController extends Controller
         // $students = User::has('student')->with('student', 'student.class')->get();
 
         ///Get All Students From Latest
-        $students = Student::latest()->paginate(5);
+        /**
+         * This approach causes N+1 problem :
+         *      $students = Student::latest()->paginate(5);
+         * Use this instead :
+         */
+        $students = Student::with('class','parent')->latest()->paginate(5);
 
         return view("students.index", compact('classes', 'students'));
     }
 
 
-    public function store(StudentRequest $request, RegisterationService $registerationService, FileUploadService $fileUploadService)
+    public function store(StudentRequest $request)
     {
         // //Store validated arguments into data array
         $data = $request->validated();
@@ -62,13 +67,13 @@ class StudentController extends Controller
 
 
         //Upload Student Image And return Image name
-        $data["student_photo"] = $fileUploadService->handleStudentImage($request->file("student_photo"));
+        $data["student_photo"] = FileUploadService::handleImage($request->file("student_photo"),'student');
 
         // Store student data in students table
         $student = Student::create($data);
 
         ///Generate Student Account
-        $registerationService->createUserAcount("student", $student->id);
+        RegisterationService::createUserAcount("student", $student->id);
 
 
 
@@ -113,7 +118,7 @@ class StudentController extends Controller
      * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function update(StudentRequest $request, Student $student, RegisterationService $registerationService, FileUploadService $fileUploadService)
+    public function update(StudentRequest $request, Student $student)
     {
 
 
@@ -140,7 +145,7 @@ class StudentController extends Controller
 
 
         //Upload Student Image And return Image name
-        $data["student_photo"] = $fileUploadService->handleStudentImage($request->file("student_photo"));
+        $data["student_photo"] = FileUploadService::handleImage($request->file("student_photo"),'student');
 
         // Update student
         $student->update($data);

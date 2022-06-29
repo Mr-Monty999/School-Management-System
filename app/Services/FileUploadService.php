@@ -13,7 +13,7 @@ class FileUploadService
     /**
      *  $type : plural name of user type => students|employees|teachers
      */
-    public function handleImage($image,$type) {
+    public static function handleImage($image,$type) {
         if (!is_null($image)) {
             ////Rename Image to timestamp name
             $imageNewName = time() . "." . $image->getClientOriginalExtension();
