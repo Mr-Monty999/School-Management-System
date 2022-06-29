@@ -21,7 +21,7 @@ class CreateTeachersTable extends Migration
             $table->double('teacher_salary');
             $table->string('teacher_genre');
             $table->string('teacher_photo')->nullable();
-            $table->date('teacher_birth_date');
+            $table->date('teacher_birthdate');
             $table->date('teacher_hire_date');
             $table->timestamps();
         });

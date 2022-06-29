@@ -14,23 +14,19 @@ class AddNationalNumberField extends Migration
     public function up()
     {
         Schema::table('parents', function (Blueprint $table) {
-            $table->unsignedBigInteger('national_number')->unique()->index();
-
+            $table->unsignedBigInteger('parent_national_number')->unique()->index();
         });
 
         Schema::table('students', function (Blueprint $table) {
-            $table->unsignedBigInteger('national_number')->unique()->index();
-
+            $table->unsignedBigInteger('student_national_number')->unique()->index();
         });
 
         Schema::table('teachers', function (Blueprint $table) {
-            $table->unsignedBigInteger('national_number')->unique()->index();
-
+            $table->unsignedBigInteger('teacher_national_number')->unique()->index();
         });
 
         Schema::table('employees', function (Blueprint $table) {
-            $table->unsignedBigInteger('national_number')->unique()->index();
-
+            $table->unsignedBigInteger('employe_national_number')->unique()->index();
         });
     }
 

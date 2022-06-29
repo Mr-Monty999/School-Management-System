@@ -19,7 +19,8 @@ class Teacher extends Model
         "teacher_photo",
         "teacher_birthdate",
         "teacher_hire_date",
-        "school_id"
+        "school_id",
+        'teacher_national_number'
     ];
     protected $table = "teachers";
 

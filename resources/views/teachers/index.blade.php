@@ -3,7 +3,7 @@
 @section('section')
     <div class="d-flex flex-column justify-content-center align-items-center">
         <h1>ادارة المعلمين</h1>
-        <form action="" enctype="multipart/form-data" method="post">
+        <form enctype="multipart/form-data" method="post" >
             @csrf
             <br>
             <h4>بيانات المعلم</h4>
@@ -50,6 +50,13 @@
                 <input type="number" name="teacher_salary" class="form-control">
             </div>
             <div style="display:none" class="alert alert-danger text-white text-center teacher_salary"></div>
+
+            <label class="text-dark">  الرقم الوطني :</label>
+            <div class="input-group input-group-outline  bg-white">
+                <input type="number" name="teacher_national_number" class="form-control">
+            </div>
+            <div style="display:none" class="alert alert-danger text-white text-center teacher_national_number"></div>
+
 
             <label class="text-dark">صورة المعلم :</label>
             <div class="input-group input-group-outline  bg-white">
@@ -127,8 +134,8 @@
                                         </td>
 
                                         <td class="align-middle text-center">
-                                            <a href="" class="btn btn-dark">تعديل </a>
-                                            <form action="" method="post">
+                                            <a href="{{route('teachers.edit',$teacher)}}" class="btn btn-dark">تعديل </a>
+                                            <form action="{{route('teachers.destroy',$teacher)}}" method="post">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger">حذف </button>
@@ -152,7 +159,7 @@
     </div>
 @endsection
 
-{{-- @push('ajax')
+ @push('ajax')
     <script>
         $("input[type=date]").val(new Date().toISOString().slice(0, 10));
 
@@ -203,4 +210,5 @@
 
         });
     </script>
-@endpush --}}
+@endpush
+

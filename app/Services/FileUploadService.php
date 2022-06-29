@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
+use function PHPUnit\Framework\isNull;
+
 class FileUploadService
 {
 
@@ -27,6 +29,34 @@ class FileUploadService
 
             ///return Image Full Path To Store In database
             return $uploadPath . $imageNewName;
+        }
+    }
+
+    public static function updateImage($new_image,$old_image,$type) {
+        if(is_null($new_image)) {
+            return $old_image;
+        }
+        if(!is_null($old_image)) {
+            unlink($old_image);
+        }
+
+        ////Rename Image to timestamp name
+        $imageNewName = time() . "." . $new_image->getClientOriginalExtension();
+
+        //Employees Images Path
+        $uploadPath = "images/{$type}/";
+
+        ////Move Image To Employees Images Path
+        $new_image->move(public_path($uploadPath), $imageNewName);
+
+
+        ///return Image Full Path To Store In database
+        return $uploadPath . $imageNewName;
+    }
+
+    public static function deleteImage($image) {
+        if(!is_null($image)) {
+            unset($image);
         }
     }
 

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TeacherRequest extends FormRequest
+class UpdateTeacherRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -31,7 +31,8 @@ class TeacherRequest extends FormRequest
             "teacher_salary" => "required|numeric",
             "teacher_genre" => "required",
             "teacher_photo" => "nullable|image",
-            "teacher_phone" => "required",
+            "teacher_phone" => "required|unique:teachers,teacher_phone," . $this->teacher->id,
+            'teacher_national_number' => "required|numeric|unique:teachers,teacher_national_number," . $this->teacher->id . "|digits:12"
         ];
     }
 
@@ -46,6 +47,11 @@ class TeacherRequest extends FormRequest
             'teacher_genre.required' => '!الرجاء ادخال جنس المعلم',
             'teacher_photo.image' => '! صورة المعلم غير صالحة',
             'teacher_phone.required' => '! الرجاء ادخال رقم الهاتف',
+            'teacher_phone.unique' => '! رقم الهاتف مكرر',
+            'national_number.required' => 'الرجاء ادخال الرقم الوطني',
+            'national_number.numeric' => ' الرقم الوطني غير صالح',
+            'national_number.unique' => ' الرقم الوطني مكرر',
+            'national_number.digits' => ' الرقم الوطني غير صالح',
         ];
     }
 }

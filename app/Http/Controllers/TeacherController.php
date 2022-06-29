@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\TeacherRequest;
+use App\Http\Requests\StoreTeacherRequest;
+use App\Http\Requests\UpdateTeacherRequest;
 use App\Models\Teacher;
 use App\Services\FileUploadService;
 use App\Services\RegisterationService;
@@ -27,13 +28,13 @@ class TeacherController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TeacherRequest $request , FileUploadService $fileUploadService , RegisterationService $registerationService)
+    public function store(StoreTeacherRequest $request)
     {
         $data = $request->validated();
-        $data['teacher_photo'] = $fileUploadService->handleImage($request->file('teacher_photo'),'teacher');
+        $data['teacher_photo'] = FileUploadService::handleImage($request->file('teacher_photo'),'teacher');
         $teacher = Teacher::create($data);
 
-        $registerationService->createUserAcount("teacher", $teacher->id);
+        RegisterationService::createUserAcount("teacher", $teacher->id);
 
         return response()->json(["success" => true, "message" => "تم اضافة المعلم بنجاح", "data" => $data]);
     }
@@ -57,7 +58,7 @@ class TeacherController extends Controller
      */
     public function edit(Teacher $teacher)
     {
-        //
+        return view('teachers.edit',compact('teacher'));
     }
 
     /**
@@ -67,9 +68,15 @@ class TeacherController extends Controller
      * @param  \App\Models\Teacher  $teacher
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Teacher $teacher)
+    public function update(UpdateTeacherRequest $request, Teacher $teacher)
     {
-        //
+        $data = $request->validated();
+        // Replace old image with uploaded one if any
+        $data['teacher_image'] = FileUploadService::updateImage($request->file('teacher_photo'),$teacher->teacher_image,'teacher');
+
+        $teacher->update($data);
+
+        return redirect()->route('teachers.index');
     }
 
     /**
@@ -80,6 +87,10 @@ class TeacherController extends Controller
      */
     public function destroy(Teacher $teacher)
     {
-        //
+        FileUploadService::deleteImage($teacher->teacher_photo);
+        $teacher->delete();
+
+        return response()->json(["success" => true, "message" => "تم حذف المعلم بنجاح"]);
+
     }
 }
