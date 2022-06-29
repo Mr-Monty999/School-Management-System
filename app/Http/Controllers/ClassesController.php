@@ -14,17 +14,8 @@ class ClassesController extends Controller
      */
     public function index()
     {
-        return view("classes.index");
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $classes = Classes::all();
+        return view("classes.index",compact('classes'));
     }
 
     /**
@@ -44,9 +35,11 @@ class ClassesController extends Controller
      * @param  \App\Models\Classes  $classes
      * @return \Illuminate\Http\Response
      */
-    public function show(Classes $classes)
+    public function show(Classes $class)
     {
-        //
+        //$class->load('subjects');
+        $class->load('subjects','subjects.teachers')->loadCount('students');
+        return view('classes.show',compact('class'));
     }
 
     /**
@@ -55,9 +48,12 @@ class ClassesController extends Controller
      * @param  \App\Models\Classes  $classes
      * @return \Illuminate\Http\Response
      */
-    public function edit(Classes $classes)
+    public function edit(Classes $class)
     {
-        //
+        if(!auth()->user()->hasRole('Super-Admin')) {
+            abort(403);
+        }
+
     }
 
     /**
@@ -67,9 +63,11 @@ class ClassesController extends Controller
      * @param  \App\Models\Classes  $classes
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Classes $classes)
+    public function update(Request $request, Classes $class)
     {
-        //
+        if(!auth()->user()->hasRole('Super-Admin')) {
+            abort(403);
+        }
     }
 
     /**
@@ -78,8 +76,10 @@ class ClassesController extends Controller
      * @param  \App\Models\Classes  $classes
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Classes $classes)
+    public function destroy(Classes $class)
     {
-        //
+        if(!auth()->user()->hasRole('Super-Admin')) {
+            abort(403);
+        }
     }
 }

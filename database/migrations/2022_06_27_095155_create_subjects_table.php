@@ -19,7 +19,7 @@ class CreateSubjectsTable extends Migration
             //$table->integer('class_id')->nullable()->unsigned();
             $table->timestamps();
 
-            $table->foreignId('class_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            //$table->foreignId('class_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             //$table->foreign('class_id', 'subjects_ibfk_3')->references('id')->on('classes')->onDelete('set NULL')->onUpdate('set NULL');
         });
     }

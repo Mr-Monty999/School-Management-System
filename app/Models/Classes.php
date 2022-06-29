@@ -20,6 +20,10 @@ class Classes extends Model
 
     public function students()
     {
-        return $this->hasMany(Classes::class, "class_id");
+        return $this->hasMany(Student::class, "class_id");
+    }
+
+    public function subjects() {
+        return $this->belongsToMany(Subject::class,'class_subject','class_id','subject_id');
     }
 }
