@@ -11,8 +11,8 @@
                             <i class="fa-solid fa-users"></i>
                         </div>
                         <div class="text-start pt-1">
-                            <p class="text-sm mb-0 text-capitalize">عدد الزوار</p>
-                            <h4 class="mb-0">1,300</h4>
+                            <p class="text-sm mb-0 text-capitalize">عدد الطلاب</p>
+                            <h4 class="mb-0">{{$students}}</h4>
                         </div>
                     </div>
                 </div>
@@ -25,8 +25,40 @@
                             <i class="fa-solid fa-chart-line"></i>
                         </div>
                         <div class="text-start pt-1">
-                            <p class="text-sm mb-0 text-capitalize">زوار اليوم</p>
-                            <h4 class="mb-0">4,200</h4>
+                            <p class="text-sm mb-0 text-capitalize"> عدد المعلمين</p>
+                            <h4 class="mb-0">{{$teachers}}</h4>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-sm-6 mb-lg-0 mb-4">
+                <div class="card">
+                    <div class="card-header p-3 pt-2">
+                        <div
+                            class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
+                            <i class="fa-solid fa-chart-line"></i>
+                        </div>
+                        <div class="text-start pt-1">
+                            <p class="text-sm mb-0 text-capitalize"> عدد الفصول</p>
+                            <h4 class="mb-0">{{$classes}}</h4>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-sm-6 mb-lg-0 mb-4">
+                <div class="card">
+                    <div class="card-header p-3 pt-2">
+                        <div
+                            class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
+                            <i class="fa-solid fa-chart-line"></i>
+                        </div>
+                        <div class="text-start pt-1">
+                            <p class="text-sm mb-0 text-capitalize">عدد الموظفين </p>
+                            <h4 class="mb-0">{{$employees}}</h4>
                         </div>
                     </div>
 

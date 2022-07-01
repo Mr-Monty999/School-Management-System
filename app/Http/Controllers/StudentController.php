@@ -92,10 +92,12 @@ class StudentController extends Controller
      */
     public function show(Student $student)
     {
-        // Load student relationships
-        $student->load('user', 'class', 'parent');
 
-        return view('students.show', compact('student'));
+        //$student->load(['user', 'class', 'parent', 'parent.students' => fn($query) => $query->where('students.id','!=',$student->id)]);
+        $student->load(['user', 'class', 'parent']);
+        //$siblings = $student->parent?->students;
+        $siblings = $student->siblings();
+        return view('students.show', compact('student','siblings'));
     }
 
     /**

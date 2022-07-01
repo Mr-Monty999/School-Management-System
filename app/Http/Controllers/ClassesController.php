@@ -38,7 +38,7 @@ class ClassesController extends Controller
     public function show(Classes $class)
     {
         //$class->load('subjects');
-        $class->load('subjects','subjects.teachers')->loadCount('students');
+        $class->load('subjects','subjects.teachers','students');
         return view('classes.show',compact('class'));
     }
 
@@ -53,6 +53,8 @@ class ClassesController extends Controller
         if(!auth()->user()->hasRole('Super-Admin')) {
             abort(403);
         }
+
+        return view('classes.edit',compact('class'));
 
     }
 

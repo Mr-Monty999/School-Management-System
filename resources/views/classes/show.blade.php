@@ -24,7 +24,7 @@
                                     </tr>
                                     <tr>
                                         <td>عدد الطلاب </td>
-                                        <td> {{$class->students_count}} </td>
+                                        <td> {{count($class->students)}} </td>
                                     </tr>
                                     <tr>
                                         <td> عدد المواد  </td>
@@ -55,6 +55,27 @@
                                             @empty
                                             <td>لا يوجد </td>
                                             @endforelse
+                                        </tr>
+                                    @empty
+                                    @endforelse
+                                </tbody>
+                            </table>
+
+                            <h2 class="text-center mt-5">الطلاب</h2>
+                            <table class="table align-items-center mt-3 text-center">
+                                <thead>
+                                    <tr>
+                                        <th>رقم الطالب</th>
+                                        <th>اسم الطالب</th>
+                                        <th>الأحداث</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse ($class->students as $student)
+                                        <tr>
+                                            <td>{{$student->id}}</td>
+                                            <td>{{$student->student_name}}</td>
+                                            <td><a href="{{route('students.show',$student)}}" class="btn btn-dark">عرض</a></td>
                                         </tr>
                                     @empty
                                     @endforelse

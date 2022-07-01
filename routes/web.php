@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+//use App\Http\Controllers\ResultsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -53,6 +54,9 @@ Route::group(["middleware" => "auth"], function () {
     ////  Classes Routes  //////
     Route::resource('classes', ClassesController::class)->middleware('permission:class.view');
 
+    ////  Results Routes  //////
+    Route::resource('results', ResultsController::class)->middleware('permission:results.view');
+    Route::get('results/show_reslut/{student}',[App\Http\Controllers\ResultsController::class,'showResult'])->name('results.showResult');
 
 
     ////  Employees Routes  //////

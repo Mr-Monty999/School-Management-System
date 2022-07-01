@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\DashboardRequest;
 use App\Http\Requests\LoginRequest;
+use App\Models\Classes;
+use App\Models\Employe;
+use App\Models\Student;
+use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
@@ -15,7 +19,12 @@ class DashboardController extends Controller
 
     public function index()
     {
-        return view('dashboard');
+        $students = Student::count();
+        $teachers = Teacher::count();
+        $employees = Employe::count();
+        $classes = Classes::count();
+        //dd($students,$teachers,$employees,$classes);
+        return view('dashboard',compact('students','teachers','employees','classes'));
     }
 
     public function login()

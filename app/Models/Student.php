@@ -43,4 +43,12 @@ class Student extends Model
     {
         return $this->hasOne(User::class);
     }
+
+    public function results() {
+        return $this->hasMany(Result::class);
+    }
+
+    public function siblings() {
+        return $this->with('class')->where('parent_id',$this->id)->get()->except($this->id);
+    }
 }
