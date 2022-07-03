@@ -19,8 +19,8 @@ class Student extends Model
         "student_photo",
         "parent_id",
         "class_id",
+        'student_national_number'
     ];
-    protected $table = "students";
 
     /*
     public function school()
@@ -49,6 +49,7 @@ class Student extends Model
     }
 
     public function siblings() {
-        return $this->with('class')->where('parent_id',$this->id)->get()->except($this->id);
+        //return Parents::with('students')->find($this->parent_id)->students->except($this->id);
+        return $this->with('class')->where('parent_id',$this->parent_id)->get()->except($this->id);
     }
 }

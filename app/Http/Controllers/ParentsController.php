@@ -14,7 +14,8 @@ class ParentsController extends Controller
      */
     public function index()
     {
-        return view("parents.index");
+        $parents = Parents::with('students')->latest()->paginate(10);
+        return view("parents.index",compact('parents'));
     }
 
     /**
@@ -44,9 +45,12 @@ class ParentsController extends Controller
      * @param  \App\Models\Parents  $parents
      * @return \Illuminate\Http\Response
      */
-    public function show(Parents $parents)
+    public function show(Parents $parent)
     {
-        //
+        $parent->load('students','students.class');
+
+
+        return view('parents.show',compact('parent'));
     }
 
     /**

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Classes;
+use App\Models\Student;
+use App\Models\Teacher;
 use Illuminate\Http\Request;
 
 class ClassesController extends Controller
@@ -37,9 +39,10 @@ class ClassesController extends Controller
      */
     public function show(Classes $class)
     {
-        //$class->load('subjects');
         $class->load('subjects','subjects.teachers','students');
-        return view('classes.show',compact('class'));
+        $classes = Classes::all()->except($class->id);
+        $teachers = Teacher::all();
+        return view('classes.show',compact('class','classes','teachers'));
     }
 
     /**
@@ -83,5 +86,17 @@ class ClassesController extends Controller
         if(!auth()->user()->hasRole('Super-Admin')) {
             abort(403);
         }
+    }
+
+
+    public function changeStudentClass(Request $request) {
+        $ids = explode(',',$request->ids);
+
+        $students = Student::findMany($ids);
+
+        foreach($students as $student) {
+            $student->update(['class_id' => $request->class_id]);
+        }
+        return back();
     }
 }

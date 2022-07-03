@@ -6,11 +6,13 @@
         <form enctype="multipart/form-data" method="post" >
             @csrf
             <br>
-            <h4>بيانات الفصل</h4>
-            <div class="input-group input-group-outline my-3 bg-white">
+            <h4>اضافة فصل</h4>
+            <div class="input-group input-group-outline  bg-white">
                 <label class="form-label">اسم الفصل</label>
                 <input type="text" name="class_name" class="form-control">
             </div>
+                <div style="display:none" class="alert alert-danger text-white text-center teacher_birthdate"></div>
+
             <div style="display:none" class="alert alert-danger text-white text-center class_name"></div>
                 <button type="submit" class="btn btn-success margin my-3 col-6">اضافة</button>
             <div style="display:none" class="alert alert-success text-white text-center validate_success"></div>
@@ -67,12 +69,7 @@
                                         <td class="d-flex justify-content-center">
                                             <a href="{{route('classes.show',$class)}}" class="btn btn-dark pb-4 mx-2">عرض </a>
                                             @role('Super-Admin')
-                                                <a href="{{route('classes.edit',$class)}}" class="btn btn-dark pb-4 mx-2">تعديل </a>
-                                                <form action="{{route('classes.destroy',$class)}}" method="post">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger">حذف </button>
-                                                </form>
+                                                <a href="{{route('classes.edit',$class)}}" class="btn btn-danger pb-4 mx-2">تعديل </a>
                                             @endrole
                                         </td>
 

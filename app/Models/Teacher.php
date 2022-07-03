@@ -32,6 +32,6 @@ class Teacher extends Model
 */
     public function subjects()
     {
-        return $this->belongsToMany(Subject::class, "teacher_subject", "subject_id");
+        return $this->belongsToMany(Subject::class);
     }
 }

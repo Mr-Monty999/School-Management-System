@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreSubjectRequest;
+use App\Models\Classes;
 use App\Models\Subject;
+use App\Models\Teacher;
 use Illuminate\Http\Request;
 
 class SubjectController extends Controller
@@ -14,7 +17,10 @@ class SubjectController extends Controller
      */
     public function index()
     {
-        return view("subjects.index");
+        $subjects = Subject::with('teachers','class')->get();
+        $classes = Classes::all();
+        $teachers = Teacher::all();
+        return view("subjects.index",compact('subjects','classes','teachers'));
     }
 
     /**
@@ -33,9 +39,18 @@ class SubjectController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreSubjectRequest $request)
     {
-        //
+        $subject = Subject::create($request->validated());
+
+        if($request->teachers) {
+            $teachers = explode(',',$request->teachers);
+
+            foreach($teachers as $teacher) {
+                $subject->teachers()->attach($teacher);
+            }
+        }
+        return back();
     }
 
     /**
@@ -46,7 +61,10 @@ class SubjectController extends Controller
      */
     public function show(Subject $subject)
     {
-        //
+        $subject->load('class','teachers');
+        $teachers = Teacher::all()->except($subject->teachers->pluck('id')->toArray());
+
+        return view('subjects.show',compact('subject','teachers'));
     }
 
     /**
@@ -57,7 +75,11 @@ class SubjectController extends Controller
      */
     public function edit(Subject $subject)
     {
-        //
+        $subject->load('teachers','class');
+        $classes = Classes::all();
+        $teachers = Teacher::all();
+
+        return view('subjects.edit',compact('subject','classes','teachers'));
     }
 
     /**
@@ -67,9 +89,18 @@ class SubjectController extends Controller
      * @param  \App\Models\Subject  $subject
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Subject $subject)
+    public function update(StoreSubjectRequest $request, Subject $subject)
     {
-        //
+        $subject->update($request->validated());
+
+        if($request->teachers) {
+            $teachers = explode(',',$request->teachers);
+
+            foreach($teachers as $teacher) {
+                $subject->teachers()->sync($teacher);
+            }
+        }
+        return redirect()->route('subjects.show',$subject);
     }
 
     /**
@@ -80,6 +111,24 @@ class SubjectController extends Controller
      */
     public function destroy(Subject $subject)
     {
-        //
+        $subject->delete();
+        return back();
+    }
+
+
+    public function detachTeacher(Request $request , Subject $subject) {
+        $ids = explode(',',$request->teachers);
+
+        $subject->teachers()->detach($ids);
+
+        return back();
+    }
+
+    public function attachTeacher(Request $request , Subject $subject) {
+        $ids = explode(',',$request->teachers);
+
+        $subject->teachers()->attach($ids);
+
+        return back();
     }
 }

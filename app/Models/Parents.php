@@ -16,7 +16,8 @@ class Parents extends Model
         "parent_genre",
         "parent_phone",
         "parent_photo",
-        "school_id"
+        "school_id",
+        'parent_national_number'
     ];
     protected $table = "parents";
 

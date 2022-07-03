@@ -43,6 +43,9 @@
     <link id="pagestyle" href="{{ asset('css/material-dashboard.min.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('css/mystyle.css') }}">
     <link rel="icon" href="">
+    <!-- Choices css -->
+    <link rel="stylesheet" href="{{ asset('css/virtual-select.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/tooltip.min.css') }}">
 
 </head>
 
@@ -286,6 +289,11 @@
     <script src="{{ asset('js/smooth-scrollbar.min.js') }}"></script>
     {{-- <script src="{{ asset('js/fullcalendar.min.js') }}"></script> --}}
     <script src="{{ asset('js/chartjs.min.js') }}"></script>
+
+     <!--   Choices JS Files   -->
+     <script src="{{ asset('js/virtual-select.min.js') }}"></script>
+     <script src="{{ asset('js/tooltip.min.js') }}"></script>
+
     <script>
         var ctx = document.getElementById("chart-bars").getContext("2d");
 

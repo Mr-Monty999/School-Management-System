@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StudentRequest extends FormRequest
+class StoreStudentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -35,6 +35,8 @@ class StudentRequest extends FormRequest
             'parent_job' => 'required',
             'parent_phone' => 'required',
             'class_id' => 'required',
+            'student_national_number' => 'required|unique:students|digits:12',
+            'parent_national_number' => 'required|digits:12',
         ];
     }
 
@@ -52,7 +54,12 @@ class StudentRequest extends FormRequest
             "parent_name.required" => "الرجاء ادخال اسم ولي أمر الطالب !",
             "parent_phone.required" => "الرجاء ادخال رقم ولي أمر الطالب !",
             "parent_job.required" => "الرجاء ادخال مهنة ولي أمر الطالب !",
-            "student_paid_price.numeric" => "الرجاء ادخال ارقام فقط"
+            "student_paid_price.numeric" => "الرجاء ادخال ارقام فقط",
+            "student_national_number.required" => "الرجاء ادخال الرقم الوطني",
+            "student_national_number.digits" => " الرقم الوطني غير صالح",
+            "student_national_number.unique" => " الرقم الوطني مكرر",
+            "parent_national_number.required" => "الرجاء ادخال الرقم الوطني",
+            "parent_national_number.digits" => "الرقم الوطني غير صالح",
         ];
     }
 }

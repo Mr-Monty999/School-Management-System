@@ -31,7 +31,9 @@ class TeacherController extends Controller
     public function store(StoreTeacherRequest $request)
     {
         $data = $request->validated();
+
         $data['teacher_photo'] = FileUploadService::handleImage($request->file('teacher_photo'),'teacher');
+
         $teacher = Teacher::create($data);
 
         RegisterationService::createUserAcount("teacher", $teacher->id);
@@ -47,7 +49,8 @@ class TeacherController extends Controller
      */
     public function show(Teacher $teacher)
     {
-        //
+        $teacher->load('subjects','subjects.class');
+        return view('teachers.show',compact('teacher'));
     }
 
     /**

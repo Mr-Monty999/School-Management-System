@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use Illuminate\Http\Request;
 //use App\Http\Controllers\ResultsController;
 use Illuminate\Support\Facades\Route;
 
@@ -53,6 +54,7 @@ Route::group(["middleware" => "auth"], function () {
 
     ////  Classes Routes  //////
     Route::resource('classes', ClassesController::class)->middleware('permission:class.view');
+    Route::post('classes/chnage_student_class',[App\Http\Controllers\ClassesController::class,'changeStudentClass'])->name('students.changeStudentClass');
 
     ////  Results Routes  //////
     Route::resource('results', ResultsController::class)->middleware('permission:results.view');
@@ -68,22 +70,21 @@ Route::group(["middleware" => "auth"], function () {
 
 
     ////  Parents Routes  //////
-    Route::resource('parents', ParentsController::class)->middleware('permission:student.view');;
-
+    Route::resource('parents', ParentsController::class)->middleware('permission:student.view');
 
     ////  School Routes  //////
     Route::resource('schools', SchoolController::class)->middleware('role:Super-Admin');
 
     ////  Students Routes  //////
-    Route::resource('students', StudentController::class)->middleware('permission:student.view');;
-
+    Route::resource('students', StudentController::class)->middleware('permission:student.view');
 
     ////  Subjects Routes  //////
-    Route::resource('subjects', SubjectController::class)->middleware('permission:subject.view');;
-
+    Route::resource('subjects', SubjectController::class)->middleware('permission:subject.view');
+    Route::post('subjects/{subject}/attach_teacher',[App\Http\Controllers\SubjectController::class,'attachTeacher'])->name('subjects.attachTeacher');
+    Route::post('subjects/{subject}/detach_teacher',[App\Http\Controllers\SubjectController::class,'detachTeacher'])->name('subjects.detachTeacher');
 
     ////  Teachers Routes  //////
-    Route::resource('teachers', TeacherController::class)->middleware('permission:teacher.view');;
+    Route::resource('teachers', TeacherController::class)->middleware('permission:teacher.view');
 
 
     ////  Privacy Routes  //////

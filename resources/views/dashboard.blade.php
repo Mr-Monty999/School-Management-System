@@ -11,7 +11,7 @@
                             <i class="fa-solid fa-users"></i>
                         </div>
                         <div class="text-start pt-1">
-                            <p class="text-sm mb-0 text-capitalize">عدد الطلاب</p>
+                            <p class="text-sm mb-0 text-capitalize text-dark">عدد الطلاب</p>
                             <h4 class="mb-0">{{$students}}</h4>
                         </div>
                     </div>
@@ -25,7 +25,7 @@
                             <i class="fa-solid fa-chart-line"></i>
                         </div>
                         <div class="text-start pt-1">
-                            <p class="text-sm mb-0 text-capitalize"> عدد المعلمين</p>
+                            <p class="text-sm mb-0 text-capitalize text-dark"> عدد المعلمين</p>
                             <h4 class="mb-0">{{$teachers}}</h4>
                         </div>
                     </div>
@@ -41,7 +41,7 @@
                             <i class="fa-solid fa-chart-line"></i>
                         </div>
                         <div class="text-start pt-1">
-                            <p class="text-sm mb-0 text-capitalize"> عدد الفصول</p>
+                            <p class="text-sm mb-0 text-capitalize text-dark"> عدد الفصول</p>
                             <h4 class="mb-0">{{$classes}}</h4>
                         </div>
                     </div>
@@ -57,7 +57,7 @@
                             <i class="fa-solid fa-chart-line"></i>
                         </div>
                         <div class="text-start pt-1">
-                            <p class="text-sm mb-0 text-capitalize">عدد الموظفين </p>
+                            <p class="text-sm mb-0 text-capitalize text-dark">عدد الموظفين </p>
                             <h4 class="mb-0">{{$employees}}</h4>
                         </div>
                     </div>

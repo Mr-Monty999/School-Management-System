@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StudentRequest;
+use App\Http\Requests\StoreStudentRequest;
+use App\Http\Requests\UpdateStudentRequest;
 use App\Models\Classes;
 use App\Models\Parents;
 use App\Models\Student;
@@ -25,28 +26,33 @@ class StudentController extends Controller
 
         $classes = Classes::all();
 
-
-        // Get all users have relationship with students table with their class
-        // $students = User::has('student')->with('student', 'student.class')->get();
-
-        ///Get All Students From Latest
-        /**
-         * This approach causes N+1 problem :
-         *      $students = Student::latest()->paginate(5);
-         * Use this instead :
-         */
         $students = Student::with('class','parent')->latest()->paginate(5);
 
+        //dd($students[0]->class->class_name);
         return view("students.index", compact('classes', 'students'));
     }
 
+     /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        $classes = Classes::all();
+        return view('students.create',compact('classes'));
+    }
 
-    public function store(StudentRequest $request)
+    public function store(StoreStudentRequest $request)
     {
         // //Store validated arguments into data array
         $data = $request->validated();
 
-        //Check If Student Exist
+        /* $data["parent_id"] = RegisterationService::getStudentParent($data);
+        dd($data["parent_id"]); */
+
+
+        /* //Check If Student Exist
         if (Student::where("student_name", $request->student_name)->exists())
             return response()->json(["success" => false, "message" => "هذا الطالب موجود بالفعل"]);
 
@@ -60,11 +66,9 @@ class StudentController extends Controller
         } else {
             ///Get Existing Parent
             $parent = $parent->first();
-        }
-
-        ///Get Parent Id
-        $data["parent_id"] = $parent->id;
-
+        } */
+        // Check if student's parent exists in the database or create one
+        $data["parent_id"] = RegisterationService::getStudentParent($data);
 
         //Upload Student Image And return Image name
         $data["student_photo"] = FileUploadService::handleImage($request->file("student_photo"),'student');
@@ -74,8 +78,6 @@ class StudentController extends Controller
 
         ///Generate Student Account
         RegisterationService::createUserAcount("student", $student->id);
-
-
 
         ///Additional Data For Ajax
         $data["student_class"] = $student->class->class_name;
@@ -120,46 +122,33 @@ class StudentController extends Controller
      * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function update(StudentRequest $request, Student $student)
+    public function update(UpdateStudentRequest $request, Student $student)
     {
-
-
-        /////////////////Not Finished Yet ! /////////////////////////
 
 
         // //Store validated arguments into data array
         $data = $request->validated();
 
-        //Check If Student Exist
-        $existStudent = Student::where("student_name", $request->student_name);
-        if ($existStudent->exists() && $data["student_name"] == $student->student_name)
-            return response()->json(["success" => false, "message" => "اسم هذا الطالب موجود بالفعل"]);
-
-
         //Update Parent
-        $parent = Parent::where("parent_name", $student->parent_name)->first();
-
+        $parent = Parents::find($student->parent_id);
         $parent->update($data);
-
 
         ///Get Parent Id
         $data["parent_id"] = $parent->id;
 
 
         //Upload Student Image And return Image name
-        $data["student_photo"] = FileUploadService::handleImage($request->file("student_photo"),'student');
+        $data["student_photo"] = FileUploadService::updateImage($request->file("student_photo"),$student->student_photo,'student');
 
         // Update student
         $student->update($data);
-
-
 
 
         ///Additional Data For Ajax
         $data["student_class"] = $student->class->class_name;
         $data["id"] = $student->id;
 
-        return response()->json(["success" => true, "message" => "تم الحفظ بنجاح", "data" => $data]);
+        return redirect()->route('students.show',$student);
     }
 
     /**

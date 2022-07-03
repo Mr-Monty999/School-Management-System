@@ -2,11 +2,14 @@
 
 @section('section')
     <div class="d-flex flex-column justify-content-center align-items-center">
+        <a href="{{route('students.index')}}" class="btn btn-dark" style="margin-left: auto ; maring-right:0"> رجوع</a>
+
         <h1>ادارة الطلاب</h1>
-        {{-- <form class="students" action="{{route('students.store')}}" enctype="multipart/form-data" method="post">
+
+        <form class="students" action="{{route('students.store')}}" enctype="multipart/form-data" method="post">
             @csrf
             <br>
-            <h4>بيانات الطالب</h4>
+            <h4>اضافة  طالب جديد </h4>
             <div class="input-group input-group-outline  bg-white">
                 <label class="form-label">اسم الطالب</label>
                 <input type="text" name="student_name" class="form-control">
@@ -112,89 +115,6 @@
         @elseif(Session::has('error'))
             <div class="alert alert-danger text-white">{{ Session::get('error') }}</div>
         @endif
-
- --}}
-        <div class="container-fluid row my-8">
-            <div class="col-12">
-            <a href="{{route('students.create')}}" class="btn btn-dark">اضافة طالب</a>
-
-                <div class="card my-4">
-                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                            <h6 class="text-white text-capitalize ps-3 text-center">جدول الطلاب</h6>
-                        </div>
-                    </div>
-                    <div class="card-body px-0 pb-2">
-                        <div class="table-responsive p-0">
-                            <table class="table align-items-center mb-0 text-center">
-                                <thead>
-                                    <tr>
-                                        <th class="text-uppercase text-primary font-weight-bolder">
-                                            الرقم</th>
-                                        <th class="text-uppercase text-primary  font-weight-bolder  ps-2">
-                                            اسم الطالب</th>
-                                        <th class="text-uppercase text-primary  font-weight-bolder  ps-2">
-                                            صورة الطالب</th>
-                                        <th class="text-uppercase text-primary  font-weight-bolder">الفصل</th>
-                                        <th class="text-uppercase text-primary  font-weight-bolder">الاحداث</th>
-
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($students as $student)
-                                        <tr>
-                                            <td>
-                                                <p class="text-dark text-center">{{ $student->id }}</p>
-                                            </td>
-
-                                            <td>
-                                                <p class="text-dark text-center">{{ $student->student_name }}
-                                                </p>
-                                            </td>
-
-                                            <td>
-                                                <img class="text-dark text-center"
-                                                    src="{{ asset($student->student_photo) }}"
-                                                    alt="لا توجد صورة"
-                                                    >
-
-                                            </td>
-                                            <td>
-                                                <p class="text-dark text-center">
-                                                    <a class="text-dark" href="{{route('classes.show',$student->class)}}">{{ $student->class->class_name}}</a>
-                                                </p>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <a href="{{ route('students.show', $student) }}"
-                                                class="btn btn-dark">عرض</a>
-                                                <a href="{{ route('students.edit', $student) }}"
-                                                    class="btn btn-dark">تعديل</a>
-                                                <form action="{{ route('students.destroy', $student) }}"
-                                                    method="post"
-                                                    class="d-inline"
-                                                    >
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger">حذف </button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            {!! $students->links() !!}
-
-        </div>
-
-
 
     </div>
 @endsection

@@ -22,10 +22,10 @@ class Subject extends Model
 
     public function teachers()
     {
-        return $this->belongsToMany(Teacher::class, "teacher_subject", "teacher_id");
+        return $this->belongsToMany(Teacher::class);
     }
 
-    public function classes() {
-        return $this->belongsToMany(Classes::class,'class_subject','subject_id','class_id','id','id');
+    public function class() {
+        return $this->belongsTo(Classes::class,'class_id');
     }
 }
