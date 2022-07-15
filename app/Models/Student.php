@@ -15,11 +15,12 @@ class Student extends Model
         "student_birthdate",
         "student_registered_date",
         "student_paid_price",
-        "student_genre",
+        "student_gender",
         "student_photo",
         "parent_id",
         "class_id",
-        'student_national_number'
+        'student_national_number',
+        'user_id'
     ];
 
     /*
@@ -28,6 +29,10 @@ class Student extends Model
         return $this->belongsTo(School::class, "school_id");
     }
     */
+
+    public function getTypeAttribute() {
+        return 'طالب';
+    }
 
     public function class()
     {
@@ -41,7 +46,7 @@ class Student extends Model
 
     public function user()
     {
-        return $this->hasOne(User::class);
+        return $this->belongsTo(User::class);
     }
 
     public function results() {

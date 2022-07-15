@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTeacherSubjectTable extends Migration
+class CreateSubjectTeacherTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateTeacherSubjectTable extends Migration
      */
     public function up()
     {
-        Schema::create('teacher_subject', function (Blueprint $table) {
+        Schema::create('subject_teacher', function (Blueprint $table) {
             //$table->integer('teacher_id')->unsigned();
             //$table->integer('subject_id')->unsigned();
             $table->foreignId('teacher_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();

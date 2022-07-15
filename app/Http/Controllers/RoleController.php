@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-class UserController extends Controller
+class RoleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,9 +16,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::has('student')->orHas('teacher')->orHas('employe')->get();
-
-        return view("users.index", compact('users'));
+        $roles = Role::withCount('permissions','users')->get();
+        return view("roles.index", compact('roles'));
     }
 
     /**
@@ -30,7 +27,9 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $permissions = Permission::all();
+
+        return view('roles.create', compact('permissions'));
     }
 
     /**
@@ -41,18 +40,27 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $role = Role::UpdateOrCreate(['name' => $request->role_name]);
+
+        $permissions = explode(',', $request->permissions);
+
+        $role->syncPermissions($permissions);
+
+        return redirect()->route('users.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  string  $type : presents the user type as [student,teacher,employe,admin]
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($type)
+    public function show(Role $role)
     {
+       $role->load('permissions');
 
+        return view('roles.show', compact('role'));
     }
 
     /**
@@ -61,11 +69,13 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit(Role $role)
     {
-        $roles = Role::all();
-        $user_role = $user->roles[0]->id ?? null;
-        return view('users.edit',compact('roles' ,'user','user_role'));
+        $permissions = Permission::all();
+
+        $role_permissions = $role->permissions->pluck('id')->toArray();
+
+        return view('roles.edit', compact('permissions', 'role', 'role_permissions'));
     }
 
     /**
@@ -75,10 +85,15 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request , User $user)
+    public function update(Request $request, Role $role)
     {
-        $user->syncRoles($request->role);
-        return redirect()->route('users.index');
+        $role->update(['name' => $request->role_name]);
+
+        $permissions = explode(',', $request->permissions);
+
+        $role->syncPermissions($permissions);
+
+        return redirect()->route('roles.index');
     }
 
     /**
@@ -91,6 +106,4 @@ class UserController extends Controller
     {
         //
     }
-
-
 }

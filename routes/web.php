@@ -17,20 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 ////  Login Routes  ////
-
-/*
-  Notes:
-
-middlewares {
-    owner => 5
-    admin => 4
-    employe => 3
-    student => 2
-    teacher => 1
-}
-
-*/
-
+    Route::post('search',[App\Http\Controllers\StudentController::class,'search']);
 
 Route::group(["middleware" => "guest"], function () {
     Route::get("/login", [DashboardController::class, "login"])->name("dashboard.login");
@@ -45,11 +32,10 @@ Route::group(["middleware" => "auth"], function () {
     /// Logout Route ///
     Route::get("/logout", [DashboardController::class, "logout"])->name("dashboard.logout");
 
-    /// Owner Dashboard Route ///
+    /// Dashboard Route ///
     Route::get("/", [DashboardController::class, "index"])->name("dashboard.index");
 
     Route::resource('users', UserController::class)->middleware('role:Super-Admin');
-
 
 
     ////  Classes Routes  //////
@@ -57,12 +43,17 @@ Route::group(["middleware" => "auth"], function () {
     Route::post('classes/chnage_student_class',[App\Http\Controllers\ClassesController::class,'changeStudentClass'])->name('students.changeStudentClass');
 
     ////  Results Routes  //////
-    Route::resource('results', ResultsController::class)->middleware('permission:results.view');
-    Route::get('results/show_reslut/{student}',[App\Http\Controllers\ResultsController::class,'showResult'])->name('results.showResult');
+    Route::resource('results', ResultsController::class)->middleware('permission:result.view');
+    Route::get('results/show_result/{student}',[App\Http\Controllers\ResultsController::class,'showResult'])->name('results.showResult');
+    Route::post('results/assign_result/{student}',[App\Http\Controllers\ResultsController::class,'assignResult'])->name('results.assignResult');
+    Route::get('get_student_result',[App\Http\Controllers\ResultsController::class,'getStudentResults'])
+        ->middleware('role:student')
+        ->name('results.getStudentResult');
 
 
     ////  Employees Routes  //////
     Route::resource('employees', EmployeController::class)->middleware('permission:employe.view');
+
 
 
     ////  Jobs Routes  //////
@@ -89,4 +80,8 @@ Route::group(["middleware" => "auth"], function () {
 
     ////  Privacy Routes  //////
     Route::resource('privacy', PrivacyController::class)->middleware('role:Super-Admin');
+
+    ////   Roles and permissions \\\\
+    Route::resource('roles',RoleController::class);
+
 });

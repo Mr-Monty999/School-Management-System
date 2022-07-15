@@ -19,10 +19,11 @@ class CreateTeachersTable extends Migration
             $table->string('teacher_address');
             $table->string('teacher_phone');
             $table->double('teacher_salary');
-            $table->string('teacher_genre');
+            $table->string('teacher_gender');
             $table->string('teacher_photo')->nullable();
             $table->date('teacher_birthdate');
             $table->date('teacher_hire_date');
+            $table->foreignId('user_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
         });
     }

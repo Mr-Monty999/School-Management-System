@@ -30,25 +30,25 @@
 
             <div class="input-group input-group-outline my-3 bg-white">
                 <label class="form-label">رقم الهاتف</label>
-                <input type="text" name="teachers_phone" value="{{ $teacher->teacher_phone }}" class="form-control">
+                <input type="text" name="teacher_phone" value="{{ $teacher->teacher_phone }}" class="form-control">
             </div>
             <div style="display:none" class="alert alert-danger text-white text-center teachers_phone"></div>
 
             <label class="text-dark">تاريخ ميلاد المعلم :</label>
             <div class="input-group input-group-outline  bg-white">
-                <input type="date" name="teachers_birthdate" value="{{ $teacher->teacher_birthdate }}" class="form-control">
+                <input type="date" name="teacher_birthdate" value="{{ $teacher->teacher_birthdate }}" class="form-control">
             </div>
             <div style="display:none" class="alert alert-danger text-white text-center teachers_birthdate"></div>
 
             <label class="text-dark">تاريخ التسجيل :</label>
             <div class="input-group input-group-outline  bg-white">
-                <input type="date" name="teachers_hire_date" value="{{$teacher->teacher_hire_date}}" class="form-control">
+                <input type="date" name="teacher_hire_date" value="{{$teacher->teacher_hire_date}}" class="form-control">
             </div>
             <div style="display:none" class="alert alert-danger text-white text-center teachers_registered_date"></div>
 
             <label class="text-dark"> راتب المعلم :</label>
             <div class="input-group input-group-outline  bg-white">
-                <input type="number" name="teachers_salary" value="{{$teacher->teacher_salary}}" class="form-control">
+                <input type="number" name="teacher_salary" value="{{$teacher->teacher_salary}}" class="form-control">
             </div>
             <div style="display:none" class="alert alert-danger text-white text-center teachers_salary"></div>
 
@@ -61,7 +61,7 @@
 
             <label class="text-dark">صورة المعلم :</label>
             <div class="input-group input-group-outline  bg-white">
-                <input type="file" name="teachers_photo" class="form-control">
+                <input type="file" name="teacher_photo" class="form-control">
             </div>
             <div style="display:none" class="alert alert-danger text-white text-center teachers_photo"></div>
 

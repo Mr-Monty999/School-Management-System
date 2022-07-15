@@ -10,7 +10,6 @@ use App\Models\Student;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 class DashboardController extends Controller
 {
@@ -23,7 +22,6 @@ class DashboardController extends Controller
         $teachers = Teacher::count();
         $employees = Employe::count();
         $classes = Classes::count();
-        //dd($students,$teachers,$employees,$classes);
         return view('dashboard',compact('students','teachers','employees','classes'));
     }
 

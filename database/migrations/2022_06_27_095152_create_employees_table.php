@@ -21,9 +21,10 @@ class CreateEmployeesTable extends Migration
             $table->double('employe_salary');
             $table->date('employe_birthdate');
             $table->date('employe_hiredate');
-            $table->string('employe_genre');
+            $table->string('employe_gender');
             $table->string('employe_photo')->nullable();
             $table->string('employe_job')->nullable();
+            $table->foreignId('user_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
         });
     }

@@ -12,7 +12,8 @@ class Result extends Model
     protected $fillable = [
         'subject_id',
         'student_id',
-        'teacher_id'
+        'result',
+        'full_mark'
     ];
 
     public function student() {

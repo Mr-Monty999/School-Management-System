@@ -31,7 +31,12 @@
 
         <div class="container-fluid row my-8">
             <div class="col-12">
-                <a class="btn btn-dark" href="{{url()->previous()}}">رجوع</a>
+                <div class="d-flex justify-content-between">
+                    <a class="btn btn-dark" href="{{url()->previous()}}">رجوع</a>
+                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        اضافة نتيجة
+                    </button>
+                </div>
 
                 <div class="card my-4">
 
@@ -48,9 +53,12 @@
                                         <th class="text-uppercase text-primary font-weight-bolder text-center"> الرقم</th>
 
                                         <th class="text-uppercase text-primary  font-weight-bolder ps-2 text-center"> اسم المادة</th>
+                                        @can('teacher.view')
                                         <th class="text-uppercase text-primary  font-weight-bolder ps-2 text-center"> معلم المادة </th>
+                                        @endcan
                                         <th class="text-uppercase text-primary  font-weight-bolder ps-2 text-center">  الدرجة المتحصلة</th>
                                         <th class="text-uppercase text-primary  font-weight-bolder ps-2 text-center">  الدرجة الكاملة</th>
+                                        <th class="text-uppercase text-primary  font-weight-bolder ps-2 text-center">  الأحداث</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -64,16 +72,22 @@
 
                                         <td>
                                             <p class="text-dark text-center">
-                                                {{ $result->subject->subject_name }}
+                                                @can('subject.view')
+                                                    <a href="{{route('subjects.show',$result->subject)}}">{{ $result->subject->subject_name }}</a>
+                                                @else
+                                                    {{$result->subject->subject_name }}
+                                                @endcan
                                             </p>
                                         </td>
-
-                                        <td>
-                                            <p class="text-dark text-center">
-                                                {{ $result->teacher->teacher_name }}
-                                            </p>
-                                        </td>
-
+                                        @can('teacher.view')
+                                            <td>
+                                                <p class="text-dark text-center">
+                                                    @foreach ($result->subject->teachers as $teacher)
+                                                        <a class="" href="{{route('teachers.show',$teacher)}}">{{ $teacher->teacher_name }}</a>
+                                                    @endforeach
+                                                </p>
+                                            </td>
+                                        @endcan
                                         <td >
                                             <p class="text-dark text-center">
                                                 {{ $result->result }}
@@ -82,8 +96,16 @@
 
                                         <td >
                                             <p class="text-dark text-center">
-                                                100
+                                                {{ $result->full_mark }}
                                             </p>
+                                        </td>
+
+                                        <td >
+                                            <form action="{{route('results.destroy',$result)}}" method="POST" class="text-dark text-center">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger">حذف</button>
+                                            </form>
                                         </td>
 
                                     </tr>
@@ -101,6 +123,47 @@
 
 
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+           <div class="modal-content">
+               <div class="modal-header">
+               <h5 class="modal-title" id="exampleModalLabel">اضافة نتيجة </h5>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+               <div class="modal-body">
+                   <form method="POST" action="{{route('results.assignResult',$student)}}">
+                       @csrf
+
+               <label class="text-dark">المادة</label>
+                   <div class="input-group input-group-outline my-3 bg-white ">
+                       <select class="form-control " name="subject_id" id="subject_id">
+                           @foreach ($student->class->subjects as $subject)
+                               <option value="{{ $subject->id }}">{{ $subject->subject_name }}</option>
+                           @endforeach
+
+                       </select>
+                   </div>
+
+                   <label for="choice" class="text-lg mb-3"> الدرجة المستحقة </label>
+                   <div class="input-group input-group-outline bg-white" style="margin-bottom:20px">
+                         <input type="text" name="result" class="form-control">
+                    </div>
+
+                    <label for="choice" class="text-lg mb-3">الدرجة الكاملة</label>
+                    <div class="input-group input-group-outline bg-white" style="margin-bottom:20px">
+                        <input type="text" name="full_mark" class="form-control">
+                    </div>
+               </div>
+               <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">اغلاق</button>
+               <button type="submit" class="btn btn-primary">حفظ التغييرات</button>
+               </form>
+               </div>
+           </div>
+       </div>
+   </div>
 @endsection
 {{--
  @push('ajax')

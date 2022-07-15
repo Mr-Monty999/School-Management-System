@@ -16,15 +16,15 @@
             <label class="text-dark">النوع :</label>
             <div class="input-group input-group-outline  bg-white is-filled">
 
-                <select class="form-control" name="student_genre" id="">
-                    <option value="ذكر" @if ($student->student_genre == "ذكر") selected @endif >ذكر</option>
-                    <option value="أنثى" @if ($student->student_genre == "أنثى") selected @endif >أنثى</option>
+                <select class="form-control" name="student_gender">
+                    <option value="ذكر" @if ($student->student_gender == "ذكر") selected @endif >ذكر</option>
+                    <option value="أنثى" @if ($student->student_gender == "أنثى") selected @endif >أنثى</option>
                 </select>
             </div>
-            <div style="display:none" class="alert alert-danger text-white text-center student_genre"></div>
+            <div style="display:none" class="alert alert-danger text-white text-center student_gender"></div>
             <label class="text-dark">السنة الدراسية :</label>
             <div class="input-group input-group-outline my-3 bg-white is-filled">
-                <select class="form-control" name="class_id" id="">
+                <select class="form-control" name="class_id">
                     @foreach ($classes as $class)
                         <option value="{{ $class->id }}" @if ($student->class_id == $class->class_id) selected @endif>
                             {{ $class->class_name }}</option>

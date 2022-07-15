@@ -43,7 +43,7 @@
     <link id="pagestyle" href="{{ asset('css/material-dashboard.min.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('css/mystyle.css') }}">
     <link rel="icon" href="">
-    <!-- Choices css -->
+    <!-- virtual select css -->
     <link rel="stylesheet" href="{{ asset('css/virtual-select.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/tooltip.min.css') }}">
 

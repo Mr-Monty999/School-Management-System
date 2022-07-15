@@ -3,23 +3,29 @@
 @section('section')
     <div class="d-flex flex-column justify-content-center align-items-center">
         <h1>ادارة الصلاحيات</h1>
-        <form method="post" action="{{route('users.update',$user)}}">
+        <form enctype="multipart/form-data" method="post" action="{{route('roles.store')}}">
             @csrf
-            @method('PUT')
             <br>
-            <h4> تغيير رتبة المستخدم</h4>
-            <div>
-                <label class="form-label" for="sample-select2"> الرتبة </label>
-                <div class="input-group input-group-outline mb-3 ">
-                    <select name="role" id="sample-select">
-                         @foreach ($roles as $role)
-                            <option value="{{$role->id}}" >{{$role->name}}</option>
-                        @endforeach
-                    </select>
-                </div>
+            <h4>اضافة رتبة جديدة</h4>
+            <div class="input-group input-group-outline  bg-white my-3">
+                <label class="form-label">أسم الرتبة</label>
+                <input type="text" name="role_name" class="form-control">
+            </div>
+                <div style="display:none" class="alert alert-danger text-white text-center teacher_birthdate"></div>
 
-                <a href="{{url()->previous()}}" type="button" class="btn btn-dark margin my-3 ">رجوع</a>
-            <button type="submit" class="btn btn-success margin my-3 ">حفظ</button>
+            <div style="display:none" class="alert alert-danger text-white text-center class_name"></div>
+
+            <label class="form-label"> الصلاحيات</label>
+            <div class="input-group input-group-outline my-3">
+                <select name="permissions" id="sample-select" multiple>
+                    @foreach ($permissions as $permission)
+                        <option value="{{$permission->id}}">{{$permission->name}}</option>
+                    @endforeach
+                </select>
+            </div>
+                <button type="submit" class="btn btn-success margin my-3 ">اضافة</button>
+                <a href="{{url()->previous()}}" class="btn btn-dark my-3">  رجوع</a>
+
             <div style="display:none" class="alert alert-success text-white text-center validate_success"></div>
             <div style="display:none" class="alert alert-danger text-white text-center validate_error"></div>
 
@@ -37,7 +43,6 @@
     </div>
 @endsection
 
-
 @push('ajax')
     <script>
        VirtualSelect.init({
@@ -45,7 +50,9 @@
         });
     </script>
 @endpush
- {{-- @push('ajax')
+
+{{--
+ @push('ajax')
     <script>
         $("input[type=date]").val(new Date().toISOString().slice(0, 10));
 
@@ -63,7 +70,7 @@
                     'X-CSRF-TOKEN': "{{ csrf_token() }}"
                 },
                 method: "post",
-                url: "{{ route('ubjects.store') }}",
+                url: "{{ route('classes.store') }}",
                 data: formData,
                 dataType: "json",
                 processData: false,
@@ -96,5 +103,5 @@
 
         });
     </script>
-@endpush
- --}}
+@endpush --}}
+

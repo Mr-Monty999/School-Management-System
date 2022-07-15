@@ -20,16 +20,12 @@ class CreateStudentsTable extends Migration
             $table->date('student_birthdate');
             $table->date('student_registered_date');
             $table->double('student_paid_price');
-            $table->string('student_genre');
+            $table->string('student_gender');
             $table->string('student_photo')->nullable();
-            //$table->integer('parent_id')->nullable()->unsigned();
-            //$table->integer('class_id')->nullable()->unsigned();
-            $table->timestamps();
-
             $table->foreignId('parent_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('class_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
-            /* $table->foreign('parent_id', 'students_ibfk_2')->references('id')->on('parents')->onDelete('set NULL')->onUpdate('set NULL');
-            $table->foreign('class_id', 'students_ibfk_3')->references('id')->on('classes')->onDelete('set NULL')->onUpdate('set NULL'); */
+            $table->foreignId('user_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->timestamps();
         });
     }
 

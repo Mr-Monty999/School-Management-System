@@ -16,8 +16,8 @@
             </div>
             <div style="display:none" class="alert alert-danger text-white text-center student_name"></div>
             <label class="text-dark">النوع :</label>
-            <div class="input-group input-group-outline  bg-white">
-                <select class="form-control" name="student_genre" id="">
+            <div class="input-group input-group-outline bg-white">
+                <select class="form-control" name="student_gender">
                     <option value="ذكر">ذكر</option>
                     <option value="انثى">انثى</option>
                 </select>
@@ -26,7 +26,7 @@
 
             <label class="text-dark">السنة الدراسية :</label>
             <div class="input-group input-group-outline my-3 bg-white">
-                <select class="form-control" name="class_id" id="">
+                <select class="form-control" name="class_id">
                     @foreach ($classes as $class)
                         <option value="{{ $class->id }}">{{ $class->class_name }}</option>
                     @endforeach

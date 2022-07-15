@@ -16,9 +16,14 @@ class ClassSeeder extends Seeder
     public function run()
     {
         DB::table('classes')->insert([
-            ['class_name' => 'الصف الأول'],
+            ['class_name' => ' الصف الأول'],
             ['class_name' => 'الصف الثاني'],
             ['class_name' => 'الصف الثالث'],
+            ['class_name' => 'الصف الرابع'],
+            ['class_name' => 'الصف الخامس'],
+            ['class_name' => 'الصف السادس'],
+            ['class_name' => 'الصف السابع'],
+            ['class_name' => 'الصف الثامن'],
         ]);
     }
 }

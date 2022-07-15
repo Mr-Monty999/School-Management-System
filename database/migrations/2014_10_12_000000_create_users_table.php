@@ -19,16 +19,11 @@ class CreateUsersTable extends Migration
             $table->string('username')->unique();
             $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
-            //$table->string('permission', 100)->nullable();
-            //$table->string('user_type');
             $table->string('password');
-            //$table->integer("student_id")->nullable()->unsigned();
-            //$table->integer("teacher_id")->nullable()->unsigned();
-            //$table->integer("employe_id")->nullable()->unsigned();
-            $table->foreignId('student_id')->nullable()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            /* $table->foreignId('student_id')->nullable()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('teacher_id')->nullable()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('employe_id')->nullable()->constrained('employees')->cascadeOnUpdate()->cascadeOnDelete();
-
+ */
 
             $table->rememberToken();
             $table->timestamps();

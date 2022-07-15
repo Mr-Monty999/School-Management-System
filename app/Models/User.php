@@ -46,7 +46,19 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function getTypeAttribute() {
+        return $this->roles->first()->name;
+    }
+
     public function student() {
-        return $this->belongsTo(Student::class);
+        return $this->hasOne(Student::class);
+    }
+
+    public function teacher() {
+        return $this->hasOne(Teacher::class);
+    }
+
+    public function employe() {
+        return $this->hasOne(Employe::class);
     }
 }

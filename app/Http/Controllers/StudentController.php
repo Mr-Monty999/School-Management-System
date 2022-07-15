@@ -23,13 +23,9 @@ class StudentController extends Controller
      */
     public function index()
     {
-
-        $classes = Classes::all();
-
         $students = Student::with('class','parent')->latest()->paginate(5);
 
-        //dd($students[0]->class->class_name);
-        return view("students.index", compact('classes', 'students'));
+        return view("students.index", compact( 'students'));
     }
 
      /**
@@ -73,11 +69,11 @@ class StudentController extends Controller
         //Upload Student Image And return Image name
         $data["student_photo"] = FileUploadService::handleImage($request->file("student_photo"),'student');
 
+        ///Generate Student Account
+        $data['user_id'] = RegisterationService::createUserAcount('student');
+
         // Store student data in students table
         $student = Student::create($data);
-
-        ///Generate Student Account
-        RegisterationService::createUserAcount("student", $student->id);
 
         ///Additional Data For Ajax
         $data["student_class"] = $student->class->class_name;
@@ -159,8 +155,27 @@ class StudentController extends Controller
      */
     public function destroy(Student $student)
     {
+        FileUploadService::deleteImage($student->student_photo);
+
         $student->delete();
 
         return back()->with("success", "تم حذف الطالب بنجاح");
+    }
+
+    /**
+     *
+     */
+    public function search($name) {
+        /* str_replace(
+            ['\\','%','_'],
+            ['\\\\','\%','\_'],
+            $name
+        ); */
+
+        $students = Student::where('student_name','LIKE','%'.$name.'%')->get();
+
+        return json_encode([
+            'students' => $students
+        ]);
     }
 }

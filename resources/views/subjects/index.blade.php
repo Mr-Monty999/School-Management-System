@@ -16,7 +16,7 @@
                 <div style="display:none" class="alert alert-danger text-white text-center student_paid_price"></div>
 
                 <label class="form-label" for="sample-select2">اسم الفصل </label>
-                <div class="input-group input-group-outline mb-3 bg-white">
+                <div class="input-group input-group-outline mb-3">
                     <select name="class_id" id="sample-select2">
                          @foreach ($classes as $class)
                             <option value="{{$class->id}}">{{$class->class_name}}</option>
@@ -25,7 +25,7 @@
                 </div>
 
                 <label class="form-label" for="sample-select">المعلمين <span class="text-sm">(اختياري)</span></label>
-                <div class="input-group input-group-outline mb-3 bg-white">
+                <div class="input-group input-group-outline mb-3">
                     <select name="teachers" id="sample-select" multiple>
                          @foreach ($teachers as $teacher)
                             <option value="{{$teacher->id}}">{{$teacher->teacher_name}}</option>

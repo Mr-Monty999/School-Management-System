@@ -34,11 +34,11 @@ class TeacherController extends Controller
 
         $data['teacher_photo'] = FileUploadService::handleImage($request->file('teacher_photo'),'teacher');
 
+        $data['user_id'] = RegisterationService::createUserAcount("teacher");
+
         $teacher = Teacher::create($data);
 
-        RegisterationService::createUserAcount("teacher", $teacher->id);
-
-        return response()->json(["success" => true, "message" => "تم اضافة المعلم بنجاح", "data" => $data]);
+        return response()->json(["success" => true, "message" => "تم اضافة المعلم بنجاح", "data" => $teacher]);
     }
 
     /**
@@ -91,6 +91,7 @@ class TeacherController extends Controller
     public function destroy(Teacher $teacher)
     {
         FileUploadService::deleteImage($teacher->teacher_photo);
+
         $teacher->delete();
 
         return response()->json(["success" => true, "message" => "تم حذف المعلم بنجاح"]);

@@ -116,12 +116,21 @@
  --}}
         <div class="container-fluid row my-8">
             <div class="col-12">
-            <a href="{{route('students.create')}}" class="btn btn-dark">اضافة طالب</a>
+                <div class="d-flex justify-content-between mb-5">
+                    <div class="input-group input-group-outline bg-white w-25">
+                        <label class="form-label"> بحث...</label>
+                        <input type="text" class="form-control" id="search">
+                    </div>
+                    <a href="{{route('students.create')}}" class="btn btn-dark">اضافة طالب</a>
+                </div>
 
                 <div class="card my-4">
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+
                         <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+
                             <h6 class="text-white text-capitalize ps-3 text-center">جدول الطلاب</h6>
+
                         </div>
                     </div>
                     <div class="card-body px-0 pb-2">
@@ -199,6 +208,13 @@
     </div>
 @endsection
 
+@push('ajax')
+    <script>
+        const search = document.querySelector('#search')
+        console.log(search)
+        search.addEventListener('change',() => console.log(55))
+    </script>
+@endpush
 {{--
 @push('ajax')
     <script>

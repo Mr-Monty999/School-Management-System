@@ -16,11 +16,10 @@ class CreateResultsTable extends Migration
     {
         Schema::create('results', function (Blueprint $table) {
             $table->id();
-            $table->year('year');
             $table->foreignId('student_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('subject_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId('teacher_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
-            $table->double('result',3,1);
+            $table->double('result',4,2);
+            $table->integer('full_mark');
             $table->timestamps();
         });
     }

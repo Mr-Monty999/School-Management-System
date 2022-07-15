@@ -2,24 +2,31 @@
 
 @section('section')
     <div class="d-flex flex-column justify-content-center align-items-center">
-        <h1>ادارة الصلاحيات</h1>
-        <form method="post" action="{{route('users.update',$user)}}">
+        <h1>ادارة الرتب </h1>
+        <form enctype="multipart/form-data" method="post" action="{{route('roles.update',$role)}}" >
             @csrf
             @method('PUT')
             <br>
-            <h4> تغيير رتبة المستخدم</h4>
+            <h4>تعديل الرتبة</h4>
             <div>
-                <label class="form-label" for="sample-select2"> الرتبة </label>
+
+                <div class="input-group input-group-outline my-3 bg-white">
+                    <label class="form-label">اسم الرتبة</label>
+                    <input type="text" name="role_name" class="form-control" value="{{$role->name}}">
+                </div>
+                <div style="display:none" class="alert alert-danger text-white text-center student_paid_price"></div>
+
+                <label class="form-label" for="sample-select2"> الصلاحيات </label>
                 <div class="input-group input-group-outline mb-3 ">
-                    <select name="role" id="sample-select">
-                         @foreach ($roles as $role)
-                            <option value="{{$role->id}}" >{{$role->name}}</option>
+                    <select name="permissions" id="sample-select" multiple>
+                         @foreach ($permissions as $permission)
+                            <option value="{{$permission->id}}" @if (in_array($permission->id,$role_permissions) ) selected @endif >{{$permission->name}}</option>
                         @endforeach
                     </select>
                 </div>
 
-                <a href="{{url()->previous()}}" type="button" class="btn btn-dark margin my-3 ">رجوع</a>
-            <button type="submit" class="btn btn-success margin my-3 ">حفظ</button>
+            <button type="submit" class="btn btn-success margin my-3 col-6">حفظ</button>
+            <a href="{{url()->previous()}}" type="button" class="btn btn-success margin my-3 col-6">رجوع</a>
             <div style="display:none" class="alert alert-success text-white text-center validate_success"></div>
             <div style="display:none" class="alert alert-danger text-white text-center validate_error"></div>
 

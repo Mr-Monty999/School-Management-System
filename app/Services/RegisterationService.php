@@ -7,18 +7,18 @@ use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-use PhpParser\ErrorHandler\Collecting;
 
 class RegisterationService {
 
-    public static function createUserAcount($type , $foreinId) {
+    public static function createUserAcount($type) {
         $user = User::create([
-            'username' => Str::random(7),
+            'username' => $type . '-' . Str::random(7),
             'password' => Hash::make('password'),
-            $type.'_id' => $foreinId
         ]);
 
         $user->assignRole($type);
+
+        return $user->id;
     }
 
     public static function getStudentParent($data) {

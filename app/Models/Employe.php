@@ -18,8 +18,8 @@ class Employe extends Model
         "employe_hiredate",
         "employe_genre",
         "employe_photo",
-        "job_id",
-        "school_id"
+        "school_id",
+        'user_id'
     ];
 
     protected $table = "employees";
@@ -34,5 +34,9 @@ class Employe extends Model
     public function job()
     {
         return $this->belongsTo(Job::class, "job_id");
+    }
+
+    public function user() {
+        return $this->belongsTo(User::class);
     }
 }
