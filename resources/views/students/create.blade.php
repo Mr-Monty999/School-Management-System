@@ -2,14 +2,14 @@
 
 @section('section')
     <div class="d-flex flex-column justify-content-center align-items-center">
-        <a href="{{route('students.index')}}" class="btn btn-dark" style="margin-left: auto ; maring-right:0"> رجوع</a>
+        <a href="{{ route('students.index') }}" class="btn btn-dark" style="margin-left: auto ; maring-right:0"> رجوع</a>
 
         <h1>ادارة الطلاب</h1>
 
-        <form class="students" action="{{route('students.store')}}" enctype="multipart/form-data" method="post">
+        <form class="students" action="{{ route('students.store') }}" enctype="multipart/form-data" method="post">
             @csrf
             <br>
-            <h4>اضافة  طالب جديد </h4>
+            <h4>اضافة طالب جديد </h4>
             <div class="input-group input-group-outline  bg-white">
                 <label class="form-label">اسم الطالب</label>
                 <input type="text" name="student_name" class="form-control">
@@ -119,40 +119,51 @@
     </div>
 @endsection
 
-{{--
 @push('ajax')
     <script>
         $("input[type=date]").val(new Date().toISOString().slice(0, 10));
 
 
-        let form = $(".students");
+        let form = $("form");
 
         form.on("submit", function(e) {
             e.preventDefault();
 
-            let formData = new FormData(this);
-            $("form .alert").hide();
+            let formData = new FormData(this),
+                url = "{{ route('students.store') }}";
 
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': "{{ csrf_token() }}"
                 },
                 method: "post",
-                url: "{{ route('students.store') }}",
+                url: url,
                 data: formData,
                 dataType: "json",
                 processData: false,
                 contentType: false,
+                beforeSend: function() {
+                    $("form").after('<div class="d-flex spinner"><p>جار المعالجة...</p>' +
+                        '<div class="spinner-border text-primary margin-1" role="status"></div>' +
+                        '</div>');
+                },
+                complete: function() {
+                    $(".spinner").remove();
+                },
                 success: function(response) {
 
 
 
+                    $(".alert").remove();
 
 
                     ///Show Success Or Error Message
                     if (response.success) {
-                        $("form .validate_success").text(response.message).show();
-
+                        $("form").after(
+                            '<div class="alert alert-success text-white">' + response
+                            .message +
+                            '</div>'
+                        );
                         /* Not Finished Yet !
                                                 console.log(response);
                                                 ///if Rows Less Than 5 , Then Append
@@ -184,19 +195,28 @@
                                                 }
                         */
                     } else
-                        $("form .validate_error").text(response.message).show();
+                        $("form").after(
+                            '<div class="alert alert-danger text-white">' + response.message +
+                            '</div>'
+                        );
 
                 },
                 error: function(response) {
 
+                    // console.log(response);
+                    $(".alert").remove();
 
                     //errors = Validtion Errors keys
                     let errors = response.responseJSON.errors;
 
                     for (let errorName in errors) {
 
-                        ///errorName = input field name (key) like student_name
-                        $("form ." + errorName + "").text(errors[errorName]).show();
+
+                        $("form").after(
+                            '<div class="alert alert-danger text-white">' + errors[
+                                errorName] +
+                            '</div>'
+                        );
                     }
 
                 }
@@ -205,4 +225,4 @@
 
         });
     </script>
-@endpush --}}
+@endpush

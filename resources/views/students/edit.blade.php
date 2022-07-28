@@ -3,7 +3,7 @@
 @section('section')
     <div class="d-flex flex-column justify-content-center align-items-center">
         <h1>ادارة الطلاب</h1>
-        <form class="students" action="{{route('students.update',$student)}}" enctype="multipart/form-data" method="post">
+        <form class="students" action="" enctype="multipart/form-data" method="post">
             @csrf
             @method('PUT')
             <br>
@@ -17,8 +17,8 @@
             <div class="input-group input-group-outline  bg-white is-filled">
 
                 <select class="form-control" name="student_gender">
-                    <option value="ذكر" @if ($student->student_gender == "ذكر") selected @endif >ذكر</option>
-                    <option value="أنثى" @if ($student->student_gender == "أنثى") selected @endif >أنثى</option>
+                    <option value="ذكر" @if ($student->student_gender == 'ذكر') selected @endif>ذكر</option>
+                    <option value="أنثى" @if ($student->student_gender == 'أنثى') selected @endif>أنثى</option>
                 </select>
             </div>
             <div style="display:none" class="alert alert-danger text-white text-center student_gender"></div>
@@ -41,7 +41,8 @@
 
             <label class="text-dark">تاريخ ميلاد الطالب :</label>
             <div class="input-group input-group-outline  bg-white is-filled">
-                <input type="date" name="student_birthdate" value="{{ $student->student_birthdate }}" class="form-control">
+                <input type="date" name="student_birthdate" value="{{ $student->student_birthdate }}"
+                    class="form-control">
             </div>
             <div style="display:none" class="alert alert-danger text-white text-center student_birthdate"></div>
 
@@ -98,8 +99,8 @@
 
             <div class="input-group input-group-outline my-3 bg-white is-filled">
                 <label class="form-label">الرقم الوطني </label>
-                <input type="text" name="parent_national_number" value="{{ $student->parent->parent_national_number }}"
-                    class="form-control">
+                <input type="text" name="parent_national_number"
+                    value="{{ $student->parent->parent_national_number }}" class="form-control">
             </div>
             <div style="display:none" class="alert alert-danger text-white text-center parent_phone"></div>
 
@@ -127,43 +128,66 @@
 
     </div>
 @endsection
-{{--
+
+
 @push('ajax')
     <script>
         $("input[type=date]").val(new Date().toISOString().slice(0, 10));
 
 
-        let form = $(".students");
+        let form = $("form");
 
         form.on("submit", function(e) {
             e.preventDefault();
 
-            let formData = new FormData(this);
-            $("form .alert").hide();
+            let formData = new FormData(this),
+                url = "{{ route('students.update', $student) }}";
+
 
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': "{{ csrf_token() }}"
                 },
                 method: "post",
-                url: "{{ route('students.store') }}",
+                url: url,
                 data: formData,
                 dataType: "json",
                 processData: false,
                 contentType: false,
+                beforeSend: function() {
+                    $("form").after('<div class="d-flex spinner"><p>جار المعالجة...</p>' +
+                        '<div class="spinner-border text-primary margin-1" role="status"></div>' +
+                        '</div>');
+                },
+                complete: function() {
+                    $(".spinner").remove();
+                },
                 success: function(response) {
 
 
-                    console.log(response);
+
+                    $(".alert").remove();
+
+
                     ///Show Success Or Error Message
                     if (response.success) {
-                        $("form .validate_success").text(response.message).show();
+                        $("form").after(
+                            '<div class="alert alert-success text-white">' + response
+                            .message +
+                            '</div>'
+                        );
 
                     } else
-                        $("form .validate_error").text(response.message).show();
+                        $("form").after(
+                            '<div class="alert alert-danger text-white">' + response.message +
+                            '</div>'
+                        );
 
                 },
                 error: function(response) {
+
+                    // console.log(response);
+                    $(".alert").remove();
 
 
                     //errors = Validtion Errors keys
@@ -171,9 +195,14 @@
 
                     for (let errorName in errors) {
 
-                        ///errorName = input field name (key) like student_name
-                        $("form ." + errorName + "").text(errors[errorName]).show();
+
+                        $("form").after(
+                            '<div class="alert alert-danger text-white">' + errors[
+                                errorName] +
+                            '</div>'
+                        );
                     }
+
 
                 }
 
@@ -182,4 +211,3 @@
         });
     </script>
 @endpush
- --}}

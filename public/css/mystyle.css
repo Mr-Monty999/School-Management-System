@@ -38,3 +38,7 @@ textarea {
 .fixed-height {
     height: auto !important;
 }
+
+.margin-1 {
+    margin-right: 10px;
+}

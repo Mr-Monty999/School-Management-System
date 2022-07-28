@@ -9,6 +9,7 @@ use App\Models\Parents;
 use App\Models\Student;
 use App\Models\User;
 use App\Services\FileUploadService;
+use App\Services\JsonService;
 use App\Services\RegisterationService;
 use DateTime;
 use Illuminate\Http\Request;
@@ -23,12 +24,19 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = Student::with('class','parent')->latest()->paginate(5);
+        $students = Student::with('class', 'parent')->latest()->paginate(5);
 
-        return view("students.index", compact( 'students'));
+        return view("students.index", compact('students'));
     }
 
-     /**
+    public function table($pageNumber)
+    {
+        $students = Student::with('class', 'parent')->latest()->paginate(5, ['*'], 'page', $pageNumber)->withPath(route('students.index'));
+
+        return view("students.table", compact('students'));
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -36,7 +44,7 @@ class StudentController extends Controller
     public function create()
     {
         $classes = Classes::all();
-        return view('students.create',compact('classes'));
+        return view('students.create', compact('classes'));
     }
 
     public function store(StoreStudentRequest $request)
@@ -67,7 +75,7 @@ class StudentController extends Controller
         $data["parent_id"] = RegisterationService::getStudentParent($data);
 
         //Upload Student Image And return Image name
-        $data["student_photo"] = FileUploadService::handleImage($request->file("student_photo"),'student');
+        $data["student_photo"] = FileUploadService::handleImage($request->file("student_photo"), 'student');
 
         ///Generate Student Account
         $data['user_id'] = RegisterationService::createUserAcount('student');
@@ -79,7 +87,7 @@ class StudentController extends Controller
         $data["student_class"] = $student->class->class_name;
         $data["id"] = $student->id;
 
-        return response()->json(["success" => true, "message" => "تم اضافة الطالب بنجاح", "data" => $data]);
+        return JsonService::responseSuccess("تم اضافة الطالب بنجاح", $data);
     }
 
     /**
@@ -95,7 +103,7 @@ class StudentController extends Controller
         $student->load(['user', 'class', 'parent']);
         //$siblings = $student->parent?->students;
         $siblings = $student->siblings();
-        return view('students.show', compact('student','siblings'));
+        return view('students.show', compact('student', 'siblings'));
     }
 
     /**
@@ -134,7 +142,7 @@ class StudentController extends Controller
 
 
         //Upload Student Image And return Image name
-        $data["student_photo"] = FileUploadService::updateImage($request->file("student_photo"),$student->student_photo,'student');
+        $data["student_photo"] = FileUploadService::updateImage($request->file("student_photo"), $student->student_photo, 'student');
 
         // Update student
         $student->update($data);
@@ -144,7 +152,7 @@ class StudentController extends Controller
         $data["student_class"] = $student->class->class_name;
         $data["id"] = $student->id;
 
-        return redirect()->route('students.show',$student);
+        return JsonService::responseSuccess("تم الحفظ بنجاح", $data);
     }
 
     /**
@@ -157,25 +165,30 @@ class StudentController extends Controller
     {
         FileUploadService::deleteImage($student->student_photo);
 
+        $data = $student;
         $student->delete();
 
-        return back()->with("success", "تم حذف الطالب بنجاح");
+        return JsonService::responseSuccess("تم حذف الطالب بنجاح", $data);
     }
 
     /**
      *
      */
-    public function search($name) {
+    public function search($name)
+    {
         /* str_replace(
             ['\\','%','_'],
             ['\\\\','\%','\_'],
             $name
         ); */
 
-        $students = Student::where('student_name','LIKE','%'.$name.'%')->get();
+        $students = Student::where('student_name', 'LIKE', '%' . $name . '%')->get();
 
-        return json_encode([
-            'students' => $students
-        ]);
+
+        return JsonService::responseSuccess("تمت العملية بنجاح", $students);
+
+        // return json_encode([
+        //     'students' => $students
+        // ]);
     }
 }

@@ -33,7 +33,7 @@ class DatabaseSeeder extends Seeder
             ClassSeeder::class,
             SubjectSeeder::class,
             //SubjectTeacherSeeder::class,
-            DataSeeder::class,
+            // DataSeeder::class,
         ]);
 
         //Parents::factory()->count(3)->create();

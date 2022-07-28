@@ -55,10 +55,10 @@ class StoreStudentRequest extends FormRequest
             "parent_phone.required" => "الرجاء ادخال رقم ولي أمر الطالب !",
             "parent_job.required" => "الرجاء ادخال مهنة ولي أمر الطالب !",
             "student_paid_price.numeric" => "الرجاء ادخال ارقام فقط",
-            "student_national_number.required" => "الرجاء ادخال الرقم الوطني",
+            "student_national_number.required" => "الرجاء ادخال رقم الطالب الوطني",
             "student_national_number.digits" => " الرقم الوطني غير صالح",
             "student_national_number.unique" => " الرقم الوطني مكرر",
-            "parent_national_number.required" => "الرجاء ادخال الرقم الوطني",
+            "parent_national_number.required" => "الرجاء ادخال رقم ولي الامر الوطني",
             "parent_national_number.digits" => "الرقم الوطني غير صالح",
         ];
     }

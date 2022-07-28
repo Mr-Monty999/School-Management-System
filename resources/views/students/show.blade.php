@@ -18,57 +18,60 @@
                                 <tbody class="p-6">
                                     <tr>
                                         <td>رقم الطالب</td>
-                                        <td> {{$student->id}}</td>
+                                        <td> {{ $student->id }}</td>
                                     </tr>
                                     <tr>
                                         <td>اسم الطالب</td>
-                                        <td> {{$student->student_name}}</td>
+                                        <td> {{ $student->student_name }}</td>
                                     </tr>
                                     <tr>
                                         <td>عنوان الطالب</td>
-                                        <td> {{$student->student_address}}</td>
+                                        <td> {{ $student->student_address }}</td>
                                     </tr>
                                     <tr>
                                         <td> الجنس</td>
-                                        <td> {{$student->student_genre}}</td>
+                                        <td> {{ $student->student_genre }}</td>
                                     </tr>
                                     <tr>
                                         <td> تاريخ الميلاد</td>
-                                        <td> {{$student->student_birthdate}}</td>
+                                        <td> {{ $student->student_birthdate }}</td>
                                     </tr>
                                     <tr>
                                         <td> ناريخ التسجيل</td>
-                                        <td> {{$student->student_registered_date}}</td>
+                                        <td> {{ $student->student_registered_date }}</td>
                                     </tr>
                                     <tr>
                                         <td> الرسوم المقررة</td>
-                                        <td> {{$student->student_paid_price}}</td>
+                                        <td> {{ $student->student_paid_price }}</td>
                                     </tr>
                                     <tr>
                                         <td> الرسوم المدفوعة</td>
-                                        <td> {{$student->student_paid_price}}</td>
+                                        <td> {{ $student->student_paid_price }}</td>
                                     </tr>
                                     <tr>
                                         <td> الرسوم المتبقية</td>
-                                        <td> {{$student->student_paid_price}}</td>
+                                        <td> {{ $student->student_paid_price }}</td>
                                     </tr>
                                     <tr>
                                         <td>صورة الطالب</td>
-                                        <td> <img height="100px" width="100px" src="{{asset($student->student_photo)}}" alt="لا توجد صورة"></td>
+                                        <td> <img height="100px" width="100px" src="{{ asset($student->student_photo) }}"
+                                                alt="لا توجد صورة"></td>
                                     </tr>
                                     <tr>
                                         <td> الرقم الوطني</td>
-                                        <td> {{$student->student_national_number}}</td>
+                                        <td> {{ $student->student_national_number }}</td>
                                     </tr>
 
                                     <tr>
                                         <td> الفصل</td>
-                                        <td> <a href="{{route('classes.show',$student->class)}}" class="text-dark">{{$student->class->class_name}}</a></td>
+                                        <td> <a href="{{ route('classes.show', $student->class) }}"
+                                                class="text-dark">{{ $student->class->class_name }}</a></td>
                                     </tr>
 
                                     <tr>
                                         <td> اسم المستخدم</td>
-                                        <td> {{$student->user->username}}<td>
+                                        <td> {{ $student->user->username }}
+                                        <td>
                                     </tr>
 
                                 </tbody>
@@ -78,27 +81,28 @@
                             <table class="table align-items-center  m-6">
                                 <tr>
                                     <td>رقم ولي الأمر</td>
-                                    <td> {{$student->parent->id}}</td>
+                                    <td> {{ $student->parent->id }}</td>
                                 </tr>
                                 <tr>
                                     <td>اسم ولي الأمر</td>
-                                    <td> <a href="{{route('parents.show',$student->parent)}}" class="text-dark">{{$student->parent->parent_name}}</a></td>
+                                    <td> <a href="{{ route('parents.show', $student->parent) }}"
+                                            class="text-dark">{{ $student->parent->parent_name }}</a></td>
                                 </tr>
                                 <tr>
                                     <td>هاتف ولي الأمر</td>
-                                    <td> {{$student->parent->parent_phone}}</td>
+                                    <td> {{ $student->parent->parent_phone }}</td>
                                 </tr>
                                 <tr>
                                     <td>مهنة ولي الأمر</td>
-                                    <td> {{$student->parent->parent_job}}</td>
+                                    <td> {{ $student->parent->parent_job }}</td>
                                 </tr>
                                 <tr>
                                     <td>الرقم الوطني</td>
-                                    <td> {{$student->parent->parent_national_number}}</td>
+                                    <td> {{ $student->parent->parent_national_number }}</td>
                                 </tr>
                                 <tr>
                                     <td>صورة ولي الأمر</td>
-                                    <td> <img src="{{asset($student->parent->parent_photo)}}" alt="لا توجد صورة"></td>
+                                    <td> <img src="{{ asset($student->parent->parent_photo) }}" alt="لا توجد صورة"></td>
                                 </tr>
                             </table>
 
@@ -113,11 +117,13 @@
                                 </thead>
                                 <tbody class="p-6">
                                     @forelse ($siblings as $sibling)
-                                    <tr>
-                                        <td> {{$sibling->id}}</td>
-                                        <td> <a href="{{route('students.show',$sibling)}}" class="text-dark">{{$sibling->student_name}}</a></td>
-                                        <td> <a href="{{route('classes.show',$sibling->class)}}" class="text-dark">{{$sibling->class->class_name}}</a></td>
-                                    </tr>
+                                        <tr>
+                                            <td> {{ $sibling->id }}</td>
+                                            <td> <a href="{{ route('students.show', $sibling) }}"
+                                                    class="text-dark">{{ $sibling->student_name }}</a></td>
+                                            <td> <a href="{{ route('classes.show', $sibling->class) }}"
+                                                    class="text-dark">{{ $sibling->class->class_name }}</a></td>
+                                        </tr>
                                     @empty
                                     @endforelse
 
@@ -141,13 +147,12 @@
         $("input[type=date]").val(new Date().toISOString().slice(0, 10));
 
 
-        let form = $(".students");
+        let form = $("form");
 
         form.on("submit", function(e) {
             e.preventDefault();
 
             let formData = new FormData(this);
-            $("form .alert").hide();
 
             $.ajax({
                 headers: {
@@ -163,6 +168,7 @@
 
 
 
+                    $("form .alert").remove();
 
 
                     ///Show Success Or Error Message
@@ -205,6 +211,7 @@
                 },
                 error: function(response) {
 
+                    $("form .alert").remove();
 
                     //errors = Validtion Errors keys
                     let errors = response.responseJSON.errors;
