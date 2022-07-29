@@ -166,8 +166,21 @@
 
                 let table = $(".mytable");
 
-                table.load(url, function(response, status,
-                    request) {});
+                $.ajax({
+                    type: "get",
+                    url: url,
+                    data: "data",
+                    success: function(response) {
+
+                        table.empty();
+                        table.append(response);
+
+                    },
+                    error: function(response) {
+                        // console.log(response);
+
+                    }
+                });
 
 
 
@@ -221,9 +234,20 @@
                                 tableUrl = "{{ route('students.search', ['', '']) }}/" + pageNumber + "/" +
                                 search;
 
-                            table.load(tableUrl, function(response, status,
-                                request) {
+                            $.ajax({
+                                type: "get",
+                                url: tableUrl,
+                                data: "data",
+                                success: function(res) {
 
+                                    table.empty();
+                                    table.append(res);
+
+                                },
+                                error: function(res) {
+                                    // console.log(res);
+
+                                }
                             });
 
 
@@ -295,8 +319,21 @@
 
 
 
-                table.load(url, function(response, status,
-                    request) {});
+                $.ajax({
+                    type: "get",
+                    url: url,
+                    data: "data",
+                    success: function(response) {
+
+                        table.empty();
+                        table.append(response);
+
+                    },
+                    error: function(response) {
+                        // console.log(response);
+
+                    }
+                });
             });
         </script>
     @endpush

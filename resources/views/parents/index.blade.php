@@ -35,18 +35,29 @@
             $(".alert").remove();
 
             let search = $(this).val(),
-                url = "{{ route('parents.search', ['', '']) }}/1/" + search;
+                url = "{{ route('parents.search', ['', '']) }}/1/" + search,
+                table = $(".mytable");
 
 
             if (search.trim() == "")
                 url = "{{ route('parents.table', '') }}/1";
 
+            $.ajax({
+                type: "get",
+                url: url,
+                data: "data",
+                success: function(response) {
 
-            let table = $(".mytable");
-            table.load(url, function(response, status,
-                request) {
+                    table.empty();
+                    table.append(response);
 
+                },
+                error: function(response) {
+                    // console.log(response);
+
+                }
             });
+
 
 
 
@@ -78,8 +89,21 @@
 
 
 
-            table.load(url, function(response, status,
-                request) {});
+            $.ajax({
+                type: "get",
+                url: url,
+                data: "data",
+                success: function(response) {
+                    table.empty();
+                    table.append(response);
+
+                },
+                error: function(response) {
+                    // console.log(response);
+
+                }
+            });
+
         });
     </script>
 @endpush
