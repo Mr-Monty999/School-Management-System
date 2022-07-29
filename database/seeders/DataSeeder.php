@@ -17,11 +17,11 @@ class DataSeeder extends Seeder
      */
     public function run()
     {
-        Parents::factory()->count(5)->create();
+        //Parents::factory()->count(5)->create();
 
-        Student::factory()->count(20)->create();
+        //Student::factory()->count(20)->create();
 
-        Teacher::factory()->count(5)->create();
+        //Teacher::factory()->count(5)->create();
 
         //$subjects = Subject::all();
 

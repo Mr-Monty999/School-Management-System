@@ -2,12 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use App\Models\Parents;
-use App\Models\Student;
-use App\Models\Teacher;
 use Illuminate\Database\Seeder;
-use Database\Seeders\DataSeeder;
 use Database\Seeders\AdminSeeder;
 use Database\Seeders\ClassSeeder;
 use Database\Seeders\OwnerSeeder;
@@ -33,15 +28,10 @@ class DatabaseSeeder extends Seeder
             ClassSeeder::class,
             SubjectSeeder::class,
             //SubjectTeacherSeeder::class,
-            // DataSeeder::class,
+            ParentsSeeder::class,
+            StudentSeeder::class,
+            TeacherSeeder::class,
         ]);
-
-        //Parents::factory()->count(3)->create();
-
-        //Student::factory()->count(10)->create();
-
-        //Teacher::factory()->count(5)->create();
-        //\App\Models\User::factory(5)->create();
 
     }
 }

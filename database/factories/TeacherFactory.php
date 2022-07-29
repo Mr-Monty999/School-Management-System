@@ -16,8 +16,6 @@ class TeacherFactory extends Factory
      */
     public function definition()
     {
-        $faker = Factory::create('ar_SA');
-
         $user = User::create([
             'username' => 'teacher_' . Str::random(7),
             'password' => Hash::make('password')
@@ -34,7 +32,7 @@ class TeacherFactory extends Factory
             'teacher_phone' => $this->faker->phoneNumber(),
             'teacher_gender' => $this->faker->randomElement(['ذكر','أنثى']),
             'teacher_photo' => 'images/teacher/default.png',
-            'teacher_national_number' => $this->faker->unique()->randomNumber(12,true),
+            'teacher_national_number' => $this->faker->unique()->numerify('############'),
             'user_id' => $user->id
         ];
     }

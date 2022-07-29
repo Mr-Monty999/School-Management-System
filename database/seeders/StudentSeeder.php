@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Student;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -15,12 +16,14 @@ class StudentSeeder extends Seeder
      */
     public function run()
     {
-        $user = User::updateOrCreate([
+        /* user = User::updateOrCreate([
             'username' => 'student',
             'email' => 'student@example.com',
             'password' => Hash::make('password'),
         ]);
 
-        $user->assignRole('student');
+        $user->assignRole('student'); */
+        Student::factory()->count(20)->create();
+
     }
 }

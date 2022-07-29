@@ -2,10 +2,14 @@
 
 namespace Database\Factories;
 
+use App\Models\Parents;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ParentsFactory extends Factory
 {
+
+    protected $model = Parents::class;
+
     /**
      * Define the model's default state.
      *
@@ -13,13 +17,13 @@ class ParentsFactory extends Factory
      */
     public function definition()
     {
-        $faker = Factory::create('ar_SA');
+        //$faker = Factory::create('ar_SA');
 
         return [
-            'paernt_name' => $this->faker->name(),
-            'perent_job' => $this->faker->jobTitle(),
+            'parent_name' => $this->faker->name(),
+            'parent_job' => $this->faker->jobTitle(),
             'parent_phone' =>  $this->faker->phoneNumber(),
-            'parent_national_number' => $this->faker->randomNumber(12,true)
+            'parent_national_number' => $this->faker->unique()->numerify('############'),
         ];
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Subject;
+use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -15,12 +17,19 @@ class TeacherSeeder extends Seeder
      */
     public function run()
     {
-        $user = User::updateOrCreate([
-            'username' => 'teacher',
-            'email' => 'teacher@example.com',
-            'password' => Hash::make('password'),
-        ]);
+        $teachers = Teacher::factory()->count(10)->create();
 
-        $user->assignRole('teacher');
+        $teachers = Teacher::all();
+
+        /* Teacher::all()->each(function($teacher) use ($subjects) {
+            $teacher->subjects()->attach(
+                $subjects->random(rand(2,4))->pluck('id')->toArray()
+            );
+        }); */
+        Subject::all()->each(function ($subject) use($teachers) {
+            $subject->teachers()->attach(
+                $teachers->random(rand(2,3))->pluck('id')->toArray()
+            );
+        });
     }
 }

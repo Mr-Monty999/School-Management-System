@@ -19,7 +19,6 @@ class StudentFactory extends Factory
      */
     public function definition()
     {
-        $faker = Factory::create('ar_SA');
 
         $user = User::create([
             'username' => 'student_' . Str::random(10),
@@ -36,7 +35,7 @@ class StudentFactory extends Factory
             'student_paid_price' => $this->faker->numberBetween(10000,50000),
             'student_gender' => $this->faker->randomElement(['ذكر','أنثى']),
             'student_photo' => 'images/student/default.png',
-            'student_national_number' => $this->faker->unique()->randomNumber(12,true),
+            'student_national_number' => $this->faker->unique()->numerify('############'),
             'parent_id' => Parents::inRandomOrder()->first()->id,
             'class_id' => Classes::inRandomOrder()->first()->id,
             'user_id' => $user->id
