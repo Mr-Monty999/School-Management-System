@@ -174,7 +174,7 @@ class StudentController extends Controller
     /**
      *
      */
-    public function search($name)
+    public function search($pageNumber, $name)
     {
         /* str_replace(
             ['\\','%','_'],
@@ -182,10 +182,10 @@ class StudentController extends Controller
             $name
         ); */
 
-        $students = Student::where('student_name', 'LIKE', '%' . $name . '%')->get();
+        $students = Student::where('student_name', 'LIKE', "%$name%")->latest()->paginate(5, ['*'], 'page', $pageNumber)->withPath(route('students.index'));
 
 
-        return JsonService::responseSuccess("تمت العملية بنجاح", $students);
+        return view('students.table', compact('students'));
 
         // return json_encode([
         //     'students' => $students

@@ -70,6 +70,8 @@ Route::group(["middleware" => "auth"], function () {
     ////  Students Routes  //////
     Route::resource('students', StudentController::class)->middleware('permission:student.view');
     Route::get('students/table/{pageNumber}', [App\Http\Controllers\StudentController::class, "table"])->name("students.table")->middleware('permission:student.view');
+    Route::get('students/search/{pageNumber}/{name}', [App\Http\Controllers\StudentController::class, "search"])->name("students.search")->middleware('permission:student.view');
+
 
     ////  Subjects Routes  //////
     Route::resource('subjects', SubjectController::class)->middleware('permission:subject.view');
