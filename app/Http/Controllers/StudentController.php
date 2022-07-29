@@ -36,6 +36,19 @@ class StudentController extends Controller
         return view("students.table", compact('students'));
     }
 
+    public function search($pageNumber, $name)
+    {
+        /* str_replace(
+            ['\\','%','_'],
+            ['\\\\','\%','\_'],
+            $name
+        ); */
+
+        $students = Student::with('class', 'parent')->where('student_name', 'LIKE', "%$name%")->latest()->paginate(5, ['*'], 'page', $pageNumber)->withPath(route('students.index'));
+
+
+        return view('students.table', compact('students'));
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -174,21 +187,4 @@ class StudentController extends Controller
     /**
      *
      */
-    public function search($pageNumber, $name)
-    {
-        /* str_replace(
-            ['\\','%','_'],
-            ['\\\\','\%','\_'],
-            $name
-        ); */
-
-        $students = Student::where('student_name', 'LIKE', "%$name%")->latest()->paginate(5, ['*'], 'page', $pageNumber)->withPath(route('students.index'));
-
-
-        return view('students.table', compact('students'));
-
-        // return json_encode([
-        //     'students' => $students
-        // ]);
-    }
 }

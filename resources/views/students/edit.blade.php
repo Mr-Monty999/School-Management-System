@@ -107,8 +107,6 @@
             <button type="submit" class="btn btn-success margin col-4">حفظ</button>
             <a href="{{ url()->previous() }}" class="btn btn-dark  col-4">رجوع</a>
 
-            <div style="display:none" class="alert alert-success text-white text-center validate_success"></div>
-            <div style="display:none" class="alert alert-danger text-white text-center validate_error"></div>
 
         </form>
 
@@ -132,12 +130,8 @@
 
 @push('ajax')
     <script>
-        $("input[type=date]").val(new Date().toISOString().slice(0, 10));
-
-
-        let form = $("form");
-
-        form.on("submit", function(e) {
+        ////Update Student //
+        $("form").on("submit", function(e) {
             e.preventDefault();
 
             let formData = new FormData(this),
@@ -172,14 +166,15 @@
                     ///Show Success Or Error Message
                     if (response.success) {
                         $("form").after(
-                            '<div class="alert alert-success text-white">' + response
+                            '<div class="alert alert-success text-white text-center">' + response
                             .message +
                             '</div>'
                         );
 
                     } else
                         $("form").after(
-                            '<div class="alert alert-danger text-white">' + response.message +
+                            '<div class="alert alert-danger text-white text-center">' + response
+                            .message +
                             '</div>'
                         );
 
@@ -197,7 +192,7 @@
 
 
                         $("form").after(
-                            '<div class="alert alert-danger text-white">' + errors[
+                            '<div class="alert alert-danger text-white text-center">' + errors[
                                 errorName] +
                             '</div>'
                         );

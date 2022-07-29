@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateParentRequest;
 use App\Models\Parents;
+use App\Services\JsonService;
 use Illuminate\Http\Request;
 
 class ParentsController extends Controller
@@ -15,9 +17,20 @@ class ParentsController extends Controller
     public function index()
     {
         $parents = Parents::with('students')->latest()->paginate(10);
-        return view("parents.index",compact('parents'));
+        return view("parents.index", compact('parents'));
     }
 
+    public function table($pageNumber)
+    {
+        $parents = Parents::with('students')->latest()->paginate(10, ['*'], 'page', $pageNumber)->withPath(route('parents.index'));
+        return view("parents.table", compact('parents'));
+    }
+
+    public function search($pageNumber, $name)
+    {
+        $parents = Parents::where("parent_name", 'LIKE', "%$name%")->latest()->paginate(10, ['*'], 'page', $pageNumber)->withPath(route('parents.index'));
+        return view("parents.table", compact('parents'));
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -47,10 +60,10 @@ class ParentsController extends Controller
      */
     public function show(Parents $parent)
     {
-        $parent->load('students','students.class');
+        $parent->load('students', 'students.class');
 
 
-        return view('parents.show',compact('parent'));
+        return view('parents.show', compact('parent'));
     }
 
     /**
@@ -59,9 +72,10 @@ class ParentsController extends Controller
      * @param  \App\Models\Parents  $parents
      * @return \Illuminate\Http\Response
      */
-    public function edit(Parents $parents)
+    public function edit(Parents $parent)
     {
-        //
+        // return $parent;
+        return view('parents.edit', compact("parent"));
     }
 
     /**
@@ -71,9 +85,13 @@ class ParentsController extends Controller
      * @param  \App\Models\Parents  $parents
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Parents $parents)
+    public function update(UpdateParentRequest $request, Parents $parent)
     {
-        //
+        $data = $request->validated();
+
+        $parent->update($data);
+
+        return  JsonService::responseSuccess('تم حفظ البيانات بنجاح', $data);
     }
 
     /**

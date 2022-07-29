@@ -62,7 +62,8 @@ Route::group(["middleware" => "auth"], function () {
 
     ////  Parents Routes  //////
     Route::resource('parents', ParentsController::class)->middleware('permission:student.view');
-
+    Route::get('parents/table/{pageNumber}', [App\Http\Controllers\ParentsController::class, "table"])->name("parents.table")->middleware('permission:student.view');
+    Route::get('parents/search/{pageNumber}/{name}', [App\Http\Controllers\ParentsController::class, "search"])->name("parents.search")->middleware('permission:student.view');
 
     ////  School Routes  //////
     Route::resource('schools', SchoolController::class)->middleware('role:Super-Admin');
