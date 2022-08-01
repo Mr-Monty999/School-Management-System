@@ -17,6 +17,7 @@ class ParentsController extends Controller
     public function index()
     {
         $parents = Parents::with('students')->latest()->paginate(10);
+
         return view("parents.index", compact('parents'));
     }
 

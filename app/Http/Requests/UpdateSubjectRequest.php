@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use PhpParser\Node\Expr\FuncCall;
 
-class StoreSubjectRequest extends FormRequest
+class UpdateSubjectRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +24,7 @@ class StoreSubjectRequest extends FormRequest
     public function rules()
     {
         return [
-            'subject_name' => 'required|unique:subjects,subject_name',
+            // 'subject_name' => 'required|unique:subjects,subject_name' . $this->subject->id,
             'class_id' => 'required',
             'teachers' => 'nullable'
         ];
@@ -34,7 +33,7 @@ class StoreSubjectRequest extends FormRequest
     public function messages()
     {
         return [
-            'subject_name.required' => 'الرجاء ادخال اسم المادة !',
+            // 'subject_name.required' => 'الرجاء ادخال اسم المادة !',
             'class_id.required' => 'الرجاء ادخال اسم الفصل !',
             'subject_name.unique' => 'هذه المادة موجودة بالفعل !'
         ];

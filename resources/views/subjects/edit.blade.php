@@ -3,24 +3,25 @@
 @section('section')
     <div class="d-flex flex-column justify-content-center align-items-center">
         <h1>ادارة المواد الدراسية</h1>
-        <form enctype="multipart/form-data" method="post" action="{{route('subjects.update',$subject)}}" >
+        <form enctype="multipart/form-data" method="post" action="{{ route('subjects.update', $subject) }}">
             @csrf
             @method('PUT')
             <br>
-            <h4>اضافة مادة</h4>
+            <h4>تعديل مادة</h4>
             <div>
 
-                <div class="input-group input-group-outline my-3 bg-white">
+                <div class="input-group input-group-outline my-3 bg-white is-filled">
                     <label class="form-label">اسم المادة</label>
-                    <input type="text" name="subject_name" class="form-control" value="{{$subject->subject_name}}">
+                    <input type="text" name="subject_name" class="form-control" value="{{ $subject->subject_name }}">
                 </div>
-                <div style="display:none" class="alert alert-danger text-white text-center student_paid_price"></div>
+                <div style="display:none" class="alert alert-danger text-white text-center subject_paid_price"></div>
 
                 <label class="form-label" for="sample-select2">اسم الفصل </label>
                 <div class="input-group input-group-outline mb-3 bg-white">
                     <select name="class_id" id="sample-select2">
-                         @foreach ($classes as $class)
-                            <option value="{{$class->id}}" @if ($class->id == $subject->class_id ) selected @endif >{{$class->class_name}}</option>
+                        @foreach ($classes as $class)
+                            <option value="{{ $class->id }}" @if ($class->id == $subject->class_id) selected @endif>
+                                {{ $class->class_name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -28,15 +29,16 @@
                 <label class="form-label" for="sample-select">المعلمين <span class="text-sm">(اختياري)</span></label>
                 <div class="input-group input-group-outline mb-3 bg-white">
                     <select name="teachers" id="sample-select" multiple>
-                         @foreach ($teachers as $teacher)
-                            <option value="{{$teacher->id}}" @if ($teacher->id == $subject->class_id) selected @endif >{{$teacher->teacher_name}}</option>
+                        @foreach ($teachers as $teacher)
+                            <option value="{{ $teacher->id }}" @if ($teacher->id == $subject->class_id) selected @endif>
+                                {{ $teacher->teacher_name }}</option>
                         @endforeach
                     </select>
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-success margin my-3 col-6">اضافة</button>
-            <a href="{{url()->previous()}}" type="button" class="btn btn-success margin my-3 col-6">رجوع</a>
+            <button type="submit" class="btn btn-success col-5">تعديل</button>
+            <a href="{{ url()->previous() }}" type="button" class="btn btn-dark col-5">رجوع</a>
             <div style="display:none" class="alert alert-success text-white text-center validate_success"></div>
             <div style="display:none" class="alert alert-danger text-white text-center validate_error"></div>
 
@@ -57,58 +59,83 @@
 
 @push('ajax')
     <script>
-       VirtualSelect.init({
-        ele: '#sample-select',
+        VirtualSelect.init({
+            ele: '#sample-select',
         });
         VirtualSelect.init({
-        ele: '#sample-select2',
+            ele: '#sample-select2',
         });
-    </script>
-@endpush
- {{-- @push('ajax')
-    <script>
-        $("input[type=date]").val(new Date().toISOString().slice(0, 10));
 
 
-        let form = $("form");
 
-        form.on("submit", function(e) {
+
+        ////Update subject //
+        $("form").on("submit", function(e) {
             e.preventDefault();
 
-            let formData = new FormData(this);
-            $("form .alert").hide();
+            let formData = new FormData(this),
+                url = "{{ route('subjects.update', $subject) }}";
+
 
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': "{{ csrf_token() }}"
                 },
                 method: "post",
-                url: "{{ route('ubjects.store') }}",
+                url: url,
                 data: formData,
                 dataType: "json",
                 processData: false,
                 contentType: false,
+                beforeSend: function() {
+                    $("form").after('<div class="d-flex spinner"><p>جار المعالجة...</p>' +
+                        '<div class="spinner-border text-primary margin-1" role="status"></div>' +
+                        '</div>');
+                },
+                complete: function() {
+                    $(".spinner").remove();
+                },
                 success: function(response) {
 
-                    if (response.success)
-                        $("form .validate_success").text(response.message).show();
-                    else
-                        $("form .validate_error").text(response.message).show();
 
+                    $(".alert").remove();
+
+
+                    ///Show Success Or Error Message
+                    if (response.success) {
+                        $("form").after(
+                            '<div class="alert alert-success text-white text-center">' + response
+                            .message +
+                            '</div>'
+                        );
+
+                    } else
+                        $("form").after(
+                            '<div class="alert alert-danger text-white text-center">' + response
+                            .message +
+                            '</div>'
+                        );
 
                 },
                 error: function(response) {
 
-                    console.log(response);
+                    // console.log(response);
+                    $(".alert").remove();
+
 
                     //errors = Validtion Errors keys
                     let errors = response.responseJSON.errors;
 
                     for (let errorName in errors) {
 
-                        ///errorName = input field name (key) like class_name
-                        $("form ." + errorName + "").text(errors[errorName]).show();
+
+                        $("form").after(
+                            '<div class="alert alert-danger text-white text-center">' + errors[
+                                errorName] +
+                            '</div>'
+                        );
                     }
+
 
                 }
 
@@ -117,4 +144,3 @@
         });
     </script>
 @endpush
- --}}

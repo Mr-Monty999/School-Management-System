@@ -34,12 +34,12 @@
 
             $(".alert").remove();
 
-            let search = $(this).val(),
+            let search = $(this).val().trim(),
                 url = "{{ route('parents.search', ['', '']) }}/1/" + search,
                 table = $(".mytable");
 
 
-            if (search.trim() == "")
+            if (search == "")
                 url = "{{ route('parents.table', '') }}/1";
 
             $.ajax({

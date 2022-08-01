@@ -157,11 +157,11 @@
 
                 $(".alert").remove();
 
-                let search = $(this).val(),
+                let search = $(this).val().trim(),
                     url = "{{ route('students.search', ['', '']) }}/1/" + search;
 
 
-                if (search.trim() == "")
+                if (search == "")
                     url = "{{ route('students.table', '') }}/1";
 
                 let table = $(".mytable");
@@ -191,7 +191,7 @@
                 e.preventDefault();
 
 
-                let studentId = $(this).parent().find("#id").val(),
+                let studentId = $(this).find("#id").val(),
                     deleteStudent = confirm("هل أنت متأكد من حذف هذا الطالب"),
                     url = "{{ route('students.destroy', '') }}/" + studentId,
                     search = $("#search").val(),

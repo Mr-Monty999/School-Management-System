@@ -121,9 +121,6 @@
 
 @push('ajax')
     <script>
-        $("input[type=date]").val(new Date().toISOString().slice(0, 10));
-
-
         let form = $("form");
 
         form.on("submit", function(e) {
