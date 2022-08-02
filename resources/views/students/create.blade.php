@@ -6,7 +6,8 @@
 
         <h1>ادارة الطلاب</h1>
 
-        <form class="students" action="{{ route('students.store') }}" enctype="multipart/form-data" method="post">
+        <form class="students" id="students" action="{{ route('students.store') }}" enctype="multipart/form-data"
+            method="post">
             @csrf
             <br>
             <h4>اضافة طالب جديد </h4>
@@ -156,41 +157,16 @@
 
                     ///Show Success Or Error Message
                     if (response.success) {
+
+                        $("form input:not([type='date'])").val("");
+
+
                         $("form").after(
                             '<div class="alert alert-success text-white">' + response
                             .message +
                             '</div>'
                         );
-                        /* Not Finished Yet !
-                                                console.log(response);
-                                                ///if Rows Less Than 5 , Then Append
-                                                if ($("tbody").children().length < 100) {
-                                                    $("tbody").prepend("<tr>");
-                                                    $("tbody").prepend("<td><p class='text-dark text-center'></p>" + response
-                                                        .data.id + "</td>");
-                                                    $("tbody").prepend("<td><p class='text-dark text-center'></p>" + response
-                                                        .data.student_name + "</td>");
-                                                    $("tbody").prepend("<td><p class='text-dark text-center'>" + response
-                                                        .data.student_class + "</p></td>");
-                                                    $("tbody").prepend(
-                                                        "<td><p class='text-dark text-center'>{{ asset('+response.data.student_photo+') }}</p></td>"
-                                                    );
-                                                    $("tbody").prepend("<td><p class='text-dark text-center'>" + response
-                                                        .data.student_registered_date + "</p></td>");
-                                                    $("tbody").prepend("<td><p class='text-dark text-center'>" + response
-                                                        .data.student_birthdate + "</p></td>");
-                                                    $("tbody").prepend("<td><p class='text-dark text-center'>" + response
-                                                        .data.student_birthdate + "</p></td>");
-                                                    $("tbody").prepend("<td><p class='text-dark text-center'>" + response
-                                                        .data.student_paid_price + "</p></td>");
-                                                    $("tbody").prepend("<td><p class='text-dark text-center'>-</p></td>");
-                                                    $("tbody").prepend("<td><p class='text-dark text-center'>" + response
-                                                        .data.parent_name + "</p></td>");
 
-                                                    $("tbody").prepend("</tr>");
-
-                                                }
-                        */
                     } else
                         $("form").after(
                             '<div class="alert alert-danger text-white">' + response.message +
@@ -209,11 +185,10 @@
                     for (let errorName in errors) {
 
 
-                        $("form").after(
-                            '<div class="alert alert-danger text-white">' + errors[
-                                errorName] +
-                            '</div>'
-                        );
+                        $("form#students input[name='" + errorName + "']").parent().after(
+                            '<div class="alert alert-danger text-white text-center">' +
+                            errors[errorName] +
+                            '</div>');
                     }
 
                 }

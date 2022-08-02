@@ -191,11 +191,10 @@
                     for (let errorName in errors) {
 
 
-                        $("form").after(
-                            '<div class="alert alert-danger text-white text-center">' + errors[
-                                errorName] +
-                            '</div>'
-                        );
+                        $("form input[name='" + errorName + "']").parent().after(
+                            '<div class="alert alert-danger text-white text-center">' +
+                            errors[errorName] +
+                            '</div>');
                     }
 
 

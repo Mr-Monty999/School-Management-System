@@ -3,7 +3,7 @@
 @section('section')
     <div class="d-flex flex-column justify-content-center align-items-center">
         <h1>ادارة الفصول</h1>
-        <form enctype="multipart/form-data" method="post" >
+        <form enctype="multipart/form-data" method="post">
             @csrf
             <br>
             <h4>اضافة فصل</h4>
@@ -11,10 +11,10 @@
                 <label class="form-label">اسم الفصل</label>
                 <input type="text" name="class_name" class="form-control">
             </div>
-                <div style="display:none" class="alert alert-danger text-white text-center teacher_birthdate"></div>
+            <div style="display:none" class="alert alert-danger text-white text-center teacher_birthdate"></div>
 
             <div style="display:none" class="alert alert-danger text-white text-center class_name"></div>
-                <button type="submit" class="btn btn-success margin my-3 col-6">اضافة</button>
+            <button type="submit" class="btn btn-success margin my-3 col-6">اضافة</button>
             <div style="display:none" class="alert alert-success text-white text-center validate_success"></div>
             <div style="display:none" class="alert alert-danger text-white text-center validate_error"></div>
 
@@ -31,7 +31,11 @@
         @endif
 
 
-        <div class="container-fluid row my-8">
+        <div class="input-group input-group-outline bg-white w-25 my-3 mtop-1">
+            <label class="form-label"> بحث...</label>
+            <input type="text" class="form-control" id="search">
+        </div>
+        <div class="container-fluid row">
             <div class="col-12">
                 <div class="card my-4">
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
@@ -39,41 +43,44 @@
                             <h6 class="text-white text-capitalize ps-3 text-center">جدول الفصول</h6>
                         </div>
                     </div>
-                    <div class="card-body px-0 pb-2">
+                    <div class="card-body px-0 pb-2 mytable">
                         <div class="table-responsive p-0">
                             <table class="table align-items-center mb-0">
                                 <thead>
                                     <tr>
                                         <th class="text-uppercase text-primary font-weight-bolder text-center"> الرقم</th>
 
-                                        <th class="text-uppercase text-primary  font-weight-bolder ps-2 text-center"> اسم الفصل</th>
+                                        <th class="text-uppercase text-primary  font-weight-bolder ps-2 text-center"> اسم
+                                            الفصل</th>
 
                                         <th class="text-uppercase text-primary  font-weight-bolder text-center">الاحداث</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($classes as $class)
-                                    <tr>
-                                        <td>
-                                            <p class="text-dark text-center">
-                                                {{ $class->id }}
-                                            </p>
-                                        </td>
+                                        <tr>
+                                            <td>
+                                                <p class="text-dark text-center">
+                                                    {{ $class->id }}
+                                                </p>
+                                            </td>
 
-                                        <td>
-                                            <p class="text-dark text-center">
-                                                {{ $class->class_name }}
-                                            </p>
-                                        </td>
+                                            <td>
+                                                <p class="text-dark text-center">
+                                                    {{ $class->class_name }}
+                                                </p>
+                                            </td>
 
-                                        <td class="d-flex justify-content-center">
-                                            <a href="{{route('classes.show',$class)}}" class="btn btn-dark pb-4 mx-2">عرض </a>
-                                            @role('Super-Admin')
-                                                <a href="{{route('classes.edit',$class)}}" class="btn btn-danger pb-4 mx-2">تعديل </a>
-                                            @endrole
-                                        </td>
+                                            <td class="d-flex justify-content-center">
+                                                <a href="{{ route('classes.show', $class) }}"
+                                                    class="btn btn-dark pb-4 mx-2">عرض </a>
+                                                @role('Super-Admin')
+                                                    <a href="{{ route('classes.edit', $class) }}"
+                                                        class="btn btn-danger pb-4 mx-2">تعديل </a>
+                                                @endrole
+                                            </td>
 
-                                    </tr>
+                                        </tr>
                                     @endforeach
                                 </tbody>
                             </table>
@@ -90,7 +97,7 @@
     </div>
 @endsection
 
- @push('ajax')
+@push('ajax')
     <script>
         $("input[type=date]").val(new Date().toISOString().slice(0, 10));
 
@@ -142,4 +149,3 @@
         });
     </script>
 @endpush
-

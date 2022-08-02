@@ -2,12 +2,12 @@
 
 @section('section')
     <div class="d-flex flex-column justify-content-center align-items-center">
-        <h1> {{$teacher->teacher_name}}</h1>
+        <h1> {{ $teacher->teacher_name }}</h1>
 
         <div class="container-fluid row my-8">
             <div class="col-12">
                 <div class="d-flex justify-content-between">
-                    <a href="{{route('teachers.index')}}" class="btn btn-dark">رجوع</a>
+                    <a href="{{ route('teachers.index') }}" class="btn btn-dark">رجوع</a>
                 </div>
 
 
@@ -17,48 +17,48 @@
                             <h6 class="text-white text-capitalize ps-3 text-center"> بيانات المعلم</h6>
                         </div>
                         <div class="card-body px-0 pb-2">
-                        <div class="table-responsive p-0">
+                            <div class="table-responsive p-0">
                                 <table class="table align-items-center m-6">
                                     <tbody class="p-6">
                                         <tr>
-                                            <td>رقم  المعلم</td>
-                                            <td> {{$teacher->id}}</td>
+                                            <td>رقم المعلم</td>
+                                            <td> {{ $teacher->id }}</td>
                                         </tr>
                                         <tr>
                                             <td>اسم المعلم</td>
-                                            <td> {{$teacher->teacher_address}}</td>
+                                            <td> {{ $teacher->teacher_address }}</td>
                                         </tr>
                                         <tr>
                                             <td>رقم هاتف المعلم</td>
-                                            <td> {{$teacher->teacher_phone}}</td>
+                                            <td> {{ $teacher->teacher_phone }}</td>
                                         </tr>
                                         <tr>
                                             <td>عنوان المعلم</td>
-                                            <td> {{$teacher->teacher_address}}</td>
+                                            <td> {{ $teacher->teacher_address }}</td>
                                         </tr>
                                         <tr>
                                             <td>صورة المعلم</td>
-                                            <td> <img src="{{asset($teacher->teacher_photo)}}" alt="لا توجد صورة"></td>
+                                            <td> <img src="{{ asset($teacher->teacher_photo) }}" alt="لا توجد صورة"></td>
                                         </tr>
                                         <tr>
                                             <td>راتب المعلم</td>
-                                            <td> {{$teacher->teacher_salary}}</td>
+                                            <td> {{ $teacher->teacher_salary }}</td>
                                         </tr>
                                         <tr>
                                             <td> الجنس</td>
-                                            <td> {{$teacher->teacher_genre}}</td>
+                                            <td> {{ $teacher->teacher_gender }}</td>
                                         </tr>
                                         <tr>
                                             <td>تاريخ تعيين المعلم</td>
-                                            <td> {{$teacher->teacher_hire_date}}</td>
+                                            <td> {{ $teacher->teacher_hire_date }}</td>
                                         </tr>
                                         <tr>
                                             <td>ناريخ ميلاد المعلم</td>
-                                            <td> {{$teacher->teacher_birthdate}}</td>
+                                            <td> {{ $teacher->teacher_birthdate }}</td>
                                         </tr>
                                         <tr>
                                             <td> الرقم الوطني</td>
-                                            <td> {{$teacher->teacher_national_number}}</td>
+                                            <td> {{ $teacher->teacher_national_number }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -75,14 +75,18 @@
                                     <tbody class="p-6">
                                         @foreach ($teacher->subjects as $subject)
                                             <tr>
-                                                <td> {{$subject->id}}</td>
-                                                <td> <a href="{{route('subjects.show',$subject)}}">{{$subject->subject_name}}</a></td>
-                                                <td> <a href="{{route('classes.show',$subject->class)}}">{{$subject->class->class_name}}</a></td>
+                                                <td> {{ $subject->id }}</td>
+                                                <td> <a
+                                                        href="{{ route('subjects.show', $subject) }}">{{ $subject->subject_name }}</a>
+                                                </td>
+                                                <td> <a
+                                                        href="{{ route('classes.show', $subject->class) }}">{{ $subject->class->class_name }}</a>
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
-                             </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -91,19 +95,17 @@
     </div>
 
 
-</div>
-
-
+    </div>
 @endsection
 
 @push('ajax')
     <script>
-       VirtualSelect.init({
-        ele: '#sample-select',
+        VirtualSelect.init({
+            ele: '#sample-select',
         });
 
         VirtualSelect.init({
-        ele: '#sample-select2',
+            ele: '#sample-select2',
         });
     </script>
 @endpush

@@ -83,7 +83,8 @@ Route::group(["middleware" => "auth"], function () {
 
     ////  Teachers Routes  //////
     Route::resource('teachers', TeacherController::class)->middleware('permission:teacher.view');
-
+    Route::get('teachers/table/{pageNumber}', [App\Http\Controllers\TeacherController::class, "table"])->name("teachers.table")->middleware('permission:teacher.view');
+    Route::get('teachers/search/{pageNumber}/{name}', [App\Http\Controllers\TeacherController::class, "search"])->name("teachers.search")->middleware('permission:teacher.view');
 
     ////  Privacy Routes  //////
     Route::resource('privacy', PrivacyController::class)->middleware('role:Super-Admin');

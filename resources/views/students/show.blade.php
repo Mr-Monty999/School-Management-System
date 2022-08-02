@@ -30,7 +30,7 @@
                                     </tr>
                                     <tr>
                                         <td> الجنس</td>
-                                        <td> {{ $student->student_genre }}</td>
+                                        <td> {{ $student->student_gender }}</td>
                                     </tr>
                                     <tr>
                                         <td> تاريخ الميلاد</td>

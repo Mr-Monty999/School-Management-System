@@ -6,6 +6,7 @@ use App\Http\Requests\StoreTeacherRequest;
 use App\Http\Requests\UpdateTeacherRequest;
 use App\Models\Teacher;
 use App\Services\FileUploadService;
+use App\Services\JsonService;
 use App\Services\RegisterationService;
 use Illuminate\Http\Request;
 
@@ -18,8 +19,20 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        $teachers = Teacher::latest()->paginate(5);
-        return view("teachers.index",compact('teachers'));
+        $teachers = Teacher::with("subjects")->latest()->paginate(5);
+        return view("teachers.index", compact('teachers'));
+    }
+
+    public function table($pageNumber)
+    {
+        $teachers = Teacher::with("subjects")->latest()->paginate(5, ['*'], 'page', $pageNumber);
+        return view("teachers.table", compact('teachers'));
+    }
+
+    public function search($pageNumber, $name)
+    {
+        $teachers = Teacher::where("teacher_name", "LIKE", "%$name%")->with("subjects")->latest()->paginate(5, ['*'], 'page', $pageNumber);
+        return view("teachers.table", compact('teachers'));
     }
 
     /**
@@ -32,13 +45,13 @@ class TeacherController extends Controller
     {
         $data = $request->validated();
 
-        $data['teacher_photo'] = FileUploadService::handleImage($request->file('teacher_photo'),'teacher');
+        $data['teacher_photo'] = FileUploadService::handleImage($request->file('teacher_photo'), 'teacher');
 
         $data['user_id'] = RegisterationService::createUserAcount("teacher");
 
         $teacher = Teacher::create($data);
 
-        return response()->json(["success" => true, "message" => "تم اضافة المعلم بنجاح", "data" => $teacher]);
+        return JsonService::responseSuccess("تم اضافة المعلم بنجاح", $teacher);
     }
 
     /**
@@ -49,8 +62,8 @@ class TeacherController extends Controller
      */
     public function show(Teacher $teacher)
     {
-        $teacher->load('subjects','subjects.class');
-        return view('teachers.show',compact('teacher'));
+        $teacher->load('subjects', 'subjects.class');
+        return view('teachers.show', compact('teacher'));
     }
 
     /**
@@ -61,7 +74,7 @@ class TeacherController extends Controller
      */
     public function edit(Teacher $teacher)
     {
-        return view('teachers.edit',compact('teacher'));
+        return view('teachers.edit', compact('teacher'));
     }
 
     /**
@@ -75,11 +88,11 @@ class TeacherController extends Controller
     {
         $data = $request->validated();
         // Replace old image with uploaded one if any
-        $data['teacher_image'] = FileUploadService::updateImage($request->file('teacher_photo'),$teacher->teacher_image,'teacher');
+        $data['teacher_image'] = FileUploadService::updateImage($request->file('teacher_photo'), $teacher->teacher_image, 'teacher');
 
         $teacher->update($data);
 
-        return redirect()->route('teachers.index');
+        return JsonService::responseSuccess("تم الحفظ بنجاح", $teacher);
     }
 
     /**
@@ -92,9 +105,9 @@ class TeacherController extends Controller
     {
         FileUploadService::deleteImage($teacher->teacher_photo);
 
+        $data = $teacher;
         $teacher->delete();
 
-        return response()->json(["success" => true, "message" => "تم حذف المعلم بنجاح"]);
-
+        return JsonService::responseSuccess("تم حذف المعلم بنجاح", $data);
     }
 }

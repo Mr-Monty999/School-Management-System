@@ -29,7 +29,7 @@ class StoreTeacherRequest extends FormRequest
             "teacher_birthdate" => "required|date",
             "teacher_hire_date" => "required|date",
             "teacher_salary" => "required|numeric",
-            "teacher_genre" => "required",
+            "teacher_gender" => "required",
             "teacher_photo" => "nullable|image",
             "teacher_phone" => "required",
             'teacher_national_number' => 'required|numeric|unique:teachers,teacher_national_number|digits:12'
@@ -44,7 +44,7 @@ class StoreTeacherRequest extends FormRequest
             'teacher_birthdate.required' => '!الرجاء ادخال تاريخ ميلاد المعلم',
             'teacher_hire_date.required' => '!الرجاء ادخال تاريخ توظيف المعلم',
             'teacher_salary.required' => '!الرجاء ادخال راتب المعلم',
-            'teacher_genre.required' => '!الرجاء ادخال جنس المعلم',
+            'teacher_gender.required' => '!الرجاء ادخال جنس المعلم',
             'teacher_photo.image' => '! صورة المعلم غير صالحة',
             'teacher_phone.required' => '! الرجاء ادخال رقم الهاتف',
             'teacher_phone.unique' => '! رقم الهاتف مستخدم بالفعل',

@@ -151,41 +151,15 @@
 
                     ///Show Success Or Error Message
                     if (response.success) {
+                        $("form#subjects input:not([type='date'])").val("");
+
+
                         $("form#subjects").after(
                             '<div class="alert alert-success text-white text-center">' + response
                             .message +
                             '</div>'
                         );
-                        /* Not Finished Yet !
-                                                console.log(response);
-                                                ///if Rows Less Than 5 , Then Append
-                                                if ($("tbody").children().length < 100) {
-                                                    $("tbody").prepend("<tr>");
-                                                    $("tbody").prepend("<td><p class='text-dark text-center'></p>" + response
-                                                        .data.id + "</td>");
-                                                    $("tbody").prepend("<td><p class='text-dark text-center'></p>" + response
-                                                        .data.subject_name + "</td>");
-                                                    $("tbody").prepend("<td><p class='text-dark text-center'>" + response
-                                                        .data.subject_class + "</p></td>");
-                                                    $("tbody").prepend(
-                                                        "<td><p class='text-dark text-center'>{{ asset('+response.data.subject_photo+') }}</p></td>"
-                                                    );
-                                                    $("tbody").prepend("<td><p class='text-dark text-center'>" + response
-                                                        .data.subject_registered_date + "</p></td>");
-                                                    $("tbody").prepend("<td><p class='text-dark text-center'>" + response
-                                                        .data.subject_birthdate + "</p></td>");
-                                                    $("tbody").prepend("<td><p class='text-dark text-center'>" + response
-                                                        .data.subject_birthdate + "</p></td>");
-                                                    $("tbody").prepend("<td><p class='text-dark text-center'>" + response
-                                                        .data.subject_paid_price + "</p></td>");
-                                                    $("tbody").prepend("<td><p class='text-dark text-center'>-</p></td>");
-                                                    $("tbody").prepend("<td><p class='text-dark text-center'>" + response
-                                                        .data.parent_name + "</p></td>");
 
-                                                    $("tbody").prepend("</tr>");
-
-                                                }
-                        */
                     } else
                         $("form#subjects").after(
                             '<div class="alert alert-danger text-white text-center">' + response
@@ -205,11 +179,10 @@
                     for (let errorName in errors) {
 
 
-                        $("form#subjects").after(
-                            '<div class="alert alert-danger text-white text-center">' + errors[
-                                errorName] +
-                            '</div>'
-                        );
+                        $("form#subjects input[name='" + errorName + "']").parent().after(
+                            '<div class="alert alert-danger text-white text-center">' +
+                            errors[errorName] +
+                            '</div>');
                     }
 
                 }

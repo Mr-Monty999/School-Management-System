@@ -17,7 +17,7 @@ class Teacher extends Model
         "teacher_address",
         "teacher_phone",
         "teacher_salary",
-        "teacher_genre",
+        "teacher_gender",
         "teacher_photo",
         "teacher_birthdate",
         "teacher_hire_date",
@@ -33,7 +33,8 @@ class Teacher extends Model
     }
 */
 
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
@@ -42,7 +43,8 @@ class Teacher extends Model
         return $this->belongsToMany(Subject::class);
     }
 
-    public function getClassesAttribute() {
+    public function getClassesAttribute()
+    {
         $classes_ids = $this->subjects->pluck('class_id');
         return Classes::findMany($classes_ids);
     }
