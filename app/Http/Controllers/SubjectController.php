@@ -100,11 +100,21 @@ class SubjectController extends Controller
      */
     public function edit(Subject $subject)
     {
+
         $subject->load('teachers', 'class');
+
+
+
+        ///Get Teachers Ids Related To Subject
+        $teacherIds = [];
+        foreach ($subject->teachers as $key => $value) {
+            $teacherIds[] = $value["id"];
+        }
+
         $classes = Classes::all();
         $teachers = Teacher::all();
 
-        return view('subjects.edit', compact('subject', 'classes', 'teachers'));
+        return view('subjects.edit', compact('subject', 'classes', 'teachers', 'teacherIds'));
     }
 
     /**

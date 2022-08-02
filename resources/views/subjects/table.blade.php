@@ -38,11 +38,11 @@
                           </p>
                       </td>
 
-                      <td class="d-flex justify-content-center">
-                          <a href="{{ route('subjects.show', $subject) }}" class="btn btn-dark pb-4 mx-2">عرض </a>
+                      <td class="align-middle text-center">
+                          <a href="{{ route('subjects.show', $subject) }}" class="btn btn-dark">عرض </a>
                           @role('Super-Admin')
-                              <a href="{{ route('subjects.edit', $subject) }}" class="btn btn-danger pb-4 mx-2">تعديل </a>
-                              <form id="delete" method="POST">
+                              <a href="{{ route('subjects.edit', $subject) }}" class="btn btn-danger">تعديل </a>
+                              <form id="delete" method="POST" class="d-inline">
                                   @csrf
                                   @method('DELETE')
                                   <input type="text" id="id" value="{{ $subject->id }}" hidden>

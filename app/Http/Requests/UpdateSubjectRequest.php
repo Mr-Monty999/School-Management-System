@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateSubjectRequest extends FormRequest
 {
@@ -24,7 +25,7 @@ class UpdateSubjectRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'subject_name' => 'required|unique:subjects,subject_name' . $this->subject->id,
+            'subject_name' => 'required|unique:subjects,subject_name,' . $this->subject->id,
             'class_id' => 'required',
             'teachers' => 'nullable'
         ];
@@ -33,7 +34,7 @@ class UpdateSubjectRequest extends FormRequest
     public function messages()
     {
         return [
-            // 'subject_name.required' => 'الرجاء ادخال اسم المادة !',
+            'subject_name.required' => 'الرجاء ادخال اسم المادة !',
             'class_id.required' => 'الرجاء ادخال اسم الفصل !',
             'subject_name.unique' => 'هذه المادة موجودة بالفعل !'
         ];

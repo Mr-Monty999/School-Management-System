@@ -30,8 +30,9 @@
                 <div class="input-group input-group-outline mb-3 bg-white">
                     <select name="teachers" id="sample-select" multiple>
                         @foreach ($teachers as $teacher)
-                            <option value="{{ $teacher->id }}" @if ($teacher->id == $subject->class_id) selected @endif>
-                                {{ $teacher->teacher_name }}</option>
+                            <option value="{{ $teacher->id }}" @if (in_array($teacher->id, $teacherIds)) selected @endif>
+                                {{ $teacher->teacher_name }}
+                            </option>
                         @endforeach
                     </select>
                 </div>

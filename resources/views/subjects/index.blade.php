@@ -88,7 +88,7 @@
         });
 
 
-        let form = $("form");
+        let form = $("form#subjects");
 
         form.on("submit", function(e) {
             e.preventDefault();
@@ -260,7 +260,7 @@
 
 
             let subjectId = $(this).find("#id").val(),
-                deletesubject = confirm("هل أنت متأكد من حذف هذا الطالب"),
+                deletesubject = confirm("هل أنت متأكد من حذف هذه المادة؟"),
                 url = "{{ route('subjects.destroy', '') }}/" + subjectId,
                 search = $("#search").val(),
                 pageNumber = $(".pagination .active").text();

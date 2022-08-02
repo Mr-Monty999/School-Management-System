@@ -192,7 +192,7 @@
 
 
                 let studentId = $(this).find("#id").val(),
-                    deleteStudent = confirm("هل أنت متأكد من حذف هذا الطالب"),
+                    deleteStudent = confirm("هل أنت متأكد من حذف هذا الطالب؟"),
                     url = "{{ route('students.destroy', '') }}/" + studentId,
                     search = $("#search").val(),
                     pageNumber = $(".pagination .active").text();
