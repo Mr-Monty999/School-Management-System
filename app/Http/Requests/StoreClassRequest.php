@@ -13,7 +13,7 @@ class StoreClassRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,15 @@ class StoreClassRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            "class_name" => "required|unique:classes,class_name"
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            "class_name.required" => "الرجاء كتابة اسم الفصل !",
+            "class_name.unique" => "هذا الفصل موجود بالفعل !"
         ];
     }
 }
