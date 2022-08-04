@@ -18,10 +18,27 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::has('student')->orHas('teacher')->orHas('employe')->get();
+        $users = User::has('student')->orHas('teacher')->orHas('employe')->paginate(5);
 
         return view("users.index", compact('users'));
     }
+    public function table($pageNumber)
+    {
+        $users = User::has('student')->orHas('teacher')->orHas('employe')->paginate(5, ["*"], "page", $pageNumber);
+
+        return view("users.table", compact('users'));
+    }
+
+    public function search($pageNumber, $name)
+    {
+
+        /// Not Finished
+        $users = User::has('student')->orHas('teacher')->orHas('employe')->paginate(5, ["*"], "page", $pageNumber);
+
+        return view("users.table", compact('users'));
+    }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -52,7 +69,6 @@ class UserController extends Controller
      */
     public function show($type)
     {
-
     }
 
     /**
@@ -65,7 +81,7 @@ class UserController extends Controller
     {
         $roles = Role::all();
         $user_role = $user->roles[0]->id ?? null;
-        return view('users.edit',compact('roles' ,'user','user_role'));
+        return view('users.edit', compact('roles', 'user', 'user_role'));
     }
 
     /**
@@ -75,7 +91,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request , User $user)
+    public function update(Request $request, User $user)
     {
         $user->syncRoles($request->role);
         return redirect()->route('users.index');
@@ -91,6 +107,4 @@ class UserController extends Controller
     {
         //
     }
-
-
 }

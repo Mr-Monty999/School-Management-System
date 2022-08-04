@@ -5,8 +5,12 @@
         <h1>ادارة المستخدمين</h1>
 
 
+        <div class="input-group input-group-outline bg-white w-25 my-3 mtop-1">
+            <label class="form-label"> بحث...</label>
+            <input type="text" class="form-control" id="search">
+        </div>
 
-        <div class="container-fluid row my-8">
+        <div class="container-fluid row">
             <div class="col-12">
                 <a class="btn btn-dark" href="{{ route('roles.index') }}">عرض الرتب</a>
 
@@ -16,82 +20,94 @@
                             <h6 class="text-white text-capitalize ps-3 text-center">ادارة المستخدمين</h6>
                         </div>
                     </div>
-                    <div class="card-body px-0 pb-2">
-                        <div class="table-responsive p-0">
-                            <table class="table align-items-center mb-0">
-                                <thead>
-                                    <tr>
-                                        <th class="text-uppercase text-primary font-weight-bolder text-center"> الرقم</th>
-                                        <th class="text-uppercase text-primary font-weight-bolder ps-2 text-center"> اسم
-                                            المستخدم</th>
-                                        <th class="text-uppercase text-primary font-weight-bolder ps-2 text-center"> الاسم
-                                            التعريفي </th>
-                                        <th class="text-uppercase text-primary font-weight-bolder ps-2 text-center"> الرتبة
-                                        </th>
-                                        <th class="text-uppercase text-primary font-weight-bolder ps-2 text-center"> الاحداث
-                                        </th>
-
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($users as $user)
-                                        <tr>
-                                            <td>
-                                                <p class="text-dark text-center">
-                                                    {{ $user->id }}
-                                                </p>
-                                            </td>
-
-                                            <td>
-                                                <p class="text-dark text-center">
-                                                    {{ $user->username }}
-                                                </p>
-                                            </td>
-
-                                            <td>
-                                                <p class="text-dark text-center text-bold">
-                                                    @if ($user->student)
-                                                        <a
-                                                            href="{{ route('students.show', $user->student) }}">{{ $user->student->student_name }}</a>
-                                                    @endif
-
-                                                    @if ($user->teacher)
-                                                        <a
-                                                            href="{{ route('teachers.show', $user->teacher) }}">{{ $user->teacher->teacher_name }}</a>
-                                                    @endif
-
-                                                    @if ($user->employe)
-                                                        <a
-                                                            href="{{ route('employees.show', $user->employe) }}">{{ $user->employe->employe_name }}</a>
-                                                    @endif
-
-                                                </p>
-                                            </td>
-
-                                            <td>
-                                                <p class="text-dark text-center">
-                                                    {{-- <a class="text-bold" href="{{url($type . 's/' . $user[$type.'_id'])}}">{{$user[$type][$type.'_name'] }}</a> --}}
-                                                    @foreach ($user->getRoleNames() as $role)
-                                                        ,{{ $role }}
-                                                    @endforeach
-
-                                                </p>
-                                            </td>
-
-                                            <td>
-                                                <p class="text-dark text-center">
-                                                    <a class="btn btn-danger" href="{{ route('users.edit', $user) }}">تغيير
-                                                        الرتية</a>
-                                                </p>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                    <div class="card-body px-0 pb-2 mytable">
+                        @include('users.table')
                     </div>
                 </div>
             </div>
         </div>
     </div>
 @endsection
+
+@push('ajax')
+    <script>
+        /// Search For users By Name On keyup Event //
+        $(document).on("keyup change", "#search", function() {
+
+            $(".alert").remove();
+
+            let search = $(this).val().trim(),
+                url = "{{ route('users.search', ['', '']) }}/1/" + search;
+
+
+            if (search == "")
+                url = "{{ route('users.table', '') }}/1";
+
+            let table = $(".mytable");
+
+            $.ajax({
+                type: "get",
+                url: url,
+                data: "data",
+                success: function(response) {
+
+                    table.empty();
+                    table.append(response);
+
+
+
+                },
+                error: function(response) {
+                    // console.log(response);
+
+                }
+            });
+
+
+
+        });
+
+
+
+
+        //Load Table By Page Number//
+        $(document).on("click", ".pagination .page-link", function(e) {
+            e.preventDefault();
+
+
+            let pageNumber = parseInt($(this).text());
+
+            if ($(this).attr("rel") == "prev")
+                pageNumber = parseInt($(".pagination .active").text()) - 1;
+            else if ($(this).attr("rel") == "next")
+                pageNumber = parseInt($(".pagination .active").text()) + 1;
+
+
+
+            let table = $(".mytable"),
+                search = $("#search").val(),
+                url = "{{ route('users.table', '') }}/" + pageNumber;
+
+            if (search.trim() != "")
+                url = "{{ route('users.search', ['', '']) }}/" + pageNumber + "/" + search;
+
+
+
+            $.ajax({
+                type: "get",
+                url: url,
+                data: "data",
+                success: function(response) {
+
+                    table.empty();
+                    table.append(response);
+
+                },
+                error: function(response) {
+                    // console.log(response);
+
+                }
+            });
+        });
+    </script>
+@endpush

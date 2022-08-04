@@ -35,7 +35,11 @@ Route::group(["middleware" => "auth"], function () {
     /// Dashboard Route ///
     Route::get("/", [DashboardController::class, "index"])->name("dashboard.index");
 
+
+    //// Users Route ////
     Route::resource('users', UserController::class)->middleware('role:Super-Admin');
+    Route::get('users/table/{pageNumber}', [App\Http\Controllers\UserController::class, "table"])->name("users.table")->middleware('role:Super-Admin');
+    Route::get('users/search/{pageNumber}/{name}', [App\Http\Controllers\UserController::class, "search"])->name("users.search")->middleware('role:Super-Admin');
 
 
     ////  Classes Routes  //////

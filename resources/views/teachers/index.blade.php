@@ -255,7 +255,7 @@
 
 
             let teacherId = $(this).find("#id").val(),
-                deleteteacher = confirm("هل أنت متأكد من حذف هذه المادة؟"),
+                deleteteacher = confirm("هل أنت متأكد من حذف هذه الأستاذ؟"),
                 url = "{{ route('teachers.destroy', '') }}/" + teacherId,
                 search = $("#search").val(),
                 pageNumber = $(".pagination .active").text();
