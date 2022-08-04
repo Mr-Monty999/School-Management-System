@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+
 class Employe extends Model
 {
     use HasFactory;
@@ -15,11 +16,13 @@ class Employe extends Model
         "employe_phone",
         "employe_salary",
         "employe_birthdate",
-        "employe_hiredate",
-        "employe_genre",
+        "employe_hire_date",
+        "employe_gender",
         "employe_photo",
+        "employe_job",
         "school_id",
-        'user_id'
+        'user_id',
+        "employe_national_number"
     ];
 
     protected $table = "employees";
@@ -31,12 +34,10 @@ class Employe extends Model
     }
     */
 
-    public function job()
-    {
-        return $this->belongsTo(Job::class, "job_id");
-    }
 
-    public function user() {
+
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 }

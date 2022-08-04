@@ -27,11 +27,11 @@ class DatabaseSeeder extends Seeder
             AdminSeeder::class,
             ClassSeeder::class,
             SubjectSeeder::class,
+            EmployeSeeder::class,
             //SubjectTeacherSeeder::class,
             ParentsSeeder::class,
             StudentSeeder::class,
             TeacherSeeder::class,
         ]);
-
     }
 }

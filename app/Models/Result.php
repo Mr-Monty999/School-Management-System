@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+
 class Result extends Model
 {
     use HasFactory;
@@ -16,15 +17,18 @@ class Result extends Model
         'full_mark'
     ];
 
-    public function student() {
+    public function student()
+    {
         return $this->belongsTo(Student::class);
     }
 
-    public function teacher() {
+    public function teacher()
+    {
         return $this->belongsTo(Teacher::class);
     }
 
-    public function subject() {
+    public function subject()
+    {
         return $this->belongsTo(Subject::class);
     }
 }

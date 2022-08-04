@@ -15,7 +15,8 @@ class FileUploadService
     /**
      *  $type : plural name of user type => students|employees|teachers
      */
-    public static function handleImage($image,$type) {
+    public static function handleImage($image, $type)
+    {
         if (!is_null($image)) {
             ////Rename Image to timestamp name
             $imageNewName = time() . "." . $image->getClientOriginalExtension();
@@ -32,11 +33,12 @@ class FileUploadService
         }
     }
 
-    public static function updateImage($new_image,$old_image,$type) {
-        if(is_null($new_image)) {
+    public static function updateImage($new_image, $old_image, $type)
+    {
+        if (is_null($new_image)) {
             return $old_image;
         }
-        if(!is_null($old_image)) {
+        if (!is_null($old_image)) {
             unlink($old_image);
         }
 
@@ -54,10 +56,14 @@ class FileUploadService
         return $uploadPath . $imageNewName;
     }
 
-    public static function deleteImage($image) {
-        if(!is_null($image)) {
-            unset($image);
-        }
+    public static function deleteImage($imagePath)
+    {
+        // if (!is_null($image)) {
+        //     unset($image);
+        // }
+
+        if (!is_dir($imagePath) && file_exists($imagePath))
+            unlink($imagePath);
     }
 
     /*
@@ -124,5 +130,4 @@ class FileUploadService
     }
 
     */
-
 }

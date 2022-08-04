@@ -34,7 +34,7 @@
                 <div class="card my-4">
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                         <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                            <h6 class="text-white text-capitalize ps-3 text-center">جدول الفصول</h6>
+                            <h6 class="text-white text-capitalize ps-3 text-center">جدول النتيجة</h6>
                         </div>
                     </div>
                     <div class="card-body px-0 pb-2">
@@ -44,31 +44,33 @@
                                     <tr>
                                         <th class="text-uppercase text-primary font-weight-bolder text-center"> الرقم</th>
 
-                                        <th class="text-uppercase text-primary  font-weight-bolder ps-2 text-center"> اسم الفصل</th>
+                                        <th class="text-uppercase text-primary  font-weight-bolder ps-2 text-center"> اسم
+                                            الفصل</th>
 
                                         <th class="text-uppercase text-primary  font-weight-bolder text-center">الاحداث</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($classes as $class)
-                                    <tr>
-                                        <td>
-                                            <p class="text-dark text-center">
-                                                {{ $class->id }}
-                                            </p>
-                                        </td>
+                                        <tr>
+                                            <td>
+                                                <p class="text-dark text-center">
+                                                    {{ $class->id }}
+                                                </p>
+                                            </td>
 
-                                        <td>
-                                            <p class="text-dark text-center">
-                                                {{ $class->class_name }}
-                                            </p>
-                                        </td>
+                                            <td>
+                                                <p class="text-dark text-center">
+                                                    {{ $class->class_name }}
+                                                </p>
+                                            </td>
 
-                                        <td class="d-flex justify-content-center">
-                                            <a href="{{route('results.show',$class)}}" class="btn btn-dark pb-4 mx-2">عرض الطلاب</a>
-                                        </td>
+                                            <td class="align-middle text-center">
+                                                <a href="{{ route('results.show', $class) }}" class="btn btn-dark">عرض
+                                                    الطلاب</a>
+                                            </td>
 
-                                    </tr>
+                                        </tr>
                                     @endforeach
                                 </tbody>
                             </table>
@@ -84,8 +86,7 @@
 
     </div>
 @endsection
-{{--
- @push('ajax')
+{{-- @push('ajax')
     <script>
         $("input[type=date]").val(new Date().toISOString().slice(0, 10));
 
@@ -136,5 +137,4 @@
 
         });
     </script>
-@endpush
- --}}
+@endpush --}}

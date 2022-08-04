@@ -2,7 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreEmployeRequest;
+use App\Http\Requests\UpdateEmployeRequest;
 use App\Models\Employe;
+use App\Models\User;
+use App\Services\FileUploadService;
+use App\Services\JsonService;
+use App\Services\RegisterationService;
 use Illuminate\Http\Request;
 
 class EmployeController extends Controller
@@ -14,7 +20,20 @@ class EmployeController extends Controller
      */
     public function index()
     {
-        return view("employees.index");
+        $employees = Employe::latest()->paginate(5);
+        return view("employees.index", compact('employees'));
+    }
+
+    public function table($pageNumber)
+    {
+        $employees = Employe::latest()->paginate(5, ['*'], 'page', $pageNumber);
+        return view("employees.table", compact('employees'));
+    }
+
+    public function search($pageNumber, $name)
+    {
+        $employees = Employe::where("employe_name", "LIKE", "%$name%")->latest()->paginate(5, ['*'], 'page', $pageNumber);
+        return view("employees.table", compact('employees'));
     }
 
     /**
@@ -33,9 +52,20 @@ class EmployeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreEmployeRequest $request)
     {
-        //
+        $data = $request->validated();
+        $data["employe_photo"] = FileUploadService::handleImage($request->file("employe_photo"), "employe");
+        $data["user_id"] = RegisterationService::createUserAcount("employe");
+
+        $employe =  Employe::create($data);
+
+        if ($request->give_admin == "on")
+            $employe->user->assignRole("admin");
+        else
+            $employe->user->removeRole("admin");
+
+        return  JsonService::responseSuccess("تم إضافة الموظف بنجاح", $data);
     }
 
     /**
@@ -44,9 +74,10 @@ class EmployeController extends Controller
      * @param  \App\Models\Employe  $employe
      * @return \Illuminate\Http\Response
      */
-    public function show(Employe $employe)
+    public function show($id)
     {
-        //
+        $employe = Employe::findOrFail($id);
+        return view("employees.show", compact("employe"));
     }
 
     /**
@@ -55,9 +86,10 @@ class EmployeController extends Controller
      * @param  \App\Models\Employe  $employe
      * @return \Illuminate\Http\Response
      */
-    public function edit(Employe $employe)
+    public function edit($id)
     {
-        //
+        $employe = Employe::findOrFail($id);
+        return view("employees.edit", compact("employe"));
     }
 
     /**
@@ -67,9 +99,24 @@ class EmployeController extends Controller
      * @param  \App\Models\Employe  $employe
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Employe $employe)
+    public function update(UpdateEmployeRequest $request, $id)
     {
-        //
+
+        $data = $request->validated();
+        $employe = Employe::findOrFail($id);
+
+        // Replace old image with uploaded one if any
+        $data['employe_image'] = FileUploadService::updateImage($request->file('employe_photo'), $employe->employe_image, 'employe');
+
+        $employe->update($data);
+
+
+        if ($request->give_admin == "on")
+            $employe->user->assignRole("admin");
+        else
+            $employe->user->removeRole("admin");
+
+        return JsonService::responseSuccess("تم الحفظ بنجاح", $data);
     }
 
     /**
@@ -78,8 +125,13 @@ class EmployeController extends Controller
      * @param  \App\Models\Employe  $employe
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Employe $employe)
+    public function destroy($id)
     {
-        //
+
+        $employe = Employe::findOrFail($id);
+        FileUploadService::deleteImage(public_path($employe["employe_photo"]));
+        $employe->delete();
+
+        return  JsonService::responseSuccess("تم حذف الموظف بنجاح", $employe);
     }
 }

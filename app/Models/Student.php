@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+
 class Student extends Model
 {
     use HasFactory;
@@ -30,7 +31,8 @@ class Student extends Model
     }
     */
 
-    public function getTypeAttribute() {
+    public function getTypeAttribute()
+    {
         return 'طالب';
     }
 
@@ -49,12 +51,14 @@ class Student extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function results() {
+    public function results()
+    {
         return $this->hasMany(Result::class);
     }
 
-    public function siblings() {
+    public function siblings()
+    {
         //return Parents::with('students')->find($this->parent_id)->students->except($this->id);
-        return $this->with('class')->where('parent_id',$this->parent_id)->get()->except($this->id);
+        return $this->with('class')->where('parent_id', $this->parent_id)->get()->except($this->id);
     }
 }

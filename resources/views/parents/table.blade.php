@@ -46,8 +46,6 @@
                                 <td class="align-middle text-center">
                                     <a href="{{ route('parents.show', $parent) }}" class="btn btn-dark">عرض</a>
                                     <a href="{{ route('parents.edit', $parent) }}" class="btn btn-danger">تعديل</a>
-
-
                                 </td>
                             </tr>
                         @endforeach

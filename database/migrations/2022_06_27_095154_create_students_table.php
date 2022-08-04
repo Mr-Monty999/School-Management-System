@@ -24,7 +24,7 @@ class CreateStudentsTable extends Migration
             $table->string('student_photo')->nullable();
             $table->foreignId('parent_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('class_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId('user_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('user_id')->unique()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
         });
     }

@@ -56,11 +56,10 @@ Route::group(["middleware" => "auth"], function () {
 
     ////  Employees Routes  //////
     Route::resource('employees', EmployeController::class)->middleware('permission:employe.view');
+    Route::get('employees/table/{pageNumber}', [App\Http\Controllers\EmployeController::class, "table"])->name("employees.table")->middleware('permission:employe.view');
+    Route::get('employees/search/{pageNumber}/{name}', [App\Http\Controllers\EmployeController::class, "search"])->name("employees.search")->middleware('permission:employe.view');
 
 
-
-    ////  Jobs Routes  //////
-    Route::resource('jobs', JobController::class);
 
 
     ////  Parents Routes  //////
@@ -90,7 +89,7 @@ Route::group(["middleware" => "auth"], function () {
     Route::get('teachers/search/{pageNumber}/{name}', [App\Http\Controllers\TeacherController::class, "search"])->name("teachers.search")->middleware('permission:teacher.view');
 
     ////  Privacy Routes  //////
-    Route::resource('privacy', PrivacyController::class)->middleware('role:Super-Admin');
+    Route::resource('privacy', PrivacyController::class);
 
     ////   Roles and permissions \\\\
     Route::resource('roles', RoleController::class);
