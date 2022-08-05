@@ -97,4 +97,7 @@ Route::group(["middleware" => "auth"], function () {
 
     ////   Roles and permissions \\\\
     Route::resource('roles', RoleController::class);
+
+    ////   Archive  \\\\
+    Route::resource('archive', ArchiveController::class);
 });

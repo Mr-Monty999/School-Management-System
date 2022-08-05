@@ -74,7 +74,7 @@ class EmployeController extends Controller
      * @param  \App\Models\Employe  $employe
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id) // Use model binding
     {
         $employe = Employe::findOrFail($id);
         return view("employees.show", compact("employe"));
@@ -127,9 +127,9 @@ class EmployeController extends Controller
      */
     public function destroy($id)
     {
-
-        $employe = Employe::findOrFail($id);
-        FileUploadService::deleteImage(public_path($employe["employe_photo"]));
+        $employe = Employe::find($id);
+        //FileUploadService::deleteImage(public_path($employe["employe_photo"]));
+        $employe->user()->delete();
         $employe->delete();
 
         return  JsonService::responseSuccess("تم حذف الموظف بنجاح", $employe);

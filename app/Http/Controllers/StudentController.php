@@ -7,13 +7,9 @@ use App\Http\Requests\UpdateStudentRequest;
 use App\Models\Classes;
 use App\Models\Parents;
 use App\Models\Student;
-use App\Models\User;
 use App\Services\FileUploadService;
 use App\Services\JsonService;
 use App\Services\RegisterationService;
-use DateTime;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Date;
 
 class StudentController extends Controller
 {
@@ -31,7 +27,10 @@ class StudentController extends Controller
 
     public function table($pageNumber)
     {
-        $students = Student::with('class', 'parent')->latest()->paginate(5, ['*'], 'page', $pageNumber)->withPath(route('students.index'));
+        $students = Student::with('class', 'parent')
+        ->latest()
+        ->paginate(5, ['*'], 'page', $pageNumber)
+        ->withPath(route('students.index'));
 
         return view("students.table", compact('students'));
     }
@@ -44,7 +43,10 @@ class StudentController extends Controller
             $name
         ); */
 
-        $students = Student::with('class', 'parent')->where('student_name', 'LIKE', "%$name%")->latest()->paginate(5, ['*'], 'page', $pageNumber)->withPath(route('students.index'));
+        $students = Student::with('class', 'parent')
+        ->where('student_name', 'LIKE', "%$name%")
+        ->latest()->paginate(5, ['*'], 'page', $pageNumber)
+        ->withPath(route('students.index'));
 
 
         return view('students.table', compact('students'));
@@ -65,25 +67,6 @@ class StudentController extends Controller
         // //Store validated arguments into data array
         $data = $request->validated();
 
-        /* $data["parent_id"] = RegisterationService::getStudentParent($data);
-        dd($data["parent_id"]); */
-
-
-        /* //Check If Student Exist
-        if (Student::where("student_name", $request->student_name)->exists())
-            return response()->json(["success" => false, "message" => "هذا الطالب موجود بالفعل"]);
-
-
-        //Check If Parent Exist
-        $parent = Parents::where("parent_name", $request->parent_name);
-
-        if (!$parent->exists()) {
-            //Store New Parent
-            $parent = Parents::create($data);
-        } else {
-            ///Get Existing Parent
-            $parent = $parent->first();
-        } */
         // Check if student's parent exists in the database or create one
         $data["parent_id"] = RegisterationService::getStudentParent($data);
 

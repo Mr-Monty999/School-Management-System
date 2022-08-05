@@ -19,6 +19,7 @@ class CreateParentsTable extends Migration
             $table->string('parent_job');
             $table->string('parent_phone');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

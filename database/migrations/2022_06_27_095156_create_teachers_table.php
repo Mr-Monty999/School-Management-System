@@ -25,6 +25,7 @@ class CreateTeachersTable extends Migration
             $table->date('teacher_hire_date');
             $table->foreignId('user_id')->unique()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

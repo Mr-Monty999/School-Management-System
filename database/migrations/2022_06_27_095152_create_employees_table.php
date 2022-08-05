@@ -26,6 +26,7 @@ class CreateEmployeesTable extends Migration
             $table->string('employe_job')->nullable();
             $table->foreignId('user_id')->unique()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
