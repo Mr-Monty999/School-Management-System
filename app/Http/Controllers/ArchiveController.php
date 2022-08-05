@@ -18,41 +18,36 @@ class ArchiveController extends Controller
      */
     public function index()
     {
-        $users = User::with(['employe' => fn($q) => $q->withTrashed('employe')])->onlyTrashed()->get();
-        return view('archive.index');
+        $users = User::with(['employe' => fn($q) => $q->withTrashed('employe'),
+        'teacher' => fn($q) => $q->withTrashed('teacher'),
+        'student' => fn($q) => $q->withTrashed('student')
+        ])
+        ->onlyTrashed()
+        ->paginate(5);
+
+        return view('archive.index',compact('users'));
     }
 
-    public function showEmployees()
-    {
-        $employees = Employe::onlyTrashed()->paginate(5);
 
-        //dd($employees);
+    public function destroy(User $user) {
 
-        return view('archive.employees',compact('employees'));
-    }
-
-    public function showTeachers()
-    {
-        $teachers = Teacher::onlyTrashed()->paginate(5);
-
-        return view('teachers.index',compact('teachers'));
-    }
-
-    public function showStudents()
-    {
-        $students = Student::onlyTrashed()->paginate(5);
-
-        return view('students.index',compact('students'));
-    }
-
-    public function destroyEmploye(Employe $employe) {
-
-        FileUploadService::deleteImage(public_path($employe["employe_photo"]));
-
-        $employe->user()->forceDelete();
-        $employe->forceDelete();
+        if($user->type == 'employe') {
+            $employe = $user->employe()->withTrashed()->first();
+            FileUploadService::deleteImage(public_path($employe->employe_photo));
+            $employe->forceDelete();
+        }
+        elseif($user->type == 'teacher') {
+            $teacher = $user->teacher()->withTrashed()->first();
+            FileUploadService::deleteImage(public_path($teacher->teacher_photo));
+            $teacher->forceDelete();
+        }
+        else {
+            $student = $user->student()->withTrashed()->first();
+            FileUploadService::deleteImage(public_path($student->student_photo));
+            $student->forceDelete();
+        }
+        $user->forceDelete();
 
         return back();
-
     }
 }

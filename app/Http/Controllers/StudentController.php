@@ -162,6 +162,7 @@ class StudentController extends Controller
         //FileUploadService::deleteImage($student->student_photo);
 
         $data = $student;
+        $student->user()->delete();
         $student->delete();
 
         return JsonService::responseSuccess("تم حذف الطالب بنجاح", $data);

@@ -106,6 +106,7 @@ class TeacherController extends Controller
         //FileUploadService::deleteImage($teacher->teacher_photo);
 
         $data = $teacher;
+        $teacher->user()->delete();
         $teacher->delete();
 
         return JsonService::responseSuccess("تم حذف المعلم بنجاح", $data);

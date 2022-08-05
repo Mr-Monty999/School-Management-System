@@ -101,9 +101,6 @@ Route::group(["middleware" => "auth"], function () {
 
     ////   Archive  \\\\
     Route::get('archive',[ArchiveController::class,'index'])->name('archive.index');
-    Route::get('archive/employees',[ArchiveController::class,'showEmployees'])->name('archive.employees');
-    Route::get('archive/teachers',[ArchiveController::class,'showTeachers'])->name('archive.teachers');
-    Route::get('archive/students',[ArchiveController::class,'showStudents'])->name('archive.students');
-    Route::delete('archive/destroyEmploye/{employe}',[ArchiveController::class,'destroyEmploye'])->name('archive.destroyEmploye');
+    Route::delete('archive/destroy/{user}',[ArchiveController::class,'destroy'])->name('archive.destroy')->withTrashed();
 
 });
