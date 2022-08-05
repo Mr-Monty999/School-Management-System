@@ -12,7 +12,7 @@
                     </div>
                     <div class="text-start pt-1">
                         <p class="text-sm mb-0 text-capitalize text-dark"> الطلاب</p>
-                        <h4 class="mb-0"><a href="{{route('archive.show','student')}}">عرض</a></h4>
+                        <h4 class="mb-0"><a href="{{route('archive.students')}}">عرض</a></h4>
                     </div>
                 </div>
             </div>
@@ -26,7 +26,7 @@
                     </div>
                     <div class="text-start pt-1">
                         <p class="text-sm mb-0 text-capitalize text-dark">  المعلمين</p>
-                        <h4 class="mb-0"><a href="{{route('archive.show','teacher')}}">عرض</a></h4>
+                        <h4 class="mb-0"><a href="{{route('archive.teachers')}}">عرض</a></h4>
                     </div>
                 </div>
 
@@ -42,7 +42,7 @@
                     </div>
                     <div class="text-start pt-1">
                         <p class="text-sm mb-0 text-capitalize text-dark"> الموظفين </p>
-                        <h4 class="mb-0"><a href="{{route('archive.show','employe')}}">عرض</a></h4>
+                        <h4 class="mb-0"><a href="{{route('archive.employees')}}">عرض</a></h4>
                     </div>
                 </div>
 

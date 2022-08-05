@@ -103,7 +103,7 @@ class TeacherController extends Controller
      */
     public function destroy(Teacher $teacher)
     {
-        FileUploadService::deleteImage($teacher->teacher_photo);
+        //FileUploadService::deleteImage($teacher->teacher_photo);
 
         $data = $teacher;
         $teacher->delete();

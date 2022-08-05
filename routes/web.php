@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Http\Request;
 //use App\Http\Controllers\ResultsController;
@@ -99,5 +100,10 @@ Route::group(["middleware" => "auth"], function () {
     Route::resource('roles', RoleController::class);
 
     ////   Archive  \\\\
-    Route::resource('archive', ArchiveController::class);
+    Route::get('archive',[ArchiveController::class,'index'])->name('archive.index');
+    Route::get('archive/employees',[ArchiveController::class,'showEmployees'])->name('archive.employees');
+    Route::get('archive/teachers',[ArchiveController::class,'showTeachers'])->name('archive.teachers');
+    Route::get('archive/students',[ArchiveController::class,'showStudents'])->name('archive.students');
+    Route::delete('archive/destroyEmploye/{employe}',[ArchiveController::class,'destroyEmploye'])->name('archive.destroyEmploye');
+
 });

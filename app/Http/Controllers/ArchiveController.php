@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Employe;
-use App\Models\Teacher;
 use App\Models\User;
+use App\Models\Employe;
+use App\Models\Student;
+use App\Models\Teacher;
 use Illuminate\Http\Request;
+use App\Services\FileUploadService;
 
 class ArchiveController extends Controller
 {
@@ -20,70 +22,37 @@ class ArchiveController extends Controller
         return view('archive.index');
     }
 
-    public function showEmployees($type)
+    public function showEmployees()
     {
-        $employees = Employe::with(['user' => fn($q) => $q->withTrashed('user')])
-        ->onlyTrashed()
-        ->get();
+        $employees = Employe::onlyTrashed()->paginate(5);
 
-        $type = 'employe';
+        //dd($employees);
 
-        return view('archive.show',compact('employees','type'));
+        return view('archive.employees',compact('employees'));
     }
 
-    public function showTeacher()
+    public function showTeachers()
     {
-        $teachers = Teacher::with(['user' => fn($q) => $q->withTrashed('user')])
-        ->onlyTrashed()
-        ->get();
+        $teachers = Teacher::onlyTrashed()->paginate(5);
 
-        $type = 'teacher';
-
-        return view('archive.show',compact('teachers','type'));
+        return view('teachers.index',compact('teachers'));
     }
 
-    public function showStudent($type)
+    public function showStudents()
     {
-        $employees = Employe::with(['user' => fn($q) => $q->withTrashed('user')])
-        ->onlyTrashed()
-        ->get();
+        $students = Student::onlyTrashed()->paginate(5);
 
-        $type = 'employe';
-
-        return view('archive.show',compact('employees','type'));
+        return view('students.index',compact('students'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+    public function destroyEmploye(Employe $employe) {
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+        FileUploadService::deleteImage(public_path($employe["employe_photo"]));
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $employe->user()->forceDelete();
+        $employe->forceDelete();
+
+        return back();
+
     }
 }
