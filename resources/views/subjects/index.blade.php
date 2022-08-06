@@ -3,7 +3,7 @@
 @section('section')
     <div class="d-flex flex-column justify-content-center align-items-center">
         <h1>ادارة المواد الدراسية</h1>
-        <form enctype="multipart/form-data" method="post" id="subjects">
+        {{-- <form enctype="multipart/form-data" method="post" id="subjects">
             @csrf
             <br>
             <h4>اضافة مادة</h4>
@@ -49,7 +49,7 @@
         @elseif(Session::has('error'))
             <div class="alert alert-danger text-white">{{ Session::get('error') }}</div>
         @endif
-
+ --}}
 
         <div class="input-group input-group-outline bg-white w-25 my-3 mtop-1">
             <label class="form-label"> بحث...</label>
@@ -57,6 +57,9 @@
         </div>
         <div class="container-fluid row">
             <div class="col-12">
+                <div class="d-flex justify-content-between mb-5">
+                    <a href="{{ route('subjects.create') }}" class="btn btn-dark">اضافة مادة</a>
+                </div>
                 <div class="card my-4">
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                         <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
@@ -80,7 +83,7 @@
 
 @push('ajax')
     <script>
-        VirtualSelect.init({
+        /* VirtualSelect.init({
             ele: '#sample-select',
         });
         VirtualSelect.init({
@@ -189,7 +192,7 @@
 
             });
 
-        });
+        }); */
 
         /// Search For subjects By Name On keyup Event //
         $(document).on("keyup change", "#search", function() {

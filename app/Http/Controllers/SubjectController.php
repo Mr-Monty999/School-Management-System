@@ -20,17 +20,13 @@ class SubjectController extends Controller
     public function index()
     {
         $subjects = Subject::with('teachers', 'class')->latest()->paginate(5);
-        $classes = Classes::all();
-        $teachers = Teacher::all();
-        return view("subjects.index", compact('subjects', 'classes', 'teachers'));
+        return view("subjects.index", compact('subjects'));
     }
 
     public function table($pageNumber)
     {
         $subjects = Subject::with('teachers', 'class')->latest()->paginate(5, ['*'], 'page', $pageNumber);
-        $classes = Classes::all();
-        $teachers = Teacher::all();
-        return view("subjects.table", compact('subjects', 'classes', 'teachers'));
+        return view("subjects.table", compact('subjects'));
     }
 
 
@@ -43,9 +39,7 @@ class SubjectController extends Controller
         ); */
 
         $subjects = Subject::with('teachers', 'class')->where("subject_name", "LIKE", "%$name%")->latest()->paginate(5, ['*'], 'page', $pageNumber);
-        $classes = Classes::all();
-        $teachers = Teacher::all();
-        return view("subjects.table", compact('subjects', 'classes', 'teachers'));
+        return view("subjects.table", compact('subjects'));
     }
     /**
      * Show the form for creating a new resource.
@@ -54,7 +48,10 @@ class SubjectController extends Controller
      */
     public function create()
     {
-        //
+        $classes = Classes::all();
+        $teachers = Teacher::all();
+
+        return view('subjects.create',compact('classes','teachers'));
     }
 
     /**
