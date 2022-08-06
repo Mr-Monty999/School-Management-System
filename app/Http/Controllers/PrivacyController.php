@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdatePrivacyRequest;
+use App\Models\User;
+use App\Services\JsonService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PrivacyController extends Controller
 {
@@ -13,7 +17,9 @@ class PrivacyController extends Controller
      */
     public function index()
     {
-        return view("privacy.index");
+        $user = Auth::user();
+
+        return view("privacy.index", compact('user'));
     }
 
     /**
@@ -34,7 +40,6 @@ class PrivacyController extends Controller
      */
     public function store(Request $request)
     {
-        //
     }
 
     /**
@@ -66,9 +71,18 @@ class PrivacyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdatePrivacyRequest $request, User $user)
     {
-        //
+
+
+        $data = $request->validated();
+
+        // if ($data->password == "")
+        //     unset($data["password"]);
+
+        $user->update($data);
+
+        return JsonService::responseSuccess("تم الحفظ بنجاح", $data);
     }
 
     /**
