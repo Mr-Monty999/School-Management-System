@@ -47,7 +47,16 @@ class User extends Authenticatable
     ];
 
     public function getTypeAttribute() {
-        return $this->roles->first()->name;
+        if($this->student()->exists()) {
+            return 'student';
+        }
+        elseif($this->teacher()->exists()) {
+            return 'teacher';
+        }
+        else {
+            return 'employe';
+        }
+        //return $this->roles->first()->name;
     }
 
     public function student() {
