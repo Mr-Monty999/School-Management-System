@@ -28,9 +28,9 @@ class StudentController extends Controller
     public function table($pageNumber)
     {
         $students = Student::with('class', 'parent')
-        ->latest()
-        ->paginate(5, ['*'], 'page', $pageNumber)
-        ->withPath(route('students.index'));
+            ->latest()
+            ->paginate(5, ['*'], 'page', $pageNumber)
+            ->withPath(route('students.index'));
 
         return view("students.table", compact('students'));
     }
@@ -44,9 +44,9 @@ class StudentController extends Controller
         ); */
 
         $students = Student::with('class', 'parent')
-        ->where('student_name', 'LIKE', "%$name%")
-        ->latest()->paginate(5, ['*'], 'page', $pageNumber)
-        ->withPath(route('students.index'));
+            ->where('student_name', 'LIKE', "%$name%")
+            ->latest()->paginate(5, ['*'], 'page', $pageNumber)
+            ->withPath(route('students.index'));
 
 
         return view('students.table', compact('students'));

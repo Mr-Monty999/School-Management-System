@@ -128,7 +128,6 @@ class EmployeController extends Controller
     public function destroy($id)
     {
         $employe = Employe::find($id);
-        //FileUploadService::deleteImage(public_path($employe["employe_photo"]));
         $employe->user()->delete();
         $employe->delete();
 
