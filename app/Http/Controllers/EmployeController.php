@@ -43,7 +43,7 @@ class EmployeController extends Controller
      */
     public function create()
     {
-        //
+        return view('employees.create');
     }
 
     /**

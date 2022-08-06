@@ -41,6 +41,7 @@ class SubjectController extends Controller
         $subjects = Subject::with('teachers', 'class')->where("subject_name", "LIKE", "%$name%")->latest()->paginate(5, ['*'], 'page', $pageNumber);
         return view("subjects.table", compact('subjects'));
     }
+
     /**
      * Show the form for creating a new resource.
      *
