@@ -19,73 +19,78 @@ class ArchiveController extends Controller
      */
     public function index()
     {
-        // $users = User::with([
-        //     'employe' => fn ($q) => $q->withTrashed('employe'),
-        //     'teacher' => fn ($q) => $q->withTrashed('teacher'),
-        //     'student' => fn ($q) => $q->withTrashed('student')
-        // ])
-        //     ->onlyTrashed()
-        //     ->paginate(5);
+        $users = User::with([
+            'employe' => fn ($q) => $q->onlyTrashed('employe'),
+            'teacher' => fn ($q) => $q->onlyTrashed('teacher'),
+            'student' => fn ($q) => $q->onlyTrashed('student')
+        ])
+        ->onlyTrashed()
+        ->paginate(5);
 
-
-        $users = User::with("employe", "teacher", "student")->onlyTrashed()->paginate(5);
-
+        //$users = User::with("employe", "teacher", "student")->onlyTrashed()->paginate(5);
         return view('archive.index', compact('users'));
     }
 
     public function table($pageNumber)
     {
-        // $users = User::with([
-        //     'employe' => fn ($q) => $q->withTrashed('employe'),
-        //     'teacher' => fn ($q) => $q->withTrashed('teacher'),
-        //     'student' => fn ($q) => $q->withTrashed('student')
-        // ])
-        //     ->onlyTrashed()
-        //     ->paginate(5);
 
-        $users = User::with("employe", "teacher", "student")->onlyTrashed()->paginate(5, ['*'], 'page', $pageNumber);
+        $users = User::with([
+            'employe' => fn ($q) => $q->onlyTrashed('employe'),
+            'teacher' => fn ($q) => $q->onlyTrashed('teacher'),
+            'student' => fn ($q) => $q->onlyTrashed('student')
+        ])
+        ->onlyTrashed()
+        ->paginate(5);
 
+        //$users = User::with("employe", "teacher", "student")->onlyTrashed()->paginate(5, ['*'], 'page', $pageNumber);
 
         return view('archive.table', compact('users'));
     }
     public function search($pageNumber, $name)
     {
+        $users = User::with([
+            'employe' => fn ($q) => $q->onlyTrashed('employe'),
+            'teacher' => fn ($q) => $q->onlyTrashed('teacher'),
+            'student' => fn ($q) => $q->onlyTrashed('student')
+        ])
+        ->onlyTrashed()
+        ->paginate(5);
 
-        // $users = User::with([
-        //     'employe' => fn ($q) => $q->withTrashed('employe'),
-        //     'teacher' => fn ($q) => $q->withTrashed('teacher'),
-        //     'student' => fn ($q) => $q->withTrashed('student')
-        // ])
-        //     ->onlyTrashed()
-        //     ->paginate(5);
-
-        $users = User::with("employe", "teacher", "student")->where("username", "LIKE", "%$name%")->onlyTrashed()->paginate(5);
-
+        //$users = User::with("employe", "teacher", "student")->where("username", "LIKE", "%$name%")->onlyTrashed()->paginate(5);
 
         return view('archive.table', compact('users'));
     }
 
     public function restore(User $user)
     {
+        if ($user->type == 'employe') {
+            $user->employe()->onlyTrashed()->first()->restore();
+
+        } elseif ($user->type == 'teacher') {
+            $user->teacher()->onlyTrashed()->first()->restore();
+
+        } elseif($user->type == 'student') {
+            $user->student()->onlyTrashed()->first()->restore();
+        }
+
+        $user->restore();
+        return back();
     }
 
     public function destroy(User $user)
     {
+        if ($user->type == 'employe') {
+            FileUploadService::deleteImage(public_path($user->employe()->onlyTrashed()->first()->employe_photo));
 
+        } elseif ($user->type == 'teacher') {
 
-        // if ($user->type == 'employe') {
-        //     $employe = $user->employe()->withTrashed()->first();
-        //     FileUploadService::deleteImage(public_path($employe->employe_photo));
-        //     $employe->forceDelete();
-        // } elseif ($user->type == 'teacher') {
-        //     $teacher = $user->teacher()->withTrashed()->first();
-        //     FileUploadService::deleteImage(public_path($teacher->teacher_photo));
-        //     $teacher->forceDelete();
-        // } else {
-        //     $student = $user->student()->withTrashed()->first();
-        //     FileUploadService::deleteImage(public_path($student->student_photo));
-        //     $student->forceDelete();
-        // }
+            FileUploadService::deleteImage(public_path($user->teacher()->onlyTrashed()->first()->teacher_photo));
+
+        } elseif($user->type == 'student') {
+
+            FileUploadService::deleteImage(public_path($user->student()->onlyTrashed()->first()->student_photo));
+        }
+
 
 
 
@@ -97,13 +102,13 @@ class ArchiveController extends Controller
         */
 
 
-        if ($user->hasRole("employe") == 'employe')
+        /* if ($user->hasRole("employe") == 'employe')
             FileUploadService::deleteImage(public_path($user->employe()->onlyTrashed()->first()->employe_photo));
         elseif ($user->hasRole("teacher"))
             FileUploadService::deleteImage(public_path($user->teacher()->onlyTrashed()->first()->teacher_photo));
         else
             FileUploadService::deleteImage(public_path($user->student()->onlyTrashed()->first()->student_photo));
-
+ */
         $user->forceDelete();
 
 

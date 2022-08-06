@@ -29,23 +29,23 @@
 
                     <td>
                         <p class="text-dark text-center">
-                            {{-- {{ $user[$user->type][$user->type . '_name'] }} --}}
+                            {{ $user[$user->type][$user->type.'_name'] }}
 
-                            @if ($user->hasRole('employe'))
+                            {{-- @if ($user->hasRole('employe'))
                                 {{ $user->employe()->onlyTrashed()->first()->employe_name }}
                             @elseif ($user->hasRole('student'))
                                 {{ $user->student()->onlyTrashed()->first()->student_name }}
                             @else
                                 {{ $user->teacher()->onlyTrashed()->first()->teacher_name }}
-                            @endif
+                            @endif --}}
                         </p>
                     </td>
 
                     <td>
-                        {{-- {{ $user->type }} --}}
-                        @foreach ($user->getRoleNames() as $role)
+                         {{ $user->type }}
+                       {{--  @foreach ($user->getRoleNames() as $role)
                             ,{{ $role }}
-                        @endforeach
+                        @endforeach --}}
                     </td>
                     <td class="align-middle text-center">
                         <form id="delete" action="{{ route('archive.destroy', $user) }}" method="post"
@@ -55,6 +55,14 @@
                             <input hidden type="text" name="id" id="id" value="{{ $user->id }}">
                             <button type="submit" class="btn btn-danger"> حذف من الأرشيف</button>
                         </form>
+
+                        <form id="restore" action="{{ route('archive.restore', $user) }}" method="post"
+                            class="d-inline">
+                            @csrf
+                            <input hidden type="text" name="id" id="id" value="{{ $user->id }}">
+                            <button type="submit" class="btn btn-success">استعادة</button>
+                        </form>
+
                     </td>
 
                 </tr>
