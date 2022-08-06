@@ -11,9 +11,9 @@
             <div>
                 <label class="form-label" for="sample-select2"> الرتبة </label>
                 <div class="input-group input-group-outline mb-3 ">
-                    <select name="role" id="sample-select">
+                    <select name="role" id="sample-select" multiple>
                          @foreach ($roles as $role)
-                            <option value="{{$role->id}}" >{{$role->name}}</option>
+                            <option value="{{$role->id}}"  @if (in_array($role->id,$user_roles) ) selected @endif >{{$role->name}}</option>
                         @endforeach
                     </select>
                 </div>

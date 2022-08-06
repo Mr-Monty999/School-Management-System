@@ -6,7 +6,7 @@
         <form enctype="multipart/form-data" method="post" action="{{route('roles.store')}}">
             @csrf
             <br>
-            <h4>اضافة رتبة جديدة</h4>
+            <h4>انشاء رتبة جديدة</h4>
             <div class="input-group input-group-outline  bg-white my-3">
                 <label class="form-label">أسم الرتبة</label>
                 <input type="text" name="role_name" class="form-control">

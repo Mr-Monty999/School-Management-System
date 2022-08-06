@@ -8,7 +8,7 @@
             <div class="col-12">
                 <div class="flex justify-contnet-between">
                     <a href="{{route('users.index')}}" class="btn btn-dark">رجوع</a>
-                    <a href="{{route('roles.create')}}" class="btn btn-dark">انشاء صلاحية جديدة</a>
+                    <a href="{{route('roles.create')}}" class="btn btn-dark">انشاء رتبة جديدة</a>
                 </div>
                 <div class="card my-4">
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">

@@ -80,8 +80,9 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $roles = Role::all();
-        $user_role = $user->roles[0]->id ?? null;
-        return view('users.edit', compact('roles', 'user', 'user_role'));
+
+        $user_roles = $user->roles?->pluck('id')->toArray();
+        return view('users.edit', compact('roles', 'user', 'user_roles'));
     }
 
     /**
@@ -93,7 +94,9 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        $user->syncRoles($request->role);
+        $roles = explode(',', $request->role);
+
+        $user->syncRoles($roles);
         return redirect()->route('users.index');
     }
 
