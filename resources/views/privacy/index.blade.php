@@ -4,18 +4,18 @@
 @section('section')
     <div class="d-flex flex-column justify-content-center align-items-center">
 
-        <h1>ادارة الموظفين</h1>
-        <form id="employees" enctype="multipart/form-data" method="post">
+        <h1>ادارة الخصوصية</h1>
+        <form id="privacy" enctype="multipart/form-data" method="post">
             @csrf
             @method('put')
             <br>
             <h4>خصوصية حسابي</h4>
-            <div class="input-group input-group-outline my-3 bg-white is-focused">
+            <div class="input-group input-group-outline my-3 bg-white is-filled">
                 <label class="form-label">إسم المستخدم</label>
                 <input type="text" value="{{ $user->username }}" name="username" class="form-control">
             </div>
             <div class="input-group input-group-outline my-3 bg-white">
-                <label class="form-label">كلمة المرور الجديدة</label>
+                <label class="form-label">كلمة المرور الجديدة (اختياري)</label>
                 <input type="password" name="password" class="form-control">
             </div>
 
