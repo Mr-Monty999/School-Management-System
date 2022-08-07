@@ -22,7 +22,7 @@ class DashboardController extends Controller
         $teachers = Teacher::count();
         $employees = Employe::count();
         $classes = Classes::count();
-        return view('dashboard',compact('students','teachers','employees','classes'));
+        return view('dashboard', compact('students', 'teachers', 'employees', 'classes'));
     }
 
     public function login()
@@ -44,7 +44,7 @@ class DashboardController extends Controller
 
         $input = $request->only("username", "password");
 
-        if (Auth::attempt($input))
+        if (Auth::attempt($input, true))
             return redirect()->route("dashboard.index");
 
         return redirect()->route("dashboard.login")->with("error", "الرجاء التحقق من البيانات !");

@@ -3,7 +3,7 @@
     <div class="d-flex flex-column justify-content-center align-items-center">
         <a href="{{ route('teachers.index') }}" class="btn btn-dark" style="margin-left: auto ; maring-right:0"> رجوع</a>
         <h1>ادارة المعلمين</h1>
-        <form enctype="multipart/form-data" id="teachers">
+        <form enctype="multipart/form-data" method="POST" id="teachers">
             @csrf
             <br>
             <h4>اضافة المعلم</h4>
@@ -154,7 +154,6 @@
                 });
 
             });
-
         </script>
     @endpush
 @endsection

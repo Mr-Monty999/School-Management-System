@@ -1,19 +1,52 @@
 @extends('layouts.dashboard')
 
 @section('section')
-   {{--  <div class="d-flex flex-column justify-content-center align-items-center">
+    <div class="d-flex flex-column justify-content-center align-items-center">
         <h1>ادارة المدرسة</h1>
-        <form enctype="multipart/form-data" method="post" >
+
+        <form enctype="multipart/form-data" id="school">
             @csrf
             <br>
-            <h4>بيانات المدرسة</h4>
-            <div class="input-group input-group-outline my-3 bg-white">
+            {{-- <h4>اضافة المعلم</h4> --}}
+            <div class="input-group input-group-outline my-3 bg-white is-filled">
                 <label class="form-label">اسم المدرسة</label>
-                <input type="text" name="class_name" class="form-control" value="{{$school->school_name}}">
+                <input type="text" value="{{ $school->school_name }}" name="school_name" class="form-control">
             </div>
-                    <button type="submit" class="btn btn-success margin my-3 col-6">اضافة</button>
-            <div style="display:none" class="alert alert-success text-white text-center validate_success"></div>
-            <div style="display:none" class="alert alert-danger text-white text-center validate_error"></div>
+            <div class="input-group input-group-outline my-3 bg-white is-filled">
+                <label class="form-label">اسم مالك المدرسة</label>
+                <input type="text" value="{{ $school->school_owner }}" name="school_owner" class="form-control">
+            </div>
+
+
+            <div class="input-group input-group-outline my-3 bg-white is-filled">
+                <label class="form-label">عنوان المدرسة</label>
+                <input type="text" value="{{ $school->school_address }}" name="school_address" class="form-control">
+            </div>
+
+
+            <div class="input-group input-group-outline my-3 bg-white is-filled">
+                <label class="form-label">رقم الهاتف</label>
+                <input type="text" value="{{ $school->school_phone }}" name="school_phone" class="form-control">
+            </div>
+
+
+
+
+            <label class="text-dark"> سعر السنة الدراسية</label>
+            <div class="input-group input-group-outline  bg-white is-filled">
+                <input type="number" value="{{ $school->school_year_price }}" name="school_year_price"
+                    class="form-control">
+            </div>
+
+
+            <label class="text-dark">شعار المدرسة:</label>
+            <div class="input-group input-group-outline  bg-white is-filled">
+                <input type="file" value="{{ $school->school_logo }}" name="school_logo" class="form-control">
+            </div>
+
+
+            <button type="submit" class="btn btn-success margin my-3 col-6">حفظ</button>
+
 
         </form>
 
@@ -27,116 +60,81 @@
             <div class="alert alert-danger text-white">{{ Session::get('error') }}</div>
         @endif
 
-
-        <div class="container-fluid row my-8">
-            <div class="col-12">
-                <div class="card my-4">
-                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                            <h6 class="text-white text-capitalize ps-3 text-center">جدول المدرسة</h6>
-                        </div>
-                    </div>
-                    <div class="card-body px-0 pb-2">
-                        <div class="table-responsive p-0">
-                            <table class="table align-items-center mb-0">
-                                <thead>
-                                    <tr>
-                                        <th class="text-uppercase text-primary font-weight-bolder text-center"> الرقم</th>
-
-                                        <th class="text-uppercase text-primary  font-weight-bolder ps-2 text-center"> اسم المدرسة</th>
-
-                                        <th class="text-uppercase text-primary  font-weight-bolder text-center">الاحداث</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($classes as $class)
-                                    <tr>
-                                        <td>
-                                            <p class="text-dark text-center">
-                                                {{ $class->id }}
-                                            </p>
-                                        </td>
-
-                                        <td>
-                                            <p class="text-dark text-center">
-                                                {{ $class->class_name }}
-                                            </p>
-                                        </td>
-
-                                        <td class="d-flex justify-content-center">
-                                            <a href="{{route('classes.show',$class)}}" class="btn btn-dark pb-4 mx-2">عرض </a>
-                                            @role('Super-Admin')
-                                                <a href="{{route('classes.edit',$class)}}" class="btn btn-dark pb-4 mx-2">تعديل </a>
-                                                <form action="{{route('classes.destroy',$class)}}" method="post">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger">حذف </button>
-                                                </form>
-                                            @endrole
-                                        </td>
-
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        -
+    </div>
 
 
 
-    </div> --}}
+    </div>
 @endsection
 
- @push('ajax')
+@push('ajax')
     <script>
-        $("input[type=date]").val(new Date().toISOString().slice(0, 10));
-
-
-        let form = $("form");
-
-        form.on("submit", function(e) {
+        ////Update school //
+        $("form").on("submit", function(e) {
             e.preventDefault();
 
-            let formData = new FormData(this);
-            $("form .alert").hide();
+            let formData = new FormData(this),
+                url = "{{ route('schools.store') }}";
+
 
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': "{{ csrf_token() }}"
                 },
                 method: "post",
-                url: "{{ route('classes.store') }}",
+                url: url,
                 data: formData,
                 dataType: "json",
                 processData: false,
                 contentType: false,
+                beforeSend: function() {
+                    $("form").after('<div class="d-flex spinner"><p>جار المعالجة...</p>' +
+                        '<div class="spinner-border text-primary margin-1" role="status"></div>' +
+                        '</div>');
+                },
+                complete: function() {
+                    $(".spinner").remove();
+                },
                 success: function(response) {
 
-                    if (response.success)
-                        $("form .validate_success").text(response.message).show();
-                    else
-                        $("form .validate_error").text(response.message).show();
 
+                    $(".alert").remove();
+
+
+                    ///Show Success Or Error Message
+                    if (response.success) {
+                        $("form").after(
+                            '<div class="alert alert-success text-white text-center">' + response
+                            .message +
+                            '</div>'
+                        );
+
+                    } else
+                        $("form").after(
+                            '<div class="alert alert-danger text-white text-center">' + response
+                            .message +
+                            '</div>'
+                        );
 
                 },
                 error: function(response) {
 
-                    console.log(response);
+
+                    $(".alert").remove();
+
 
                     //errors = Validtion Errors keys
                     let errors = response.responseJSON.errors;
 
                     for (let errorName in errors) {
 
-                        ///errorName = input field name (key) like class_name
-                        $("form ." + errorName + "").text(errors[errorName]).show();
+
+                        $("form input[name='" + errorName + "']").parent().after(
+                            '<div class="alert alert-danger text-white text-center">' +
+                            errors[errorName] +
+                            '</div>');
                     }
+
 
                 }
 
@@ -145,4 +143,3 @@
         });
     </script>
 @endpush
-

@@ -15,10 +15,10 @@ class CreateSchoolsTable extends Migration
     {
         Schema::create('schools', function (Blueprint $table) {
             $table->id();
-            $table->string('school_name')->nullable()->index()->unique();
-            $table->string('school_owner')->nullable();
-            $table->string('school_address')->nullable();
-            $table->string('school_phone')->nullable();
+            $table->string('school_name')->index();
+            $table->string('school_owner');
+            $table->string('school_address');
+            $table->string('school_phone');
             $table->double('school_year_price')->default(0);
             $table->string('school_logo')->nullable();
             $table->timestamps();
