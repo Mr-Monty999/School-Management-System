@@ -19,11 +19,7 @@ class ArchiveController extends Controller
      */
     public function index()
     {
-        $users = User::with([
-            'employe' => fn ($q) => $q->onlyTrashed('employe'),
-            'teacher' => fn ($q) => $q->onlyTrashed('teacher'),
-            'student' => fn ($q) => $q->onlyTrashed('student')
-        ])
+        $users = User::with("employe", "teacher", "student")
         ->onlyTrashed()
         ->paginate(5);
 
@@ -34,13 +30,9 @@ class ArchiveController extends Controller
     public function table($pageNumber)
     {
 
-        $users = User::with([
-            'employe' => fn ($q) => $q->onlyTrashed('employe'),
-            'teacher' => fn ($q) => $q->onlyTrashed('teacher'),
-            'student' => fn ($q) => $q->onlyTrashed('student')
-        ])
+        $users = User::with("employe", "teacher", "student")
         ->onlyTrashed()
-        ->paginate(5);
+        ->paginate(5, ['*'], 'page', $pageNumber);
 
         //$users = User::with("employe", "teacher", "student")->onlyTrashed()->paginate(5, ['*'], 'page', $pageNumber);
 
@@ -48,12 +40,9 @@ class ArchiveController extends Controller
     }
     public function search($pageNumber, $name)
     {
-        $users = User::with([
-            'employe' => fn ($q) => $q->onlyTrashed('employe'),
-            'teacher' => fn ($q) => $q->onlyTrashed('teacher'),
-            'student' => fn ($q) => $q->onlyTrashed('student')
-        ])
+        $users = User::with("employe", "teacher", "student")
         ->onlyTrashed()
+        ->where("username", "LIKE", "%$name%")
         ->paginate(5);
 
         //$users = User::with("employe", "teacher", "student")->where("username", "LIKE", "%$name%")->onlyTrashed()->paginate(5);
@@ -64,13 +53,13 @@ class ArchiveController extends Controller
     public function restore(User $user)
     {
         if ($user->type == 'employe') {
-            $user->employe()->onlyTrashed()->first()->restore();
+            $user->employe->restore();
 
         } elseif ($user->type == 'teacher') {
-            $user->teacher()->onlyTrashed()->first()->restore();
+            $user->teacher->restore();
 
         } elseif($user->type == 'student') {
-            $user->student()->onlyTrashed()->first()->restore();
+            $user->student->restore();
         }
 
         $user->restore();
@@ -80,16 +69,17 @@ class ArchiveController extends Controller
     public function destroy(User $user)
     {
         if ($user->type == 'employe') {
-            FileUploadService::deleteImage(public_path($user->employe()->onlyTrashed()->first()->employe_photo));
+            FileUploadService::deleteImage(public_path($user->employe->employe_photo));
 
         } elseif ($user->type == 'teacher') {
 
-            FileUploadService::deleteImage(public_path($user->teacher()->onlyTrashed()->first()->teacher_photo));
+            FileUploadService::deleteImage(public_path($user->teacher->teacher_photo));
 
         } elseif($user->type == 'student') {
 
-            FileUploadService::deleteImage(public_path($user->student()->onlyTrashed()->first()->student_photo));
+            FileUploadService::deleteImage(public_path($user->student->student_photo));
         }
+
 
 
 

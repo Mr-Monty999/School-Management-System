@@ -47,7 +47,18 @@ class User extends Authenticatable
     ];
 
     public function getTypeAttribute() {
-        if($this->student()->withTrashed()->exists()) {
+        if($this->student) {
+            return 'student';
+        }
+        elseif($this->teacher) {
+            return 'teacher';
+        }
+        elseif($this->employe) {
+            return 'employe';
+        }
+
+        return 'Unknown';
+        /* if($this->student()->withTrashed()->exists()) {
             return 'student';
         }
         elseif($this->teacher()->withTrashed()->exists()) {
@@ -55,22 +66,20 @@ class User extends Authenticatable
         }
         elseif($this->employe()->withTrashed()->exists()) {
             return 'employe';
-        }
-        else {
-            return 'Unknown';
-        }
+        } */
+
         //return $this->roles->first()->name;
     }
 
     public function student() {
-        return $this->hasOne(Student::class);
+        return $this->hasOne(Student::class)->withTrashed();
     }
 
     public function teacher() {
-        return $this->hasOne(Teacher::class);
+        return $this->hasOne(Teacher::class)->withTrashed();
     }
 
     public function employe() {
-        return $this->hasOne(Employe::class);
+        return $this->hasOne(Employe::class)->withTrashed();
     }
 }
