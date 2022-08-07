@@ -58,6 +58,7 @@ class PermissionsSeeder extends Seeder
             'archive.view',
             'archive.delete',
             'archive.restore',
+            'status.view'
         ];
 
         $permissions = [
