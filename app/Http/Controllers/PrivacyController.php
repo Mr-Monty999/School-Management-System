@@ -77,10 +77,17 @@ class PrivacyController extends Controller
 
         $data = $request->validated();
 
-        // if ($data->password == "")
-        //     unset($data["password"]);
+        if (trim($data["password"]) != "" && $data["password"] != null) {
+            $data["password"] = bcrypt($data["password"]);
+            Auth::user()->update($data);
+        } else {
+            Auth::user()->update($request->except("password"));
+        }
 
-        $user->update($data);
+
+
+
+
 
         return JsonService::responseSuccess("تم الحفظ بنجاح", $data);
     }
