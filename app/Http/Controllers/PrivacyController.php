@@ -84,11 +84,6 @@ class PrivacyController extends Controller
             Auth::user()->update($request->except("password"));
         }
 
-
-
-
-
-
         return JsonService::responseSuccess("تم الحفظ بنجاح", $data);
     }
 

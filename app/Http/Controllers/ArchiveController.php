@@ -20,8 +20,8 @@ class ArchiveController extends Controller
     public function index()
     {
         $users = User::with("employe", "teacher", "student")
-        ->onlyTrashed()
-        ->paginate(5);
+            ->onlyTrashed()
+            ->paginate(5);
 
         //$users = User::with("employe", "teacher", "student")->onlyTrashed()->paginate(5);
         return view('archive.index', compact('users'));
@@ -31,8 +31,8 @@ class ArchiveController extends Controller
     {
 
         $users = User::with("employe", "teacher", "student")
-        ->onlyTrashed()
-        ->paginate(5, ['*'], 'page', $pageNumber);
+            ->onlyTrashed()
+            ->paginate(5, ['*'], 'page', $pageNumber);
 
         //$users = User::with("employe", "teacher", "student")->onlyTrashed()->paginate(5, ['*'], 'page', $pageNumber);
 
@@ -41,9 +41,9 @@ class ArchiveController extends Controller
     public function search($pageNumber, $name)
     {
         $users = User::with("employe", "teacher", "student")
-        ->onlyTrashed()
-        ->where("username", "LIKE", "%$name%")
-        ->paginate(5);
+            ->onlyTrashed()
+            ->where("username", "LIKE", "%$name%")
+            ->paginate(5);
 
         //$users = User::with("employe", "teacher", "student")->where("username", "LIKE", "%$name%")->onlyTrashed()->paginate(5);
 
@@ -54,28 +54,24 @@ class ArchiveController extends Controller
     {
         if ($user->type == 'employe') {
             $user->employe->restore();
-
         } elseif ($user->type == 'teacher') {
             $user->teacher->restore();
-
-        } elseif($user->type == 'student') {
+        } elseif ($user->type == 'student') {
             $user->student->restore();
         }
 
         $user->restore();
-        return back();
+        return JsonService::responseSuccess("تم الإستعادة بنجاح", $user);
     }
 
     public function destroy(User $user)
     {
         if ($user->type == 'employe') {
             FileUploadService::deleteImage(public_path($user->employe->employe_photo));
-
         } elseif ($user->type == 'teacher') {
 
             FileUploadService::deleteImage(public_path($user->teacher->teacher_photo));
-
-        } elseif($user->type == 'student') {
+        } elseif ($user->type == 'student') {
 
             FileUploadService::deleteImage(public_path($user->student->student_photo));
         }
