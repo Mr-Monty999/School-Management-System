@@ -26,7 +26,7 @@
                                         </tr>
                                         <tr>
                                             <td>اسم المعلم</td>
-                                            <td> {{ $teacher->teacher_address }}</td>
+                                            <td> {{ $teacher->teacher_name }}</td>
                                         </tr>
                                         <tr>
                                             <td>رقم هاتف المعلم</td>
@@ -59,6 +59,10 @@
                                         <tr>
                                             <td> الرقم الوطني</td>
                                             <td> {{ $teacher->teacher_national_number }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td> اسم المستخدم </td>
+                                            <td> {{ $teacher->user->username }}</td>
                                         </tr>
                                     </tbody>
                                 </table>

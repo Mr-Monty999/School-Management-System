@@ -72,7 +72,7 @@ class TeacherController extends Controller
      */
     public function show(Teacher $teacher)
     {
-        $teacher->load('subjects', 'subjects.class');
+        $teacher->load( 'subjects.class','user');
         return view('teachers.show', compact('teacher'));
     }
 

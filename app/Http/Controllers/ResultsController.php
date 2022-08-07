@@ -7,6 +7,7 @@ use App\Models\Result;
 use App\Models\Student;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ResultsController extends Controller
 {
@@ -17,38 +18,17 @@ class ResultsController extends Controller
      */
     public function index()
     {
-        if(auth()->user()->hasRole('student')) {
+        if(Auth::user()->type == 'student') {
             return redirect()->route('results.getStudentResult');
         }
-        $classes = Classes::all();
 
-        if(auth()->user()->hasRole('teacher')) {
-            $teacher = Teacher::find(auth()->user()->teacher_id);
-            $classes = $teacher->classes;
+        if(Auth::user()->type == 'teacher') {
+            $classes = Auth::user()->teacher->classes;
         }
-
+        else {
+            $classes = Classes::all();
+        }
         return view('results.index',compact('classes'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
     }
 
     /**
@@ -62,29 +42,6 @@ class ResultsController extends Controller
         $result->load('students.results.subject');
 
         return view('results.show',['class' => $result]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
     }
 
     /**
@@ -102,12 +59,14 @@ class ResultsController extends Controller
 
     public function showResult(Student $student)
     {
-        if(auth()->user()->hasRole('teacher')) {
-            $teacher = Teacher::find(auth()->user()->teacher_id);
+        if(Auth::user()->type == 'teacher') {
+
+            $teacher = Auth::user()->teacher;
             $ids = $teacher->subjects()->pluck('id')->toArray();
-            $student->load(['results','results.subject','results.teacher:id,teacher_name','class.subjects' => fn($q) => $q->findMany($ids)]);
-        } else {
-            $student->load('results','results.subject','results.teacher:id,teacher_name','class.subjects');
+            $student->load(['results.subject','results.teacher:id,teacher_name','class.subjects' => fn($q) => $q->findMany($ids)]);
+        }
+        else {
+            $student->load('results.subject','results.teacher:id,teacher_name','class.subjects');
         }
 
         return view('results.results',compact('student'));
@@ -126,9 +85,10 @@ class ResultsController extends Controller
 
 
     public function getStudentResults() {
-        $student_id = auth()->user()->student_id;
-        $results = Result::with('subject.teachers')->where('student_id',$student_id)->get();
-        $student = Student::find($student_id);
+
+        $student = Student::where('user_id',Auth::id())->first();
+
+        $results = Result::with('subject.teachers')->where('student_id',$student->id)->get();
 
         return view('results.studentResult',compact('results','student'));
     }

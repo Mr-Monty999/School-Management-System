@@ -55,6 +55,9 @@ class PermissionsSeeder extends Seeder
             'employe.add',
             'employe.edit',
             'employe.delete',
+            'archive.view',
+            'archive.delete',
+            'archive.restore',
         ];
 
         $permissions = [

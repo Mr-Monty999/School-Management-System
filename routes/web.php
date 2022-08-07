@@ -100,9 +100,12 @@ Route::group(["middleware" => "auth"], function () {
     Route::resource('roles', RoleController::class);
 
     ////   Archive  \\\\
-    Route::get('archive', [ArchiveController::class, 'index'])->name('archive.index');
-    Route::delete('archive/destroy/{user}', [ArchiveController::class, 'destroy'])->name('archive.destroy')->withTrashed();
-    Route::post('archive/restore/{user}', [ArchiveController::class, 'restore'])->name('archive.restore')->withTrashed();
-    Route::get('archive/table/{pageNumber}', [App\Http\Controllers\ArchiveController::class, "table"])->name("archive.table");
-    Route::get('archive/search/{pageNumber}/{name}', [App\Http\Controllers\ArchiveController::class, "search"])->name("archive.search");
+    Route::group(['middleware' => 'permission:archive.view'],function() {
+
+        Route::get('archive', [ArchiveController::class, 'index'])->name('archive.index');
+        Route::delete('archive/destroy/{user}', [ArchiveController::class, 'destroy'])->name('archive.destroy')->withTrashed();
+        Route::post('archive/restore/{user}', [ArchiveController::class, 'restore'])->name('archive.restore')->withTrashed();
+        Route::get('archive/table/{pageNumber}', [App\Http\Controllers\ArchiveController::class, "table"])->name("archive.table");
+        Route::get('archive/search/{pageNumber}/{name}', [App\Http\Controllers\ArchiveController::class, "search"])->name("archive.search");
+    });
 });

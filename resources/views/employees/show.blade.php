@@ -60,6 +60,10 @@
                                             <td> الرقم الوطني</td>
                                             <td> {{ $employe->employe_national_number }}</td>
                                         </tr>
+                                        <tr>
+                                            <td> اسم المستخدم</td>
+                                            <td> {{ $employe->user->username }}</td>
+                                        </tr>
                                     </tbody>
                                 </table>
 

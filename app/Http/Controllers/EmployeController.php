@@ -76,7 +76,7 @@ class EmployeController extends Controller
      */
     public function show($id) // Use model binding
     {
-        $employe = Employe::findOrFail($id);
+        $employe = Employe::with('user')->findOrFail($id);
         return view("employees.show", compact("employe"));
     }
 
