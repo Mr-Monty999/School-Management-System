@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreTeacherRequest;
 use App\Http\Requests\UpdateTeacherRequest;
 use App\Models\Teacher;
+use App\Models\User;
 use App\Services\FileUploadService;
 use App\Services\JsonService;
 use App\Services\RegisterationService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TeacherController extends Controller
 {
@@ -72,7 +74,7 @@ class TeacherController extends Controller
      */
     public function show(Teacher $teacher)
     {
-        $teacher->load( 'subjects.class','user');
+        $teacher->load('subjects.class', 'user');
         return view('teachers.show', compact('teacher'));
     }
 
@@ -120,5 +122,15 @@ class TeacherController extends Controller
         $teacher->delete();
 
         return JsonService::responseSuccess("تم حذف المعلم بنجاح", $data);
+    }
+
+    public function destroyAll(Request $request)
+    {
+
+        User::join("teachers", "users.id", "=", "teachers.user_id")->delete();
+
+        Teacher::whereNotNull("id")->delete();
+
+        return JsonService::responseSuccess("تم حذف جميع المعلمين بنجاح", null);
     }
 }
