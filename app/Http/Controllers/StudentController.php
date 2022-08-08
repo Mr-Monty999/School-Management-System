@@ -10,6 +10,7 @@ use App\Models\Student;
 use App\Services\FileUploadService;
 use App\Services\JsonService;
 use App\Services\RegisterationService;
+use Illuminate\Support\Facades\Request;
 
 class StudentController extends Controller
 {
@@ -168,7 +169,14 @@ class StudentController extends Controller
         return JsonService::responseSuccess("تم حذف الطالب بنجاح", $data);
     }
 
-    /**
-     *
-     */
+    public function destroyAll(Request $request)
+    {
+
+        Student::all()->each(function ($student) {
+            $student->user()->delete();
+        });
+        Student::whereNotNull("id")->delete();
+
+        return JsonService::responseSuccess("تم حذف جميع الطلاب بنجاح", null);
+    }
 }

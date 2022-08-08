@@ -133,4 +133,15 @@ class EmployeController extends Controller
 
         return  JsonService::responseSuccess("تم حذف الموظف بنجاح", $employe);
     }
+
+    public function destroyAll(Request $request)
+    {
+
+        Employe::all()->each(function ($employe) {
+            $employe->user()->delete();
+        });
+        Employe::whereNotNull("id")->delete();
+
+        return JsonService::responseSuccess("تم حذف جميع الموظفين بنجاح", null);
+    }
 }

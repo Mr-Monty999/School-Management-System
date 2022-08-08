@@ -26,6 +26,9 @@
 
         </div>
 
+        <button class="btn btn-danger" type="button" id="delete-all">حذف جميع المعلمين</button>
+
+
 
 
     </div>
@@ -33,6 +36,108 @@
 
 @push('ajax')
     <script>
+        //Delete All teachers And Refresh The Table
+        $(document).on("click", "#delete-all", function(e) {
+            e.preventDefault();
+
+
+            let = deleteAllArchives = confirm("هل أنت متأكد من حذف جميع البيانات؟"),
+                url = "{{ route('teachers.destroy.all') }}",
+                pageNumber = $(".pagination .active").text();
+
+            if (pageNumber == "")
+                pageNumber = 1;
+
+
+            if (deleteAllArchives) {
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                    },
+                    method: "post",
+                    url: url,
+                    data: "",
+                    dataType: "json",
+                    beforeSend: function() {
+                        $(".mytable").after('<div class="d-flex spinner"><p>جار المعالجة...</p>' +
+                            '<div class="spinner-border text-primary margin-1" role="status"></div>' +
+                            '</div>');
+                    },
+                    complete: function() {
+                        $(".spinner").remove();
+                    },
+                    success: function(response) {
+
+                        console.log(response);
+
+                        $(".alert").remove();
+
+                        let table = $(".mytable"),
+                            tableUrl = "{{ route('teachers.table', '') }}/" + pageNumber;
+
+
+
+
+                        $.ajax({
+                            type: "get",
+                            url: tableUrl,
+                            data: "data",
+                            success: function(res) {
+
+                                table.empty();
+                                table.append(res);
+
+                            },
+                            error: function(res) {
+                                // console.log(res);
+
+                            }
+                        });
+
+
+                        ///Show Success Or Error Message
+                        if (response.success) {
+                            $(".mytable").after(
+                                '<div class="alert alert-success text-white text-center">' +
+                                response
+                                .message +
+                                '</div>'
+                            );
+
+                        } else
+                            $(".mytable").after(
+                                '<div class="alert alert-danger text-white text-center">' + response
+                                .message +
+                                '</div>'
+                            );
+
+                    },
+                    error: function(response) {
+
+                        $(".alert").remove();
+
+
+                        //errors = Validtion Errors keys
+                        let errors = response.responseJSON.errors;
+
+                        for (let errorName in errors) {
+
+
+                            $(".mytable").after(
+                                '<div class="alert alert-danger text-white">' + errors[
+                                    errorName] +
+                                '</div>'
+                            );
+                        }
+
+
+                    }
+
+                });
+            }
+
+        });
+
         /// Search For teachers By Name On keyup Event //
         $(document).on("keyup change", "#search", function() {
 

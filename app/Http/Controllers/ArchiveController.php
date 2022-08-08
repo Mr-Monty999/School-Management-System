@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Employe;
+use App\Models\Parents;
 use App\Models\Student;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
 use App\Services\FileUploadService;
 use App\Services\JsonService;
+use Nette\Utils\Json;
 
 class ArchiveController extends Controller
 {
@@ -43,7 +45,7 @@ class ArchiveController extends Controller
         $users = User::with("employe", "teacher", "student")
             ->onlyTrashed()
             ->where("username", "LIKE", "%$name%")
-            ->paginate(5);
+            ->paginate(5, ['*'], 'page', $pageNumber);
 
         //$users = User::with("employe", "teacher", "student")->where("username", "LIKE", "%$name%")->onlyTrashed()->paginate(5);
 
@@ -62,6 +64,24 @@ class ArchiveController extends Controller
 
         $user->restore();
         return JsonService::responseSuccess("تم الإستعادة بنجاح", $user);
+    }
+
+    public function restoreAll(Request $request)
+    {
+        User::onlyTrashed()->restore();
+        Employe::onlyTrashed()->restore();
+        Teacher::onlyTrashed()->restore();
+        Student::onlyTrashed()->restore();
+        Parents::onlyTrashed()->restore();
+
+
+        return JsonService::responseSuccess("تم الإسترجاع بنجاح", null);
+    }
+
+    public function destroyAll(Request $request)
+    {
+        User::onlyTrashed()->forceDelete();
+        return JsonService::responseSuccess("تم الحذف بنجاح", null);
     }
 
     public function destroy(User $user)
@@ -83,7 +103,7 @@ class ArchiveController extends Controller
         /*
         Note:
 
-        When You Delete User Parmently, The Related Data Also Will Be Deleted
+        When You Delete User Parmently, The Related Data Also Will Be Deleted Auto
 
         */
 
