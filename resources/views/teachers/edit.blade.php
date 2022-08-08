@@ -114,7 +114,6 @@
                 },
                 success: function(response) {
 
-                    console.log(response);
 
                     $(".alert").remove();
 

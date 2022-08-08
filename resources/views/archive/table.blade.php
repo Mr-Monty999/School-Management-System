@@ -29,7 +29,7 @@
 
                     <td>
                         <p class="text-dark text-center">
-                            {{ $user[$user->type][$user->type.'_name'] }}
+                            {{ $user[$user->type][$user->type . '_name'] }}
 
                             {{-- @if ($user->hasRole('employe'))
                                 {{ $user->employe()->onlyTrashed()->first()->employe_name }}
@@ -42,8 +42,8 @@
                     </td>
 
                     <td>
-                         {{ $user->type }}
-                       {{--  @foreach ($user->getRoleNames() as $role)
+                        {{ $user->type }}
+                        {{-- @foreach ($user->getRoleNames() as $role)
                             ,{{ $role }}
                         @endforeach --}}
                     </td>
@@ -56,8 +56,7 @@
                             <button type="submit" class="btn btn-danger"> حذف من الأرشيف</button>
                         </form>
 
-                        <form id="restore" action="{{ route('archive.restore', $user) }}" method="post"
-                            class="d-inline">
+                        <form id="restore" method="post" class="d-inline">
                             @csrf
                             <input hidden type="text" name="id" id="id" value="{{ $user->id }}">
                             <button type="submit" class="btn btn-success">استعادة</button>

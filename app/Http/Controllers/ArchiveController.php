@@ -16,8 +16,8 @@ class ArchiveController extends Controller
     public function index()
     {
         $users = User::with("employe", "teacher", "student")
-        ->onlyTrashed()
-        ->paginate(5);
+            ->onlyTrashed()
+            ->paginate(5);
 
         return view('archive.index', compact('users'));
     }
@@ -25,8 +25,8 @@ class ArchiveController extends Controller
     public function table($pageNumber)
     {
         $users = User::with("employe", "teacher", "student")
-        ->onlyTrashed()
-        ->paginate(5, ['*'], 'page', $pageNumber);
+            ->onlyTrashed()
+            ->paginate(5, ['*'], 'page', $pageNumber);
 
         return view('archive.table', compact('users'));
     }
@@ -54,7 +54,7 @@ class ArchiveController extends Controller
         $user->$type->restore();
 
         $user->restore();
-        return back();
+        return JsonService::responseSuccess("تم الإستعادة بنجاح", $user);
     }
 
     public function destroy(User $user)

@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateSchoolRequest;
 use App\Models\School;
+use App\Services\JsonService;
 use Illuminate\Http\Request;
+use stdClass;
 
 class SchoolController extends Controller
 {
@@ -14,7 +17,20 @@ class SchoolController extends Controller
      */
     public function index()
     {
-        return view("school.index");
+
+
+        $school = School::first();
+
+        if (School::count() < 1) {
+            $school = new stdClass;
+            $school->school_name = "";
+            $school->school_owner = "";
+            $school->school_address = "";
+            $school->school_phone = "";
+            $school->school_logo = "";
+            $school->school_year_price = 0;
+        }
+        return view("school.index", compact("school"));
     }
 
     /**
@@ -33,9 +49,17 @@ class SchoolController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UpdateSchoolRequest $request)
     {
-        //
+
+        $data = $request->validated();
+
+        if (School::count() > 0)
+            School::first()->update($data);
+        else
+            School::create($data);
+
+        return JsonService::responseSuccess("تم الحفظ بنجاح", $data);
     }
 
     /**
@@ -67,9 +91,15 @@ class SchoolController extends Controller
      * @param  \App\Models\School  $school
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, School $school)
+    public function update(UpdateSchoolRequest $request, School $school)
     {
-        //
+        /*
+        $data = $request->validated();
+
+        $school->update($data);
+
+        return JsonService::responseSuccess("تم الحفظ بنجاح", $data);
+        */
     }
 
     /**

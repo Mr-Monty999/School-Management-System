@@ -177,6 +177,111 @@
 
         });
 
+        //Restore archive And Refresh The Table
+        $(document).on("submit", "form#restore", function(e) {
+            e.preventDefault();
+
+
+            let archiveId = $(this).find("#id").val(),
+                url = "{{ route('archive.restore', '') }}/" + archiveId,
+                search = $("#search").val(),
+                pageNumber = $(".pagination .active").text();
+
+            if (pageNumber == "")
+                pageNumber = 1;
+
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                },
+                method: "post",
+                url: url,
+                data: new FormData(this),
+                dataType: "json",
+                processData: false,
+                contentType: false,
+                beforeSend: function() {
+                    $(".mytable").after('<div class="d-flex spinner"><p>جار المعالجة...</p>' +
+                        '<div class="spinner-border text-primary margin-1" role="status"></div>' +
+                        '</div>');
+                },
+                complete: function() {
+                    $(".spinner").remove();
+                },
+                success: function(response) {
+
+
+                    $(".alert").remove();
+
+                    let table = $(".mytable"),
+                        tableUrl = "{{ route('archive.table', '') }}/" + pageNumber;
+
+
+                    if (search.trim() != "")
+                        tableUrl = "{{ route('archive.search', ['', '']) }}/" + pageNumber +
+                        "/" +
+                        search;
+
+                    $.ajax({
+                        type: "get",
+                        url: tableUrl,
+                        data: "data",
+                        success: function(res) {
+
+                            table.empty();
+                            table.append(res);
+
+                        },
+                        error: function(res) {
+                            // console.log(res);
+
+                        }
+                    });
+
+
+                    ///Show Success Or Error Message
+                    if (response.success) {
+                        $(".mytable").after(
+                            '<div class="alert alert-success text-white text-center">' +
+                            response
+                            .message +
+                            '</div>'
+                        );
+
+                    } else
+                        $(".mytable").after(
+                            '<div class="alert alert-danger text-white text-center">' + response
+                            .message +
+                            '</div>'
+                        );
+
+                },
+                error: function(response) {
+
+                    $(".alert").remove();
+
+
+                    //errors = Validtion Errors keys
+                    let errors = response.responseJSON.errors;
+
+                    for (let errorName in errors) {
+
+
+                        $(".mytable").after(
+                            '<div class="alert alert-danger text-white">' + errors[
+                                errorName] +
+                            '</div>'
+                        );
+                    }
+
+
+                }
+
+            });
+
+
+        });
 
         //Load Table By Page Number/s/
         $(document).on("click", ".pagination .page-link", function(e) {
