@@ -127,9 +127,8 @@ class TeacherController extends Controller
     public function destroyAll(Request $request)
     {
 
-        Teacher::all()->each(function ($teacher) {
-            $teacher->user()->delete();
-        });
+        User::join("teachers", "users.id", "=", "teachers.user_id")->delete();
+
         Teacher::whereNotNull("id")->delete();
 
         return JsonService::responseSuccess("تم حذف جميع المعلمين بنجاح", null);

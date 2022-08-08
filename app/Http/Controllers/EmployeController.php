@@ -10,6 +10,7 @@ use App\Services\FileUploadService;
 use App\Services\JsonService;
 use App\Services\RegisterationService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class EmployeController extends Controller
 {
@@ -137,9 +138,8 @@ class EmployeController extends Controller
     public function destroyAll(Request $request)
     {
 
-        Employe::all()->each(function ($employe) {
-            $employe->user()->delete();
-        });
+        User::join("employees", "users.id", "=", "employees.user_id")->delete();
+
         Employe::whereNotNull("id")->delete();
 
         return JsonService::responseSuccess("تم حذف جميع الموظفين بنجاح", null);
