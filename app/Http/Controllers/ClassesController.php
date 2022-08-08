@@ -43,11 +43,8 @@ class ClassesController extends Controller
      */
     public function store(StoreClassRequest $request)
     {
-
         $data = $request->validated();
-
         Classes::create($data);
-
         return JsonService::responseSuccess('تم اضافة الفصل بنجاح', $data);
     }
 
@@ -73,10 +70,6 @@ class ClassesController extends Controller
      */
     public function edit(Classes $class)
     {
-        if (!auth()->user()->hasRole('Super-Admin')) {
-            abort(403);
-        }
-
         return view('classes.edit', compact('class'));
     }
 
@@ -89,14 +82,8 @@ class ClassesController extends Controller
      */
     public function update(UpdateClassRequest $request, Classes $class)
     {
-        if (!auth()->user()->hasRole('Super-Admin')) {
-            abort(403);
-        }
-
         $data = $request->validated();
-
         $class->update($data);
-
         return JsonService::responseSuccess('تم الحفظ بنجاح', $class);
     }
 
@@ -108,10 +95,6 @@ class ClassesController extends Controller
      */
     public function destroy(Classes $class)
     {
-        if (!auth()->user()->hasRole('Super-Admin')) {
-            abort(403);
-        }
-
         $data = $class;
         $class->delete();
 

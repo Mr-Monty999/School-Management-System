@@ -52,7 +52,7 @@
                 url: url,
                 data: "data",
                 success: function(response) {
-
+                    console.log(response);
                     table.empty();
                     table.append(response);
 
@@ -60,7 +60,7 @@
 
                 },
                 error: function(response) {
-                    // console.log(response);
+                    console.log(response);
 
                 }
             });
