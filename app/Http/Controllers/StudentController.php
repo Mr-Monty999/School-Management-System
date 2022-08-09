@@ -36,20 +36,18 @@ class StudentController extends Controller
             ['\\\\','\%','\_'],
             $name
         ); */
-
-
         $students = null;
         if ($sortBy == "last") {
             $students = Student::with('class')
                 ->where('student_name', 'LIKE', "%$name%")
                 ->latest()->paginate(5, ['*'], 'page', $pageNumber);
         } else if ($sortBy == "first") {
-            $students = Student::with('class', 'parent')
+            $students = Student::with('class')
                 ->where('student_name', 'LIKE', "%$name%")
                 ->paginate(5, ['*'], 'page', $pageNumber);
         } else {
 
-            $students = Student::with('class', 'parent')
+            $students = Student::with('class')
                 ->where('student_name', 'LIKE', "%$name%")
                 ->orderBy("student_name")
                 ->paginate(5, ['*'], 'page', $pageNumber);
