@@ -38,7 +38,7 @@ Route::group(["middleware" => "auth"], function () {
 
 
     //// Users Route ////
-    Route::group(['middleware' => 'permission:admin.view'],function() {
+    Route::group(['middleware' => 'permission:admin.view'], function () {
         Route::resource('users', UserController::class);
         Route::get('users/table/{pageNumber}', [App\Http\Controllers\UserController::class, "table"])->name("users.table");
         Route::get('users/search/{pageNumber}/{name}', [App\Http\Controllers\UserController::class, "search"])->name("users.search");
@@ -72,14 +72,12 @@ Route::group(["middleware" => "auth"], function () {
 
 
     ////  Parents Routes  //////
-    Route::resource('parents', ParentsController::class)->middleware('permission:student.view');
+    Route::resource('parents', ParentsController::class)->middleware('permission:parent.view');
+    Route::get('parents/table/{pageNumber}/{sortBy}/{name?}', [App\Http\Controllers\ParentsController::class, "table"])
+        ->name("parents.table")
+        ->middleware('permission:parent.view');
 
-    Route::get('parents/table/{pageNumber}', [App\Http\Controllers\ParentsController::class, "table"])
-    ->name("parents.table")
-    ->middleware('permission:student.view');
-    Route::get('parents/search/{pageNumber}/{name}', [App\Http\Controllers\ParentsController::class, "search"])
-    ->name("parents.search")
-    ->middleware('permission:student.view');
+
 
     ////  School Routes  //////
     Route::resource('schools', SchoolController::class)->middleware('role:Super-Admin');

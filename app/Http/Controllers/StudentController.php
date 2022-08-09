@@ -36,6 +36,9 @@ class StudentController extends Controller
             ['\\\\','\%','\_'],
             $name
         ); */
+
+        $name = trim($name);
+
         $students = null;
         if ($sortBy == "last") {
             $students = Student::with('class')

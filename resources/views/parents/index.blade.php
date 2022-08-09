@@ -8,8 +8,8 @@
             <label for="sort-by" class="">ترتيب حسب :</label>
             <div class="input-group input-group-outline">
                 <select class="form-control bg-white" id="sort-by" name="sort_by">
-                    <option value="last" selected>أخر طالب</option>
-                    <option value="first">أول طالب</option>
+                    <option value="last" selected>من الأخر الى الأول</option>
+                    <option value="first">من الأول الى الأخر</option>
                     <option value="name">الأسم</option>
                 </select>
             </div>
@@ -36,21 +36,79 @@
         //         console.log(search)
         //         search.addEventListener('change', () => console.log(55))
 
+        //Sort And Refresh The Table
+        $(document).on("change", "#sort-by", function(e) {
+            e.preventDefault();
 
 
+            let = search = $("#search").val(),
+                sortBy = $("#sort-by").val(),
+                pageNumber = $(".pagination .active").text();
+
+            if (pageNumber == "")
+                pageNumber = 1;
+
+
+            let table = $(".mytable"),
+                url = "{{ route('parents.table', ['', '', '']) }}/" + pageNumber +
+                "/" +
+                sortBy + "/" +
+                search;
+
+            if (pageNumber == "")
+                pageNumber = 1;
+
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                },
+                method: "get",
+                url: url,
+                data: "",
+                beforeSend: function() {
+                    $("mytable").after('<div class="d-flex spinner"><p>جار المعالجة...</p>' +
+                        '<div class="spinner-border text-primary margin-1" role="status"></div>' +
+                        '</div>');
+                },
+                complete: function() {
+                    $(".spinner").remove();
+                },
+                success: function(response) {
+
+
+                    $(".alert").remove();
+
+
+                    table.empty();
+                    table.append(response);
+
+
+                },
+                error: function(response) {
+
+                    $(".alert").remove();
+
+
+
+                }
+
+            });
+
+
+        });
 
         /// Search For Parents By Name On keyup Event //
         $(document).on("keyup change", "#search", function() {
 
             $(".alert").remove();
 
-            let search = $(this).val().trim(),
-                url = "{{ route('parents.search', ['', '']) }}/1/" + search,
+            let search = $(this).val(),
+                sortBy = $("#sort-by").val(),
+                url = "{{ route('parents.table', ['', '', '']) }}/1/" + sortBy + "/" + search,
                 table = $(".mytable");
 
 
-            if (search == "")
-                url = "{{ route('parents.table', '') }}/1";
 
             $.ajax({
                 type: "get",
@@ -92,10 +150,9 @@
 
             let table = $(".mytable"),
                 search = $("#search").val(),
-                url = "{{ route('parents.table', '') }}/" + pageNumber;
+                sortBy = $("#sort-by").val(),
+                url = "{{ route('parents.table', ['', '', '']) }}/" + pageNumber + "/" + sortBy + "/" + search;
 
-            if (search.trim() != "")
-                url = "{{ route('parents.search', ['', '']) }}/" + pageNumber + "/" + search;
 
 
 

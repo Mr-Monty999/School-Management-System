@@ -10,8 +10,8 @@
                     <label for="sort-by" class="">ترتيب حسب :</label>
                     <div class="input-group input-group-outline">
                         <select class="form-control bg-white" id="sort-by" name="sort_by">
-                            <option value="last" selected>أخر طالب</option>
-                            <option value="first">أول طالب</option>
+                            <option value="last" selected>من الأخر الى الأول</option>
+                            <option value="first">من الأول الى الأخر</option>
                             <option value="name">الأسم</option>
                         </select>
                     </div>
@@ -58,10 +58,12 @@
                 e.preventDefault();
 
 
-                let
-                    search = $("#search").val().trim(),
+                let = search = $("#search").val(),
                     sortBy = $("#sort-by").val(),
                     pageNumber = $(".pagination .active").text();
+
+                if (pageNumber == "")
+                    pageNumber = 1;
 
 
                 let table = $(".mytable"),
@@ -121,8 +123,8 @@
                 let = deleteAllArchives = confirm("هل أنت متأكد من حذف جميع البيانات؟"),
                     url = "{{ route('students.destroy.all') }}",
                     sortBy = $("#sort-by").val(),
-                    search = $("#search").val().trim(),
-                    pageNumber = $(".pagination .active").text();
+                    search = $("#search").val()
+                pageNumber = $(".pagination .active").text();
 
                 if (pageNumber == "")
                     pageNumber = 1;
@@ -223,8 +225,8 @@
 
                 $(".alert").remove();
 
-                let search = $(this).val().trim(),
-                    sortBy = $("#sort-by").val(),
+                let search = $(this).val()
+                sortBy = $("#sort-by").val(),
                     url = "{{ route('students.table', ['', '', '']) }}/1/" + sortBy + "/" + search;
 
                 let table = $(".mytable");
@@ -257,8 +259,8 @@
                 let studentId = $(this).find("#id").val(),
                     deleteStudent = confirm("هل أنت متأكد من حذف هذا الطالب؟"),
                     url = "{{ route('students.destroy', '') }}/" + studentId,
-                    search = $("#search").val().trim(),
-                    sortBy = $("#sort-by").val(),
+                    search = $("#search").val()
+                sortBy = $("#sort-by").val(),
                     pageNumber = $(".pagination .active").text();
 
                 if (pageNumber == "")
@@ -375,8 +377,8 @@
 
 
                 let table = $(".mytable"),
-                    search = $("#search").val().trim(),
-                    sortBy = $("#sort-by").val(),
+                    search = $("#search").val()
+                sortBy = $("#sort-by").val(),
                     url = "{{ route('students.table', ['', '', '']) }}/" + pageNumber + "/" + sortBy + "/" + search;
 
 

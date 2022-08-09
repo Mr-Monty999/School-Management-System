@@ -20,25 +20,34 @@ class ParentsController extends Controller
         return view("parents.index", compact('parents'));
     }
 
-    public function table($pageNumber)
+    public function table($pageNumber, $sortBy, $name = "")
     {
-        $parents = Parents::withCount('students')
-        ->latest()
-        ->paginate(10, ['*'], 'page', $pageNumber)
-        ->withPath(route('parents.index'));
+
+        $name = trim($name);
+
+        $parents = null;
+        if ($sortBy == "last") {
+            $parents = Parents::withCount('students')
+                ->where("parent_name", 'LIKE', "%$name%")
+                ->latest()
+                ->paginate(10, ['*'], 'page', $pageNumber)
+                ->withPath(route('parents.index'));
+        } else if ($sortBy == "first") {
+            $parents = Parents::withCount('students')
+                ->where("parent_name", 'LIKE', "%$name%")
+                ->paginate(10, ['*'], 'page', $pageNumber)
+                ->withPath(route('parents.index'));
+        } else {
+            $parents = Parents::withCount('students')
+                ->where("parent_name", 'LIKE', "%$name%")
+                ->orderBy("parent_name")
+                ->paginate(10, ['*'], 'page', $pageNumber)
+                ->withPath(route('parents.index'));
+        }
 
         return view("parents.table", compact('parents'));
     }
 
-    public function search($pageNumber, $name)
-    {
-        $parents = Parents::withCount('students')
-        ->where("parent_name", 'LIKE', "%$name%")
-        ->latest()
-        ->paginate(10, ['*'], 'page', $pageNumber)
-        ->withPath(route('parents.index'));
-        return view("parents.table", compact('parents'));
-    }
     /**
      * Show the form for creating a new resource.
      *
