@@ -25,15 +25,19 @@ class TeacherController extends Controller
         return view("teachers.index", compact('teachers'));
     }
 
-    public function table($pageNumber)
-    {
-        $teachers = Teacher::with("subjects")->latest()->paginate(5, ['*'], 'page', $pageNumber);
-        return view("teachers.table", compact('teachers'));
-    }
 
-    public function search($pageNumber, $name)
+
+    public function table($pageNumber, $sortBy, $name = "")
     {
-        $teachers = Teacher::where("teacher_name", "LIKE", "%$name%")->with("subjects")->latest()->paginate(5, ['*'], 'page', $pageNumber);
+
+        $name = trim($name);
+        if ($sortBy == "last") {
+            $teachers = Teacher::with("subjects")->where("teacher_name", "LIKE", "%$name%")->latest()->paginate(5, ['*'], 'page', $pageNumber);
+        } elseif ($sortBy == "first") {
+            $teachers = Teacher::with("subjects")->where("teacher_name", "LIKE", "%$name%")->paginate(5, ['*'], 'page', $pageNumber);
+        } else {
+            $teachers = Teacher::with("subjects")->where("teacher_name", "LIKE", "%$name%")->orderBy("teacher_name")->paginate(5, ['*'], 'page', $pageNumber);
+        }
         return view("teachers.table", compact('teachers'));
     }
 

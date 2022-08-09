@@ -97,8 +97,7 @@ Route::group(["middleware" => "auth"], function () {
 
     ////  Teachers Routes  //////
     Route::resource('teachers', TeacherController::class)->middleware('permission:teacher.view');
-    Route::get('teachers/table/{pageNumber}', [App\Http\Controllers\TeacherController::class, "table"])->name("teachers.table")->middleware('permission:teacher.view');
-    Route::get('teachers/search/{pageNumber}/{name}', [App\Http\Controllers\TeacherController::class, "search"])->name("teachers.search")->middleware('permission:teacher.view');
+    Route::get('teachers/table/{pageNumber}/{sortBy}/{name?}', [App\Http\Controllers\TeacherController::class, "table"])->name("teachers.table")->middleware('permission:teacher.view');
     Route::post('teacher/destroy-all', [App\Http\Controllers\TeacherController::class, "destroyAll"])->name("teachers.destroy.all")->middleware('permission:teacher.view');
 
     ////  Privacy Routes  //////

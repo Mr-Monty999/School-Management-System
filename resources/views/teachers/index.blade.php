@@ -3,7 +3,18 @@
 @section('section')
     <div class="d-flex flex-column justify-content-center align-items-center">
         <h1>ادارة المعلمين</h1>
-        <div class="input-group input-group-outline bg-white w-25 my-3">
+        <div class="my-3">
+            <label for="sort-by" class="">ترتيب حسب :</label>
+            <div class="input-group input-group-outline">
+                <select class="form-control bg-white" id="sort-by" name="sort_by">
+                    <option value="last" selected>من الأخر الى الأول</option>
+                    <option value="first">من الأول الى الأخر</option>
+                    <option value="name">الأسم</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="input-group input-group-outline bg-white w-25">
             <label class="form-label"> بحث...</label>
             <input type="text" class="form-control" id="search">
         </div>
@@ -36,6 +47,67 @@
 
 @push('ajax')
     <script>
+        //Sort And Refresh The Table
+        $(document).on("change", "#sort-by", function(e) {
+            e.preventDefault();
+
+
+            let = search = $("#search").val(),
+                sortBy = $("#sort-by").val(),
+                pageNumber = $(".pagination .active").text();
+
+            if (pageNumber == "")
+                pageNumber = 1;
+
+
+            let table = $(".mytable"),
+                url = "{{ route('teachers.table', ['', '', '']) }}/" + pageNumber +
+                "/" +
+                sortBy + "/" +
+                search;
+
+
+
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                },
+                method: "get",
+                url: url,
+                data: "",
+                beforeSend: function() {
+                    $("mytable").after('<div class="d-flex spinner"><p>جار المعالجة...</p>' +
+                        '<div class="spinner-border text-primary margin-1" role="status"></div>' +
+                        '</div>');
+                },
+                complete: function() {
+                    $(".spinner").remove();
+                },
+                success: function(response) {
+
+
+                    $(".alert").remove();
+
+
+                    table.empty();
+                    table.append(response);
+
+
+                },
+                error: function(response) {
+
+                    $(".alert").remove();
+
+
+
+                }
+
+            });
+
+
+        });
+
         //Delete All teachers And Refresh The Table
         $(document).on("click", "#delete-all", function(e) {
             e.preventDefault();
@@ -43,7 +115,9 @@
 
             let = deleteAllArchives = confirm("هل أنت متأكد من حذف جميع البيانات؟"),
                 url = "{{ route('teachers.destroy.all') }}",
-                pageNumber = $(".pagination .active").text();
+                sortBy = $("#sort-by").val(),
+                search = $("#search").val()
+            pageNumber = $(".pagination .active").text();
 
             if (pageNumber == "")
                 pageNumber = 1;
@@ -73,8 +147,8 @@
                         $(".alert").remove();
 
                         let table = $(".mytable"),
-                            tableUrl = "{{ route('teachers.table', '') }}/" + pageNumber;
-
+                            tableUrl = "{{ route('teachers.table', ['', '', '']) }}/1/" + sortBy +
+                            "/" + search;
 
 
 
@@ -143,12 +217,11 @@
 
             $(".alert").remove();
 
-            let search = $(this).val().trim(),
-                url = "{{ route('teachers.search', ['', '']) }}/1/" + search;
+            let search = $(this).val(),
+                sortBy = $("#sort-by").val(),
+                url = "{{ route('teachers.table', ['', '', '']) }}/1/" + sortBy + "/" + search;
 
 
-            if (search == "")
-                url = "{{ route('teachers.table', '') }}/1";
 
             let table = $(".mytable");
 
@@ -183,6 +256,7 @@
                 deleteteacher = confirm("هل أنت متأكد من حذف هذه الأستاذ؟"),
                 url = "{{ route('teachers.destroy', '') }}/" + teacherId,
                 search = $("#search").val(),
+                sortBy = $("#sort-by").val(),
                 pageNumber = $(".pagination .active").text();
 
             if (pageNumber == "")
@@ -216,11 +290,9 @@
                         $(".alert").remove();
 
                         let table = $(".mytable"),
-                            tableUrl = "{{ route('teachers.table', '') }}/" + pageNumber;
-
-
-                        if (search.trim() != "")
-                            tableUrl = "{{ route('teachers.search', ['', '']) }}/" + pageNumber + "/" +
+                            tableUrl = "{{ route('teachers.table', ['', '', '']) }}/" + pageNumber +
+                            "/" +
+                            sortBy + "/" +
                             search;
 
                         $.ajax({
@@ -300,10 +372,8 @@
 
             let table = $(".mytable"),
                 search = $("#search").val(),
-                url = "{{ route('teachers.table', '') }}/" + pageNumber;
-
-            if (search.trim() != "")
-                url = "{{ route('teachers.search', ['', '']) }}/" + pageNumber + "/" + search;
+                sortBy = $("#sort-by").val(),
+                url = "{{ route('teachers.table', ['', '', '']) }}/" + pageNumber + "/" + sortBy + "/" + search;
 
 
 
