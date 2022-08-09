@@ -4,7 +4,19 @@
     <div class="d-flex flex-column justify-content-center align-items-center">
         <h1> أرشيف المستخدمين</h1>
 
-        <div class="input-group input-group-outline bg-white w-25 my-3 mtop-1">
+
+        <div class="my-3">
+            <label for="view-by" class="text-dark">عرض:</label>
+            <div class="input-group input-group-outline">
+                <select class="form-control bg-white" id="view-by" name="view_by">
+                    <option value="all" selected>الكل</option>
+                    <option value="students">الطلاب فقط</option>
+                    <option value="teachers">المعلمين فقط</option>
+                    <option value="employees">الموظفين فقط</option>
+                </select>
+            </div>
+        </div>
+        <div class="input-group input-group-outline bg-white w-25 my-3">
             <label class="form-label"> بحث...</label>
             <input type="text" class="form-control" id="search">
         </div>
@@ -35,6 +47,67 @@
 
 @push('ajax')
     <script>
+        //View And Refresh The Table
+        $(document).on("change", "#view-by", function(e) {
+            e.preventDefault();
+
+
+            let = search = $("#search").val(),
+                viewBy = $("#view-by").val(),
+                pageNumber = $(".pagination .active").text();
+
+            if (pageNumber == "")
+                pageNumber = 1;
+
+
+            let table = $(".mytable"),
+                url = "{{ route('archive.table', ['', '', '']) }}/" + pageNumber +
+                "/" +
+                viewBy + "/" +
+                search;
+
+
+
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                },
+                method: "get",
+                url: url,
+                data: "",
+                beforeSend: function() {
+                    $("mytable").after('<div class="d-flex spinner"><p>جار المعالجة...</p>' +
+                        '<div class="spinner-border text-primary margin-1" role="status"></div>' +
+                        '</div>');
+                },
+                complete: function() {
+                    $(".spinner").remove();
+                },
+                success: function(response) {
+
+
+                    $(".alert").remove();
+
+
+                    table.empty();
+                    table.append(response);
+
+
+                },
+                error: function(response) {
+
+                    $(".alert").remove();
+
+
+
+                }
+
+            });
+
+
+        });
+
         //Delete All archive And Refresh The Table
         $(document).on("click", "#delete-all", function(e) {
             e.preventDefault();
@@ -43,6 +116,8 @@
             let archiveId = $(this).find("#id").val(),
                 deleteAllArchives = confirm("هل أنت متأكد من حذف جميع البيانات؟"),
                 url = "{{ route('archive.destroy.all') }}",
+                viewBy = $("#view-by").val(),
+                search = $("#search").val(),
                 pageNumber = $(".pagination .active").text();
 
             if (pageNumber == "")
@@ -72,8 +147,8 @@
                         $(".alert").remove();
 
                         let table = $(".mytable"),
-                            tableUrl = "{{ route('archive.table', '') }}/" + pageNumber;
-
+                            tableUrl = "{{ route('archive.table', ['', '', '']) }}/1/" + viewBy +
+                            "/" + search;
 
 
 
@@ -144,6 +219,8 @@
             let archiveId = $(this).find("#id").val(),
                 restoreArchive = confirm("هل أنت متأكد من إستعادة جميع البيانات؟"),
                 url = "{{ route('archive.restore.all') }}",
+                viewBy = $("#view-by").val(),
+                search = $("#search").val(),
                 pageNumber = $(".pagination .active").text();
 
             if (pageNumber == "")
@@ -173,8 +250,8 @@
                         $(".alert").remove();
 
                         let table = $(".mytable"),
-                            tableUrl = "{{ route('archive.table', '') }}/" + pageNumber;
-
+                            tableUrl = "{{ route('archive.table', ['', '', '']) }}/1/" + viewBy +
+                            "/" + search;
 
 
 
@@ -243,12 +320,9 @@
 
             $(".alert").remove();
 
-            let search = $(this).val().trim(),
-                url = "{{ route('archive.search', ['', '']) }}/1/" + search;
-
-
-            if (search == "")
-                url = "{{ route('archive.table', '') }}/1";
+            let search = $(this).val(),
+                viewBy = $("#view-by").val(),
+                url = "{{ route('archive.table', ['', '', '']) }}/1/" + viewBy + "/" + search;
 
             let table = $(".mytable");
 
@@ -283,6 +357,7 @@
                 deletearchive = confirm("هل أنت متأكد من حذف هذا الحساب ؟ لن تتمكن من إرجعاه مرة أخرى !"),
                 url = "{{ route('archive.destroy', '') }}/" + archiveId,
                 search = $("#search").val(),
+                viewBy = $("#view-by").val(),
                 pageNumber = $(".pagination .active").text();
 
             if (pageNumber == "")
@@ -314,12 +389,9 @@
                         $(".alert").remove();
 
                         let table = $(".mytable"),
-                            tableUrl = "{{ route('archive.table', '') }}/" + pageNumber;
-
-
-                        if (search.trim() != "")
-                            tableUrl = "{{ route('archive.search', ['', '']) }}/" + pageNumber +
+                            tableUrl = "{{ route('archive.table', ['', '', '']) }}/" + pageNumber +
                             "/" +
+                            viewBy + "/" +
                             search;
 
                         $.ajax({
@@ -390,6 +462,7 @@
             let archiveId = $(this).find("#id").val(),
                 url = "{{ route('archive.restore', '') }}/" + archiveId,
                 search = $("#search").val(),
+                viewBy = $("#view-by").val(),
                 pageNumber = $(".pagination .active").text();
 
             if (pageNumber == "")
@@ -419,13 +492,11 @@
 
                     $(".alert").remove();
 
+
                     let table = $(".mytable"),
-                        tableUrl = "{{ route('archive.table', '') }}/" + pageNumber;
-
-
-                    if (search.trim() != "")
-                        tableUrl = "{{ route('archive.search', ['', '']) }}/" + pageNumber +
+                        tableUrl = "{{ route('archive.table', ['', '', '']) }}/" + pageNumber +
                         "/" +
+                        viewBy + "/" +
                         search;
 
                     $.ajax({
@@ -504,11 +575,8 @@
 
             let table = $(".mytable"),
                 search = $("#search").val(),
-                url = "{{ route('archive.table', '') }}/" + pageNumber;
-
-            if (search.trim() != "")
-                url = "{{ route('archive.search', ['', '']) }}/" + pageNumber + "/" + search;
-
+                viewBy = $("#view-by").val(),
+                url = "{{ route('archive.table', ['', '', '']) }}/" + pageNumber + "/" + viewBy + "/" + search;
 
 
             $.ajax({

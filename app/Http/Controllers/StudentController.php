@@ -23,7 +23,7 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = Student::with('class')->latest()->paginate(5);
+        $students = Student::with('class')->orderBy("id", "desc")->paginate(5);
 
         return view("students.index", compact('students'));
     }

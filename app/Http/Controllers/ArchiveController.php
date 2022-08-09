@@ -28,28 +28,42 @@ class ArchiveController extends Controller
         return view('archive.index', compact('users'));
     }
 
-    public function table($pageNumber)
-    {
-        $users = User::with("employe", "teacher", "student")
-            ->onlyTrashed()
-            ->paginate(5, ['*'], 'page', $pageNumber);
 
-        return view('archive.table', compact('users'));
-    }
-    public function search($pageNumber, $name)
+    public function table($pageNumber, $viewBy, $name = "")
     {
-        $users = User::with("employe", "teacher", "student")
-            ->whereHas('employe', function ($q) use ($name) {
-                $q->where('employe_name', 'LIKE', "%$name%")->onlyTrashed();
-            })
-            ->orWhereHas('teacher', function ($q) use ($name) {
-                $q->where('teacher_name', 'LIKE', "%$name%")->onlyTrashed();
-            })
-            ->orWhereHas('student', function ($q) use ($name) {
-                $q->where('student_name', 'LIKE', "%$name%")->onlyTrashed();
-            })
-            ->onlyTrashed()
-            ->paginate(5);
+        $name = trim($name);
+        $users = null;
+
+        if ($viewBy == "all") {
+            $users = User::with("employe", "teacher", "student")
+                ->whereHas('employe', function ($q) use ($name) {
+                    $q->where('employe_name', 'LIKE', "%$name%")->onlyTrashed();
+                })
+                ->orWhereHas('teacher', function ($q) use ($name) {
+                    $q->where('teacher_name', 'LIKE', "%$name%")->onlyTrashed();
+                })
+                ->orWhereHas('student', function ($q) use ($name) {
+                    $q->where('student_name', 'LIKE', "%$name%")->onlyTrashed();
+                })
+                ->onlyTrashed()
+                ->paginate(5, ['*'], 'page', $pageNumber);
+        } elseif ($viewBy == "students") {
+            $users = User::with("student")
+                ->whereHas('student', function ($q) use ($name) {
+                    $q->where('student_name', 'LIKE', "%$name%")->onlyTrashed();
+                })->onlyTrashed()->paginate(5, ['*'], 'page', $pageNumber);
+        } elseif ($viewBy == "employees") {
+            $users = User::with("employe")
+                ->whereHas('employe', function ($q) use ($name) {
+                    $q->where('employe_name', 'LIKE', "%$name%")->onlyTrashed();
+                })->onlyTrashed()->paginate(5, ['*'], 'page', $pageNumber);
+        } else {
+
+            $users = User::with("teacher")
+                ->whereHas('teacher', function ($q) use ($name) {
+                    $q->where('teacher_name', 'LIKE', "%$name%")->onlyTrashed();
+                })->onlyTrashed()->paginate(5, ['*'], 'page', $pageNumber);
+        }
 
         return view('archive.table', compact('users'));
     }

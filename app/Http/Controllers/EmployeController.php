@@ -31,6 +31,8 @@ class EmployeController extends Controller
     {
 
         $name = trim($name);
+        $employees = null;
+
         if ($sortBy == "last") {
             $employees = Employe::where("employe_name", "LIKE", "%$name%")->orderBy("id", "desc")->paginate(5, ['*'], 'page', $pageNumber);
         } elseif ($sortBy == "first") {

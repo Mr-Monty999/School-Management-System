@@ -31,6 +31,8 @@ class TeacherController extends Controller
     {
 
         $name = trim($name);
+        $teachers = null;
+
         if ($sortBy == "last") {
             $teachers = Teacher::with("subjects")->where("teacher_name", "LIKE", "%$name%")->orderBy("id", "desc")
                 ->paginate(5, ['*'], 'page', $pageNumber);

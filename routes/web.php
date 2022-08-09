@@ -110,8 +110,7 @@ Route::group(["middleware" => "auth"], function () {
         Route::get('archive', [ArchiveController::class, 'index'])->name('archive.index');
         Route::delete('archive/destroy/{user}', [ArchiveController::class, 'destroy'])->name('archive.destroy')->withTrashed();
         Route::post('archive/restore/{user}', [ArchiveController::class, 'restore'])->name('archive.restore')->withTrashed();
-        Route::get('archive/table/{pageNumber}', [App\Http\Controllers\ArchiveController::class, "table"])->name("archive.table");
-        Route::get('archive/search/{pageNumber}/{name}', [App\Http\Controllers\ArchiveController::class, "search"])->name("archive.search");
+        Route::get('archive/table/{pageNumber}/{viewBy}/{name?}', [App\Http\Controllers\ArchiveController::class, "table"])->name("archive.table");
         Route::post('archive/restore-all', [App\Http\Controllers\ArchiveController::class, "restoreAll"])->name("archive.restore.all");
         Route::post('archive/destroy-all', [App\Http\Controllers\ArchiveController::class, "destroyAll"])->name("archive.destroy.all");
     });
