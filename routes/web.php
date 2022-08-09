@@ -63,8 +63,7 @@ Route::group(["middleware" => "auth"], function () {
 
     ////  Employees Routes  //////
     Route::resource('employees', EmployeController::class)->middleware('permission:employe.view');
-    Route::get('employees/table/{pageNumber}', [App\Http\Controllers\EmployeController::class, "table"])->name("employees.table")->middleware('permission:employe.view');
-    Route::get('employees/search/{pageNumber}/{name}', [App\Http\Controllers\EmployeController::class, "search"])->name("employees.search")->middleware('permission:employe.view');
+    Route::get('employees/table/{pageNumber}/{sortBy}/{name?}', [App\Http\Controllers\EmployeController::class, "table"])->name("employees.table")->middleware('permission:employe.view');
     Route::post('employees/destroy-all', [App\Http\Controllers\EmployeController::class, "destroyAll"])->name("employees.destroy.all")->middleware('permission:employe.view');;
 
 

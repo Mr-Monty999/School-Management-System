@@ -21,19 +21,24 @@ class EmployeController extends Controller
      */
     public function index()
     {
-        $employees = Employe::latest()->paginate(5);
+        $employees = Employe::orderBy("id", "desc")->paginate(5);
         return view("employees.index", compact('employees'));
     }
 
-    public function table($pageNumber)
-    {
-        $employees = Employe::latest()->paginate(5, ['*'], 'page', $pageNumber);
-        return view("employees.table", compact('employees'));
-    }
 
-    public function search($pageNumber, $name)
+
+    public function table($pageNumber, $sortBy, $name = "")
     {
-        $employees = Employe::where("employe_name", "LIKE", "%$name%")->latest()->paginate(5, ['*'], 'page', $pageNumber);
+
+        $name = trim($name);
+        if ($sortBy == "last") {
+            $employees = Employe::where("employe_name", "LIKE", "%$name%")->orderBy("id", "desc")->paginate(5, ['*'], 'page', $pageNumber);
+        } elseif ($sortBy == "first") {
+            $employees = Employe::where("employe_name", "LIKE", "%$name%")->orderBy("id")->paginate(5, ['*'], 'page', $pageNumber);
+        } else {
+            $employees = Employe::where("employe_name", "LIKE", "%$name%")->orderBy("employe_name")->paginate(5, ['*'], 'page', $pageNumber);
+        }
+
         return view("employees.table", compact('employees'));
     }
 

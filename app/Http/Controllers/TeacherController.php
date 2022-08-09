@@ -21,7 +21,7 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        $teachers = Teacher::with("subjects")->latest()->paginate(5);
+        $teachers = Teacher::with("subjects")->orderBy("id", "desc")->paginate(5);
         return view("teachers.index", compact('teachers'));
     }
 
