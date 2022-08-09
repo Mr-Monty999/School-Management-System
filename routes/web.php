@@ -38,14 +38,17 @@ Route::group(["middleware" => "auth"], function () {
 
 
     //// Users Route ////
-    Route::resource('users', UserController::class)->middleware('role:Super-Admin');
-    Route::get('users/table/{pageNumber}', [App\Http\Controllers\UserController::class, "table"])->name("users.table")->middleware('role:Super-Admin');
-    Route::get('users/search/{pageNumber}/{name}', [App\Http\Controllers\UserController::class, "search"])->name("users.search")->middleware('role:Super-Admin');
+    Route::group(['middleware' => 'permission:admin.view'],function() {
+        Route::resource('users', UserController::class);
+        Route::get('users/table/{pageNumber}', [App\Http\Controllers\UserController::class, "table"])->name("users.table");
+        Route::get('users/search/{pageNumber}/{name}', [App\Http\Controllers\UserController::class, "search"])->name("users.search");
+    });
 
 
     ////  Classes Routes  //////
     Route::resource('classes', ClassesController::class)->middleware('permission:class.view');
-    Route::post('classes/chnage_student_class', [App\Http\Controllers\ClassesController::class, 'changeStudentClass'])->name('students.changeStudentClass');
+    Route::post('classes/chnage_student_class', [App\Http\Controllers\ClassesController::class, 'changeStudentClass'])->name('classes.changeStudentClass');
+    Route::post('classes/add_subject_to_class', [App\Http\Controllers\ClassesController::class, 'addSubjectToClass'])->name('classes.addSubjectToClass');
     Route::get('classes/table/{pageNumber}', [App\Http\Controllers\ClassesController::class, "table"])->name("classes.table")->middleware('permission:class.view');
     Route::get('classes/search/{pageNumber}/{name}', [App\Http\Controllers\ClassesController::class, "search"])->name("classes.search")->middleware('permission:class.view');
 
@@ -70,8 +73,13 @@ Route::group(["middleware" => "auth"], function () {
 
     ////  Parents Routes  //////
     Route::resource('parents', ParentsController::class)->middleware('permission:student.view');
-    Route::get('parents/table/{pageNumber}', [App\Http\Controllers\ParentsController::class, "table"])->name("parents.table")->middleware('permission:parent.view');
-    Route::get('parents/search/{pageNumber}/{name}', [App\Http\Controllers\ParentsController::class, "search"])->name("parents.search")->middleware('permission:parent.view');
+
+    Route::get('parents/table/{pageNumber}', [App\Http\Controllers\ParentsController::class, "table"])
+    ->name("parents.table")
+    ->middleware('permission:student.view');
+    Route::get('parents/search/{pageNumber}/{name}', [App\Http\Controllers\ParentsController::class, "search"])
+    ->name("parents.search")
+    ->middleware('permission:student.view');
 
     ////  School Routes  //////
     Route::resource('schools', SchoolController::class)->middleware('role:Super-Admin');

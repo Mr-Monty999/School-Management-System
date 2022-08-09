@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
@@ -31,9 +29,11 @@ class UserController extends Controller
 
     public function search($pageNumber, $name)
     {
-
-        /// Not Finished
-        $users = User::has('student')->orHas('teacher')->orHas('employe')->paginate(5, ["*"], "page", $pageNumber);
+        $users = User::whereHas('student',fn($q) => $q->where('student_name','LIKE',"%$name%"))
+        ->orWhereHas('teacher',fn($q) => $q->where('teacher_name','LIKE',"%$name%"))
+        ->orWhereHas('employe',fn($q) => $q->where('employe_name','LIKE',"%$name%"))
+        ->orWhere('username','LIKE',"%$name%")
+        ->paginate(5, ["*"], "page", $pageNumber);
 
         return view("users.table", compact('users'));
     }

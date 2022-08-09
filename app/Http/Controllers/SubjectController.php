@@ -19,13 +19,13 @@ class SubjectController extends Controller
      */
     public function index()
     {
-        $subjects = Subject::with('teachers', 'class')->latest()->paginate(5);
+        $subjects = Subject::with('class')->withCount('teachers')->latest()->paginate(5);
         return view("subjects.index", compact('subjects'));
     }
 
     public function table($pageNumber)
     {
-        $subjects = Subject::with('teachers', 'class')->latest()->paginate(5, ['*'], 'page', $pageNumber);
+        $subjects = Subject::with('class')->withCount('teachers')->latest()->paginate(5, ['*'], 'page', $pageNumber);
         return view("subjects.table", compact('subjects'));
     }
 
@@ -38,7 +38,7 @@ class SubjectController extends Controller
             $name
         ); */
 
-        $subjects = Subject::with('teachers', 'class')->where("subject_name", "LIKE", "%$name%")->latest()->paginate(5, ['*'], 'page', $pageNumber);
+        $subjects = Subject::with('class')->withCount('teachers')->where("subject_name", "LIKE", "%$name%")->latest()->paginate(5, ['*'], 'page', $pageNumber);
         return view("subjects.table", compact('subjects'));
     }
 
@@ -68,10 +68,7 @@ class SubjectController extends Controller
 
         if ($request->teachers) {
             $teachers = explode(',', $request->teachers);
-
-            foreach ($teachers as $teacher) {
-                $subject->teachers()->attach($teacher);
-            }
+            $subject->teachers()->attach($teachers);
         }
         return JsonService::responseSuccess("تم الاضافة بنجاح !", $request->all());
     }
@@ -98,11 +95,7 @@ class SubjectController extends Controller
      */
     public function edit(Subject $subject)
     {
-
         $subject->load('teachers', 'class');
-
-
-
         ///Get Teachers Ids Related To Subject
         $teacherIds = [];
         foreach ($subject->teachers as $key => $value) {
@@ -124,27 +117,12 @@ class SubjectController extends Controller
      */
     public function update(UpdateSubjectRequest $request, Subject $subject)
     {
-
-
-
         $subject->update($request->validated());
-        $tempArr = [];
-
         if ($request->teachers) {
             $teachers = explode(',', $request->teachers);
-
-
-            foreach ($teachers as $teacher)
-                $tempArr[] = $teacher;
-
-
-            $subject->teachers()->sync($tempArr);
+            $subject->teachers()->sync($teachers);
         }
-
-        if (count($tempArr) < 1)
-            $subject->teachers()->detach();
-
-        return JsonService::responseSuccess("تم التعديل بنجاح !", $tempArr);
+        return JsonService::responseSuccess("تم التعديل بنجاح !", $teachers);
     }
 
     /**
@@ -165,18 +143,14 @@ class SubjectController extends Controller
     public function detachTeacher(Request $request, Subject $subject)
     {
         $ids = explode(',', $request->teachers);
-
         $subject->teachers()->detach($ids);
-
         return back();
     }
 
     public function attachTeacher(Request $request, Subject $subject)
     {
         $ids = explode(',', $request->teachers);
-
         $subject->teachers()->attach($ids);
-
         return back();
     }
 }
