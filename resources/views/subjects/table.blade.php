@@ -34,7 +34,7 @@
 
                       <td>
                           <p class="text-dark text-center">
-                              {{ count($subject->teachers) }}
+                              {{ $subject->teachers_count }}
                           </p>
                       </td>
 

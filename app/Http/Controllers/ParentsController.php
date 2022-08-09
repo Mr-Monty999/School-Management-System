@@ -16,20 +16,27 @@ class ParentsController extends Controller
      */
     public function index()
     {
-        $parents = Parents::with('students')->latest()->paginate(10);
-
+        $parents = Parents::withCount('students')->latest()->paginate(10);
         return view("parents.index", compact('parents'));
     }
 
     public function table($pageNumber)
     {
-        $parents = Parents::with('students')->latest()->paginate(10, ['*'], 'page', $pageNumber)->withPath(route('parents.index'));
+        $parents = Parents::withCount('students')
+        ->latest()
+        ->paginate(10, ['*'], 'page', $pageNumber)
+        ->withPath(route('parents.index'));
+
         return view("parents.table", compact('parents'));
     }
 
     public function search($pageNumber, $name)
     {
-        $parents = Parents::where("parent_name", 'LIKE', "%$name%")->latest()->paginate(10, ['*'], 'page', $pageNumber)->withPath(route('parents.index'));
+        $parents = Parents::withCount('students')
+        ->where("parent_name", 'LIKE', "%$name%")
+        ->latest()
+        ->paginate(10, ['*'], 'page', $pageNumber)
+        ->withPath(route('parents.index'));
         return view("parents.table", compact('parents'));
     }
     /**

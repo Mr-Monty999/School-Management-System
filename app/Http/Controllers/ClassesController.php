@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AddSubjectToClassRequest;
 use App\Http\Requests\StoreClassRequest;
 use App\Http\Requests\UpdateClassRequest;
 use App\Models\Classes;
 use App\Models\Student;
+use App\Models\Subject;
 use App\Models\Teacher;
 use App\Services\JsonService;
 use Illuminate\Http\Request;
@@ -56,7 +58,7 @@ class ClassesController extends Controller
      */
     public function show(Classes $class)
     {
-        $class->load('subjects', 'subjects.teachers', 'students');
+        $class->load('subjects.teachers', 'students');
         $classes = Classes::all()->except($class->id);
         $teachers = Teacher::all();
         return view('classes.show', compact('class', 'classes', 'teachers'));
@@ -105,12 +107,25 @@ class ClassesController extends Controller
     public function changeStudentClass(Request $request)
     {
         $ids = explode(',', $request->ids);
-
         $students = Student::findMany($ids);
 
         foreach ($students as $student) {
             $student->update(['class_id' => $request->class_id]);
         }
+        return back();
+    }
+
+    public function addSubjectToClass(AddSubjectToClassRequest $request) {
+        $subject = Subject::firstOrCreate([
+            'subject_name'  => $request->subject_name,
+            'class_id'      => $request->class_id
+        ]);
+
+        if($request->teachers) {
+            $teachers = explode(',', $request->teachers);
+            $subject->teachers()->sync($teachers);
+        }
+
         return back();
     }
 }

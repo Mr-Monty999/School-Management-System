@@ -40,7 +40,7 @@
                                 </td>
                                 <td>
                                     <p class="text-dark text-center">
-                                        {{ count($parent->students) }}
+                                        {{ $parent->students_count }}
                                     </p>
                                 </td>
                                 <td class="align-middle text-center">

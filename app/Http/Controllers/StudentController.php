@@ -23,7 +23,7 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = Student::with('class', 'parent')->latest()->paginate(5);
+        $students = Student::with('class')->latest()->paginate(5);
 
         return view("students.index", compact('students'));
     }
@@ -37,9 +37,10 @@ class StudentController extends Controller
             $name
         ); */
 
+
         $students = null;
         if ($sortBy == "last") {
-            $students = Student::with('class', 'parent')
+            $students = Student::with('class')
                 ->where('student_name', 'LIKE', "%$name%")
                 ->latest()->paginate(5, ['*'], 'page', $pageNumber);
         } else if ($sortBy == "first") {
@@ -53,6 +54,7 @@ class StudentController extends Controller
                 ->orderBy("student_name")
                 ->paginate(5, ['*'], 'page', $pageNumber);
         }
+
         return view('students.table', compact('students'));
     }
     /**
