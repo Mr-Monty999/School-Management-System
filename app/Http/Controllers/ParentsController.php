@@ -32,7 +32,7 @@ class ParentsController extends Controller
                 ->latest()
                 ->paginate(10, ['*'], 'page', $pageNumber)
                 ->withPath(route('parents.index'));
-        } else if ($sortBy == "first") {
+        } elseif ($sortBy == "first") {
             $parents = Parents::withCount('students')
                 ->where("parent_name", 'LIKE', "%$name%")
                 ->paginate(10, ['*'], 'page', $pageNumber)

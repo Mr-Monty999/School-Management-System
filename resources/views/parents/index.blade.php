@@ -55,8 +55,6 @@
                 sortBy + "/" +
                 search;
 
-            if (pageNumber == "")
-                pageNumber = 1;
 
 
             $.ajax({

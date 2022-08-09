@@ -3,60 +3,26 @@
 @section('section')
     <div class="d-flex flex-column justify-content-center align-items-center">
         <h1>ادارة المواد الدراسية</h1>
-        {{-- <form enctype="multipart/form-data" method="post" id="subjects">
-            @csrf
-            <br>
-            <h4>اضافة مادة</h4>
-            <div>
 
-                <div class="input-group input-group-outline my-3 bg-white">
-                    <label class="form-label">اسم المادة</label>
-                    <input type="text" name="subject_name" class="form-control ">
-                </div>
-                <div style="display:none" class="alert alert-danger text-white text-center subject_paid_price"></div>
 
-                <label class="form-label" for="sample-select2">اسم الفصل </label>
-                <div class="input-group input-group-outline mb-3">
-                    <select name="class_id" id="sample-select2">
-                        @foreach ($classes as $class)
-                            <option value="{{ $class->id }}">{{ $class->class_name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <label class="form-label" for="sample-select">المعلمين <span class="text-sm">(اختياري)</span></label>
-                <div class="input-group input-group-outline mb-3">
-                    <select name="teachers" id="sample-select" multiple>
-                        @foreach ($teachers as $teacher)
-                            <option value="{{ $teacher->id }}">{{ $teacher->teacher_name }}</option>
-                        @endforeach
-                    </select>
-                </div>
+        <div class="my-3">
+            <label for="sort-by" class="">ترتيب حسب :</label>
+            <div class="input-group input-group-outline">
+                <select class="form-control bg-white" id="sort-by" name="sort_by">
+                    <option value="last" selected>من الأخر الى الأول</option>
+                    <option value="first">من الأول الى الأخر</option>
+                    <option value="name">الأسم</option>
+                </select>
             </div>
-
-            <button type="submit" class="btn btn-success margin my-3 col-6">اضافة</button>
-            <div style="display:none" class="alert alert-success text-white text-center validate_success"></div>
-            <div style="display:none" class="alert alert-danger text-white text-center validate_error"></div>
-
-        </form>
-
-        @foreach ($errors->all() as $error)
-            <div class="alert alert-danger text-white">{{ $error }}</div>
-        @endforeach
-
-        @if (Session::has('success'))
-            <div class="alert alert-success text-white">{{ Session::get('success') }}</div>
-        @elseif(Session::has('error'))
-            <div class="alert alert-danger text-white">{{ Session::get('error') }}</div>
-        @endif
- --}}
-
-        <div class="input-group input-group-outline bg-white w-25 my-3 mtop-1">
+        </div>
+        <div class="input-group input-group-outline bg-white w-25">
             <label class="form-label"> بحث...</label>
             <input type="text" class="form-control" id="search">
         </div>
+
         <div class="container-fluid row">
             <div class="col-12">
+
                 <div class="d-flex justify-content-between mb-5">
                     <a href="{{ route('subjects.create') }}" class="btn btn-dark">اضافة مادة</a>
                 </div>
@@ -83,39 +49,37 @@
 
 @push('ajax')
     <script>
-        /* VirtualSelect.init({
-            ele: '#sample-select',
-        });
-        VirtualSelect.init({
-            ele: '#sample-select2',
-        });
-
-
-        let form = $("form#subjects");
-
-        form.on("submit", function(e) {
+        //Sort And Refresh The Table
+        $(document).on("change", "#sort-by", function(e) {
             e.preventDefault();
 
-            let formData = new FormData(this),
-                url = "{{ route('subjects.store') }}",
-                search = $("#search").val(),
+
+            let = search = $("#search").val(),
+                sortBy = $("#sort-by").val(),
                 pageNumber = $(".pagination .active").text();
 
             if (pageNumber == "")
                 pageNumber = 1;
 
+
+            let table = $(".mytable"),
+                url = "{{ route('subjects.table', ['', '', '']) }}/" + pageNumber +
+                "/" +
+                sortBy + "/" +
+                search;
+
+
+
+
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': "{{ csrf_token() }}"
                 },
-                method: "post",
+                method: "get",
                 url: url,
-                data: formData,
-                dataType: "json",
-                processData: false,
-                contentType: false,
+                data: "",
                 beforeSend: function() {
-                    $("form#subjects").after('<div class="d-flex spinner"><p>جار المعالجة...</p>' +
+                    $("mytable").after('<div class="d-flex spinner"><p>جار المعالجة...</p>' +
                         '<div class="spinner-border text-primary margin-1" role="status"></div>' +
                         '</div>');
                 },
@@ -125,86 +89,35 @@
                 success: function(response) {
 
 
-
                     $(".alert").remove();
 
-                    let table = $(".mytable"),
-                        tableUrl = "{{ route('subjects.table', '') }}/" + pageNumber;
 
+                    table.empty();
+                    table.append(response);
 
-                    if (search.trim() != "")
-                        tableUrl = "{{ route('subjects.search', ['', '']) }}/" + pageNumber + "/" +
-                        search;
-
-                    $.ajax({
-                        type: "get",
-                        url: tableUrl,
-                        data: "data",
-                        success: function(res) {
-
-                            table.empty();
-                            table.append(res);
-
-                        },
-                        error: function(res) {
-                            // console.log(res);
-
-                        }
-                    });
-
-                    ///Show Success Or Error Message
-                    if (response.success) {
-                        $("form#subjects input:not([type='date'])").val("");
-
-
-                        $("form#subjects").after(
-                            '<div class="alert alert-success text-white text-center">' + response
-                            .message +
-                            '</div>'
-                        );
-
-                    } else
-                        $("form#subjects").after(
-                            '<div class="alert alert-danger text-white text-center">' + response
-                            .message +
-                            '</div>'
-                        );
 
                 },
                 error: function(response) {
 
-                    // console.log(response);
                     $(".alert").remove();
 
-                    //errors = Validtion Errors keys
-                    let errors = response.responseJSON.errors;
-
-                    for (let errorName in errors) {
-
-
-                        $("form#subjects input[name='" + errorName + "']").parent().after(
-                            '<div class="alert alert-danger text-white text-center">' +
-                            errors[errorName] +
-                            '</div>');
-                    }
 
                 }
 
             });
 
-        }); */
+
+        });
 
         /// Search For subjects By Name On keyup Event //
         $(document).on("keyup change", "#search", function() {
 
             $(".alert").remove();
 
-            let search = $(this).val().trim(),
-                url = "{{ route('subjects.search', ['', '']) }}/1/" + search;
+            let search = $(this).val(),
+                sortBy = $("#sort-by").val(),
+                url = "{{ route('subjects.table', ['', '', '']) }}/1/" + sortBy + "/" + search;
 
-
-            if (search == "")
-                url = "{{ route('subjects.table', '') }}/1";
 
             let table = $(".mytable");
 
@@ -239,6 +152,7 @@
                 deletesubject = confirm("هل أنت متأكد من حذف هذه المادة؟"),
                 url = "{{ route('subjects.destroy', '') }}/" + subjectId,
                 search = $("#search").val(),
+                sortBy = $("#sort-by").val(),
                 pageNumber = $(".pagination .active").text();
 
             if (pageNumber == "")
@@ -271,12 +185,11 @@
 
                         $(".alert").remove();
 
+
                         let table = $(".mytable"),
-                            tableUrl = "{{ route('subjects.table', '') }}/" + pageNumber;
-
-
-                        if (search.trim() != "")
-                            tableUrl = "{{ route('subjects.search', ['', '']) }}/" + pageNumber + "/" +
+                            tableUrl = "{{ route('subjects.table', ['', '', '']) }}/" + pageNumber +
+                            "/" +
+                            sortBy + "/" +
                             search;
 
                         $.ajax({
@@ -356,10 +269,8 @@
 
             let table = $(".mytable"),
                 search = $("#search").val(),
-                url = "{{ route('subjects.table', '') }}/" + pageNumber;
-
-            if (search.trim() != "")
-                url = "{{ route('subjects.search', ['', '']) }}/" + pageNumber + "/" + search;
+                sortBy = $("#sort-by").val(),
+                url = "{{ route('subjects.table', ['', '', '']) }}/" + pageNumber + "/" + sortBy + "/" + search;
 
 
 

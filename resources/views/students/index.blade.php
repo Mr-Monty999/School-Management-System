@@ -72,8 +72,7 @@
                     sortBy + "/" +
                     search;
 
-                if (pageNumber == "")
-                    pageNumber = 1;
+
 
 
                 $.ajax({
@@ -259,8 +258,8 @@
                 let studentId = $(this).find("#id").val(),
                     deleteStudent = confirm("هل أنت متأكد من حذف هذا الطالب؟"),
                     url = "{{ route('students.destroy', '') }}/" + studentId,
-                    search = $("#search").val()
-                sortBy = $("#sort-by").val(),
+                    search = $("#search").val(),
+                    sortBy = $("#sort-by").val(),
                     pageNumber = $(".pagination .active").text();
 
                 if (pageNumber == "")
@@ -377,8 +376,8 @@
 
 
                 let table = $(".mytable"),
-                    search = $("#search").val()
-                sortBy = $("#sort-by").val(),
+                    search = $("#search").val(),
+                    sortBy = $("#sort-by").val(),
                     url = "{{ route('students.table', ['', '', '']) }}/" + pageNumber + "/" + sortBy + "/" + search;
 
 

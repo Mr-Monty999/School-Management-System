@@ -9,6 +9,7 @@ use App\Models\Subject;
 use App\Models\Teacher;
 use App\Services\JsonService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SubjectController extends Controller
 {
@@ -23,22 +24,28 @@ class SubjectController extends Controller
         return view("subjects.index", compact('subjects'));
     }
 
-    public function table($pageNumber)
-    {
-        $subjects = Subject::with('class')->withCount('teachers')->latest()->paginate(5, ['*'], 'page', $pageNumber);
-        return view("subjects.table", compact('subjects'));
-    }
 
 
-    public function search($pageNumber, $name)
+
+    public function table($pageNumber, $sortBy, $name = "")
     {
+
         /* str_replace(
             ['\\','%','_'],
             ['\\\\','\%','\_'],
             $name
         ); */
 
-        $subjects = Subject::with('class')->withCount('teachers')->where("subject_name", "LIKE", "%$name%")->latest()->paginate(5, ['*'], 'page', $pageNumber);
+        $name = trim($name);
+        $subjects = null;
+
+        if ($sortBy == "last") {
+            $subjects = Subject::with('class')->withCount('teachers')->where("subject_name", "LIKE", "%$name%")->latest()->paginate(5, ['*'], 'page', $pageNumber);
+        } elseif ($sortBy == "first") {
+            $subjects = Subject::with('class')->withCount('teachers')->where("subject_name", "LIKE", "%$name%")->paginate(5, ['*'], 'page', $pageNumber);
+        } else {
+            $subjects = Subject::with('class')->withCount('teachers')->where("subject_name", "LIKE", "%$name%")->orderBy("subject_name")->paginate(5, ['*'], 'page', $pageNumber);
+        }
         return view("subjects.table", compact('subjects'));
     }
 
@@ -52,7 +59,7 @@ class SubjectController extends Controller
         $classes = Classes::all();
         $teachers = Teacher::all();
 
-        return view('subjects.create',compact('classes','teachers'));
+        return view('subjects.create', compact('classes', 'teachers'));
     }
 
     /**

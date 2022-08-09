@@ -92,8 +92,8 @@ Route::group(["middleware" => "auth"], function () {
     Route::resource('subjects', SubjectController::class)->middleware('permission:subject.view');
     Route::post('subjects/{subject}/attach_teacher', [App\Http\Controllers\SubjectController::class, 'attachTeacher'])->name('subjects.attachTeacher');
     Route::post('subjects/{subject}/detach_teacher', [App\Http\Controllers\SubjectController::class, 'detachTeacher'])->name('subjects.detachTeacher');
-    Route::get('subjects/table/{pageNumber}', [App\Http\Controllers\SubjectController::class, "table"])->name("subjects.table")->middleware('permission:subject.view');
-    Route::get('subjects/search/{pageNumber}/{name}', [App\Http\Controllers\SubjectController::class, "search"])->name("subjects.search")->middleware('permission:subject.view');
+    Route::get('subjects/table/{pageNumber}/{sortBy}/{name?}', [App\Http\Controllers\SubjectController::class, "table"])->name("subjects.table")->middleware('permission:subject.view');
+
 
     ////  Teachers Routes  //////
     Route::resource('teachers', TeacherController::class)->middleware('permission:teacher.view');
