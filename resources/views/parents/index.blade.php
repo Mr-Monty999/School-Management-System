@@ -4,6 +4,16 @@
     <div class="d-flex flex-column justify-content-center align-items-center">
         <h1>ادارة أولياء الأمور</h1>
 
+        <div class="my-3">
+            <label for="sort-by" class="">ترتيب حسب :</label>
+            <div class="input-group input-group-outline">
+                <select class="form-control bg-white" id="sort-by" name="sort_by">
+                    <option value="last" selected>أخر طالب</option>
+                    <option value="first">أول طالب</option>
+                    <option value="name">الأسم</option>
+                </select>
+            </div>
+        </div>
         <div class="input-group input-group-outline bg-white w-25 my-6">
             <label class="form-label"> بحث...</label>
             <input type="text" class="form-control" id="search">

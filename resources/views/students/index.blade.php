@@ -6,6 +6,16 @@
         <div class="container-fluid row my-8">
 
             <div class="col-12">
+                <div class="my-3">
+                    <label for="sort-by" class="">ترتيب حسب :</label>
+                    <div class="input-group input-group-outline">
+                        <select class="form-control bg-white" id="sort-by" name="sort_by">
+                            <option value="last" selected>أخر طالب</option>
+                            <option value="first">أول طالب</option>
+                            <option value="name">الأسم</option>
+                        </select>
+                    </div>
+                </div>
                 <div class="d-flex justify-content-between mb-5">
                     <div class="input-group input-group-outline bg-white w-25">
                         <label class="form-label"> بحث...</label>
@@ -43,6 +53,66 @@
             // console.log(search)
             // search.addEventListener('change', () => console.log(55))
 
+            //Sort And Refresh The Table
+            $(document).on("change", "#sort-by", function(e) {
+                e.preventDefault();
+
+
+                let
+                    search = $("#search").val().trim(),
+                    sortBy = $("#sort-by").val(),
+                    pageNumber = $(".pagination .active").text();
+
+
+                let table = $(".mytable"),
+                    url = "{{ route('students.table', ['', '', '']) }}/" + pageNumber +
+                    "/" +
+                    sortBy + "/" +
+                    search;
+
+                if (pageNumber == "")
+                    pageNumber = 1;
+
+
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                    },
+                    method: "get",
+                    url: url,
+                    data: "",
+                    beforeSend: function() {
+                        $("mytable").after('<div class="d-flex spinner"><p>جار المعالجة...</p>' +
+                            '<div class="spinner-border text-primary margin-1" role="status"></div>' +
+                            '</div>');
+                    },
+                    complete: function() {
+                        $(".spinner").remove();
+                    },
+                    success: function(response) {
+
+
+                        $(".alert").remove();
+
+
+                        table.empty();
+                        table.append(response);
+
+
+                    },
+                    error: function(response) {
+
+                        $(".alert").remove();
+
+
+
+                    }
+
+                });
+
+
+            });
+
             //Delete All students And Refresh The Table
             $(document).on("click", "#delete-all", function(e) {
                 e.preventDefault();
@@ -50,6 +120,8 @@
 
                 let = deleteAllArchives = confirm("هل أنت متأكد من حذف جميع البيانات؟"),
                     url = "{{ route('students.destroy.all') }}",
+                    sortBy = $("#sort-by").val(),
+                    search = $("#search").val().trim(),
                     pageNumber = $(".pagination .active").text();
 
                 if (pageNumber == "")
@@ -80,7 +152,8 @@
                             $(".alert").remove();
 
                             let table = $(".mytable"),
-                                tableUrl = "{{ route('students.table', '') }}/" + pageNumber;
+                                tableUrl = "{{ route('students.table', ['', '', '']) }}/1/" + sortBy +
+                                "/" + search;
 
 
 
@@ -151,11 +224,8 @@
                 $(".alert").remove();
 
                 let search = $(this).val().trim(),
-                    url = "{{ route('students.search', ['', '']) }}/1/" + search;
-
-
-                if (search == "")
-                    url = "{{ route('students.table', '') }}/1";
+                    sortBy = $("#sort-by").val(),
+                    url = "{{ route('students.table', ['', '', '']) }}/1/" + sortBy + "/" + search;
 
                 let table = $(".mytable");
 
@@ -187,7 +257,8 @@
                 let studentId = $(this).find("#id").val(),
                     deleteStudent = confirm("هل أنت متأكد من حذف هذا الطالب؟"),
                     url = "{{ route('students.destroy', '') }}/" + studentId,
-                    search = $("#search").val(),
+                    search = $("#search").val().trim(),
+                    sortBy = $("#sort-by").val(),
                     pageNumber = $(".pagination .active").text();
 
                 if (pageNumber == "")
@@ -220,11 +291,9 @@
                             $(".alert").remove();
 
                             let table = $(".mytable"),
-                                tableUrl = "{{ route('students.table', '') }}/" + pageNumber;
-
-
-                            if (search.trim() != "")
-                                tableUrl = "{{ route('students.search', ['', '']) }}/" + pageNumber + "/" +
+                                tableUrl = "{{ route('students.table', ['', '', '']) }}/" + pageNumber +
+                                "/" +
+                                sortBy + "/" +
                                 search;
 
                             $.ajax({
@@ -288,6 +357,8 @@
             });
 
 
+
+
             //Load Table By Page Number//
             $(document).on("click", ".pagination .page-link", function(e) {
                 e.preventDefault();
@@ -304,11 +375,9 @@
 
 
                 let table = $(".mytable"),
-                    search = $("#search").val(),
-                    url = "{{ route('students.table', '') }}/" + pageNumber;
-
-                if (search.trim() != "")
-                    url = "{{ route('students.search', ['', '']) }}/" + pageNumber + "/" + search;
+                    search = $("#search").val().trim(),
+                    sortBy = $("#sort-by").val(),
+                    url = "{{ route('students.table', ['', '', '']) }}/" + pageNumber + "/" + sortBy + "/" + search;
 
 
 

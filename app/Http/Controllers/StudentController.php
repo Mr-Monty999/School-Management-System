@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Services\FileUploadService;
 use App\Services\JsonService;
 use App\Services\RegisterationService;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
 
 class StudentController extends Controller
@@ -27,17 +28,8 @@ class StudentController extends Controller
         return view("students.index", compact('students'));
     }
 
-    public function table($pageNumber)
-    {
-        $students = Student::with('class', 'parent')
-            ->latest()
-            ->paginate(5, ['*'], 'page', $pageNumber)
-            ->withPath(route('students.index'));
 
-        return view("students.table", compact('students'));
-    }
-
-    public function search($pageNumber, $name)
+    public function table($pageNumber, $sortBy, $name = "")
     {
         /* str_replace(
             ['\\','%','_'],
@@ -45,12 +37,22 @@ class StudentController extends Controller
             $name
         ); */
 
-        $students = Student::with('class', 'parent')
-            ->where('student_name', 'LIKE', "%$name%")
-            ->latest()->paginate(5, ['*'], 'page', $pageNumber)
-            ->withPath(route('students.index'));
+        $students = null;
+        if ($sortBy == "last") {
+            $students = Student::with('class', 'parent')
+                ->where('student_name', 'LIKE', "%$name%")
+                ->latest()->paginate(5, ['*'], 'page', $pageNumber);
+        } else if ($sortBy == "first") {
+            $students = Student::with('class', 'parent')
+                ->where('student_name', 'LIKE', "%$name%")
+                ->paginate(5, ['*'], 'page', $pageNumber);
+        } else {
 
-
+            $students = Student::with('class', 'parent')
+                ->where('student_name', 'LIKE', "%$name%")
+                ->orderBy("student_name")
+                ->paginate(5, ['*'], 'page', $pageNumber);
+        }
         return view('students.table', compact('students'));
     }
     /**

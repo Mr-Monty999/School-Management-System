@@ -78,8 +78,7 @@ Route::group(["middleware" => "auth"], function () {
 
     ////  Students Routes  //////
     Route::resource('students', StudentController::class)->middleware('permission:student.view');
-    Route::get('students/table/{pageNumber}', [App\Http\Controllers\StudentController::class, "table"])->name("students.table")->middleware('permission:student.view');
-    Route::get('students/search/{pageNumber}/{name}', [App\Http\Controllers\StudentController::class, "search"])->name("students.search")->middleware('permission:student.view');
+    Route::get('students/table/{pageNumber}/{sortBy}/{name?}', [App\Http\Controllers\StudentController::class, "table"])->name("students.table")->middleware('permission:student.view');
     Route::post('student/destroy-all', [App\Http\Controllers\StudentController::class, "destroyAll"])->name("students.destroy.all")->middleware('permission:student.view');;
 
 
