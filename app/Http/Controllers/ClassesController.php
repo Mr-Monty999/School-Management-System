@@ -25,15 +25,26 @@ class ClassesController extends Controller
         return view("classes.index", compact('classes'));
     }
 
-    public function table($pageNumber)
-    {
-        $classes = Classes::paginate(5, ['*'], 'page', $pageNumber);
-        return view("classes.table", compact('classes'));
-    }
 
-    public function search($pageNumber, $name)
+
+    public function table($pageNumber, $sortBy, $name = "")
     {
-        $classes = Classes::where("class_name", "LIKE", "%$name%")->paginate(5, ['*'], 'page', $pageNumber);
+        /* str_replace(
+            ['\\','%','_'],
+            ['\\\\','\%','\_'],
+            $name
+        ); */
+
+        $name = trim($name);
+        $classes = null;
+
+        if ($sortBy == "last") {
+            $classes = Classes::where("class_name", "LIKE", "%$name%")->orderBy("id", "desc")->paginate(5, ['*'], 'page', $pageNumber);
+        } elseif ($sortBy == "first") {
+            $classes = Classes::where("class_name", "LIKE", "%$name%")->orderBy("id")->paginate(5, ['*'], 'page', $pageNumber);
+        } else {
+            $classes = Classes::where("class_name", "LIKE", "%$name%")->orderBy("class_name")->paginate(5, ['*'], 'page', $pageNumber);
+        }
         return view("classes.table", compact('classes'));
     }
 
@@ -115,13 +126,14 @@ class ClassesController extends Controller
         return back();
     }
 
-    public function addSubjectToClass(AddSubjectToClassRequest $request) {
+    public function addSubjectToClass(AddSubjectToClassRequest $request)
+    {
         $subject = Subject::firstOrCreate([
             'subject_name'  => $request->subject_name,
             'class_id'      => $request->class_id
         ]);
 
-        if($request->teachers) {
+        if ($request->teachers) {
             $teachers = explode(',', $request->teachers);
             $subject->teachers()->sync($teachers);
         }

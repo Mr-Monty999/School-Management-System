@@ -116,8 +116,8 @@
             let = deleteAllArchives = confirm("هل أنت متأكد من حذف جميع البيانات؟"),
                 url = "{{ route('teachers.destroy.all') }}",
                 sortBy = $("#sort-by").val(),
-                search = $("#search").val()
-            pageNumber = $(".pagination .active").text();
+                search = $("#search").val(),
+                pageNumber = $(".pagination .active").text();
 
             if (pageNumber == "")
                 pageNumber = 1;

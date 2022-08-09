@@ -40,9 +40,11 @@ class SubjectController extends Controller
         $subjects = null;
 
         if ($sortBy == "last") {
-            $subjects = Subject::with('class')->withCount('teachers')->where("subject_name", "LIKE", "%$name%")->latest()->paginate(5, ['*'], 'page', $pageNumber);
+            $subjects = Subject::with('class')->withCount('teachers')->where("subject_name", "LIKE", "%$name%")->orderBy("id", "desc")
+                ->paginate(5, ['*'], 'page', $pageNumber);
         } elseif ($sortBy == "first") {
-            $subjects = Subject::with('class')->withCount('teachers')->where("subject_name", "LIKE", "%$name%")->paginate(5, ['*'], 'page', $pageNumber);
+            $subjects = Subject::with('class')->withCount('teachers')->where("subject_name", "LIKE", "%$name%")->orderBy("id")
+                ->paginate(5, ['*'], 'page', $pageNumber);
         } else {
             $subjects = Subject::with('class')->withCount('teachers')->where("subject_name", "LIKE", "%$name%")->orderBy("subject_name")->paginate(5, ['*'], 'page', $pageNumber);
         }

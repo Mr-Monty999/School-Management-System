@@ -32,9 +32,11 @@ class TeacherController extends Controller
 
         $name = trim($name);
         if ($sortBy == "last") {
-            $teachers = Teacher::with("subjects")->where("teacher_name", "LIKE", "%$name%")->latest()->paginate(5, ['*'], 'page', $pageNumber);
+            $teachers = Teacher::with("subjects")->where("teacher_name", "LIKE", "%$name%")->orderBy("id", "desc")
+                ->paginate(5, ['*'], 'page', $pageNumber);
         } elseif ($sortBy == "first") {
-            $teachers = Teacher::with("subjects")->where("teacher_name", "LIKE", "%$name%")->paginate(5, ['*'], 'page', $pageNumber);
+            $teachers = Teacher::with("subjects")->where("teacher_name", "LIKE", "%$name%")->orderBy("id")
+                ->paginate(5, ['*'], 'page', $pageNumber);
         } else {
             $teachers = Teacher::with("subjects")->where("teacher_name", "LIKE", "%$name%")->orderBy("teacher_name")->paginate(5, ['*'], 'page', $pageNumber);
         }

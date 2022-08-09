@@ -49,8 +49,7 @@ Route::group(["middleware" => "auth"], function () {
     Route::resource('classes', ClassesController::class)->middleware('permission:class.view');
     Route::post('classes/chnage_student_class', [App\Http\Controllers\ClassesController::class, 'changeStudentClass'])->name('classes.changeStudentClass');
     Route::post('classes/add_subject_to_class', [App\Http\Controllers\ClassesController::class, 'addSubjectToClass'])->name('classes.addSubjectToClass');
-    Route::get('classes/table/{pageNumber}', [App\Http\Controllers\ClassesController::class, "table"])->name("classes.table")->middleware('permission:class.view');
-    Route::get('classes/search/{pageNumber}/{name}', [App\Http\Controllers\ClassesController::class, "search"])->name("classes.search")->middleware('permission:class.view');
+    Route::get('classes/table/{pageNumber}/{sortBy}/{name?}', [App\Http\Controllers\ClassesController::class, "table"])->name("classes.table")->middleware('permission:class.view');
 
 
     ////  Results Routes  //////

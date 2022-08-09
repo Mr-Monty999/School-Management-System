@@ -43,10 +43,12 @@ class StudentController extends Controller
         if ($sortBy == "last") {
             $students = Student::with('class')
                 ->where('student_name', 'LIKE', "%$name%")
+                ->orderBy("id", "desc")
                 ->latest()->paginate(5, ['*'], 'page', $pageNumber);
         } elseif ($sortBy == "first") {
             $students = Student::with('class')
                 ->where('student_name', 'LIKE', "%$name%")
+                ->orderBy("id")
                 ->paginate(5, ['*'], 'page', $pageNumber);
         } else {
 

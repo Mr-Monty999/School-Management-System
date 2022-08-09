@@ -26,8 +26,17 @@
             <div class="alert alert-danger text-white">{{ Session::get('error') }}</div>
         @endif
 
-
-        <div class="input-group input-group-outline bg-white w-25 my-3 mtop-1">
+        <div class="my-3">
+            <label for="sort-by" class="">ترتيب حسب :</label>
+            <div class="input-group input-group-outline">
+                <select class="form-control bg-white" id="sort-by" name="sort_by">
+                    <option value="last">من الأخر الى الأول</option>
+                    <option value="first" selected>من الأول الى الأخر</option>
+                    <option value="name">الأسم</option>
+                </select>
+            </div>
+        </div>
+        <div class="input-group input-group-outline bg-white w-25 my-2">
             <label class="form-label"> بحث...</label>
             <input type="text" class="form-control" id="search">
         </div>
@@ -54,6 +63,67 @@
 
 @push('ajax')
     <script>
+        //Sort And Refresh The Table
+        $(document).on("change", "#sort-by", function(e) {
+            e.preventDefault();
+
+
+            let = search = $("#search").val(),
+                sortBy = $("#sort-by").val(),
+                pageNumber = $(".pagination .active").text();
+
+            if (pageNumber == "")
+                pageNumber = 1;
+
+
+            let table = $(".mytable"),
+                url = "{{ route('classes.table', ['', '', '']) }}/" + pageNumber +
+                "/" +
+                sortBy + "/" +
+                search;
+
+
+
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                },
+                method: "get",
+                url: url,
+                data: "",
+                beforeSend: function() {
+                    $("mytable").after('<div class="d-flex spinner"><p>جار المعالجة...</p>' +
+                        '<div class="spinner-border text-primary margin-1" role="status"></div>' +
+                        '</div>');
+                },
+                complete: function() {
+                    $(".spinner").remove();
+                },
+                success: function(response) {
+
+
+                    $(".alert").remove();
+
+
+                    table.empty();
+                    table.append(response);
+
+
+                },
+                error: function(response) {
+
+                    $(".alert").remove();
+
+
+
+                }
+
+            });
+
+
+        });
+
         let form = $("form#classes");
 
         form.on("submit", function(e) {
@@ -61,6 +131,7 @@
 
             let formData = new FormData(this),
                 url = "{{ route('classes.store') }}",
+                sortBy = $("#sort-by").val(),
                 search = $("#search").val(),
                 pageNumber = $(".pagination .active").text();
 
@@ -96,11 +167,9 @@
                     $(".alert").remove();
 
                     let table = $(".mytable"),
-                        tableUrl = "{{ route('classes.table', '') }}/" + pageNumber;
-
-
-                    if (search.trim() != "")
-                        tableUrl = "{{ route('classes.search', ['', '']) }}/" + pageNumber + "/" +
+                        tableUrl = "{{ route('classes.table', ['', '', '']) }}/" + pageNumber +
+                        "/" +
+                        sortBy + "/" +
                         search;
 
                     $.ajax({
@@ -167,12 +236,10 @@
 
             $(".alert").remove();
 
-            let search = $(this).val().trim(),
-                url = "{{ route('classes.search', ['', '']) }}/1/" + search;
+            let search = $(this).val(),
+                sortBy = $("#sort-by").val(),
+                url = "{{ route('classes.table', ['', '', '']) }}/1/" + sortBy + "/" + search;
 
-
-            if (search == "")
-                url = "{{ route('classes.table', '') }}/1";
 
             let table = $(".mytable");
 
@@ -207,6 +274,7 @@
                 deleteclass = confirm("هل أنت متأكد من حذف هذه المادة؟"),
                 url = "{{ route('classes.destroy', '') }}/" + classId,
                 search = $("#search").val(),
+                sortBy = $("#sort-by").val(),
                 pageNumber = $(".pagination .active").text();
 
             if (pageNumber == "")
@@ -240,11 +308,9 @@
                         $(".alert").remove();
 
                         let table = $(".mytable"),
-                            tableUrl = "{{ route('classes.table', '') }}/" + pageNumber;
-
-
-                        if (search.trim() != "")
-                            tableUrl = "{{ route('classes.search', ['', '']) }}/" + pageNumber + "/" +
+                            tableUrl = "{{ route('classes.table', ['', '', '']) }}/" + pageNumber +
+                            "/" +
+                            sortBy + "/" +
                             search;
 
                         $.ajax({
@@ -324,10 +390,8 @@
 
             let table = $(".mytable"),
                 search = $("#search").val(),
-                url = "{{ route('classes.table', '') }}/" + pageNumber;
-
-            if (search.trim() != "")
-                url = "{{ route('classes.search', ['', '']) }}/" + pageNumber + "/" + search;
+                sortBy = $("#sort-by").val(),
+                url = "{{ route('classes.table', ['', '', '']) }}/" + pageNumber + "/" + sortBy + "/" + search;
 
 
 

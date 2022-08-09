@@ -122,8 +122,8 @@
                 let = deleteAllArchives = confirm("هل أنت متأكد من حذف جميع البيانات؟"),
                     url = "{{ route('students.destroy.all') }}",
                     sortBy = $("#sort-by").val(),
-                    search = $("#search").val()
-                pageNumber = $(".pagination .active").text();
+                    search = $("#search").val(),
+                    pageNumber = $(".pagination .active").text();
 
                 if (pageNumber == "")
                     pageNumber = 1;
@@ -224,8 +224,8 @@
 
                 $(".alert").remove();
 
-                let search = $(this).val()
-                sortBy = $("#sort-by").val(),
+                let search = $(this).val(),
+                    sortBy = $("#sort-by").val(),
                     url = "{{ route('students.table', ['', '', '']) }}/1/" + sortBy + "/" + search;
 
                 let table = $(".mytable");

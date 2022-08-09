@@ -6,6 +6,7 @@ use App\Http\Requests\UpdateParentRequest;
 use App\Models\Parents;
 use App\Services\JsonService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ParentsController extends Controller
 {
@@ -24,17 +25,17 @@ class ParentsController extends Controller
     {
 
         $name = trim($name);
-
         $parents = null;
         if ($sortBy == "last") {
             $parents = Parents::withCount('students')
                 ->where("parent_name", 'LIKE', "%$name%")
-                ->latest()
+                ->orderBy("id", "desc")
                 ->paginate(10, ['*'], 'page', $pageNumber)
                 ->withPath(route('parents.index'));
         } elseif ($sortBy == "first") {
             $parents = Parents::withCount('students')
                 ->where("parent_name", 'LIKE', "%$name%")
+                ->orderBy("id")
                 ->paginate(10, ['*'], 'page', $pageNumber)
                 ->withPath(route('parents.index'));
         } else {
