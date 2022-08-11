@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use App\Models\Employe;
-use App\Models\Student;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;

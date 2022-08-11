@@ -103,10 +103,8 @@ class StudentController extends Controller
      */
     public function show(Student $student)
     {
+       $student->load(['user', 'class', 'parent']);
 
-        //$student->load(['user', 'class', 'parent', 'parent.students' => fn($query) => $query->where('students.id','!=',$student->id)]);
-        $student->load(['user', 'class', 'parent']);
-        //$siblings = $student->parent?->students;
         $siblings = $student->siblings();
         return view('students.show', compact('student', 'siblings'));
     }
@@ -133,8 +131,6 @@ class StudentController extends Controller
      */
     public function update(UpdateStudentRequest $request, Student $student)
     {
-
-
         // //Store validated arguments into data array
         $data = $request->validated();
 
@@ -168,8 +164,6 @@ class StudentController extends Controller
      */
     public function destroy(Student $student)
     {
-        //FileUploadService::deleteImage($student->student_photo);
-
         $data = $student;
         $student->user()->delete();
         $student->delete();

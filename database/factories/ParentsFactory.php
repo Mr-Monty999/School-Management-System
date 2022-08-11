@@ -17,8 +17,6 @@ class ParentsFactory extends Factory
      */
     public function definition()
     {
-        //$faker = Factory::create('ar_SA');
-
         return [
             'parent_name' => $this->faker->name(),
             'parent_job' => $this->faker->jobTitle(),

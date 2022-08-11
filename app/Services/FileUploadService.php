@@ -39,7 +39,7 @@ class FileUploadService
             return $old_image;
         }
         if (!is_null($old_image)) {
-            unlink($old_image);
+            @unlink($old_image,);
         }
 
         ////Rename Image to timestamp name

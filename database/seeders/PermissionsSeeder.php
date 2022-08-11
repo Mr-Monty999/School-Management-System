@@ -69,9 +69,8 @@ class PermissionsSeeder extends Seeder
             'admin.delete',
         ];
 
-        foreach($permissions as $permission) {
-            Permission::updateOrCreate(['name' => $permission]);
-        }
+        $permissions = collect($permissions)->map(fn($permission) => ['name' => $permission , 'guard_name' => 'web']);
+        Permission::insert($permissions->toArray());
 
         $role = Role::updateOrCreate(['name' => 'student']);
         $role->givePermissionTo(Permission::findByName('result.view'));

@@ -106,13 +106,16 @@ class TeacherController extends Controller
      */
     public function update(UpdateTeacherRequest $request, Teacher $teacher)
     {
+        //dd(time() . "." . $request->file('teacher_photo')->getClientOriginalExtension();
+        //return JsonService::responseSuccess(public_path("images/teacher/"), $teacher);
+
         $data = $request->validated();
         // Replace old image with uploaded one if any
-        $data['teacher_image'] = FileUploadService::updateImage($request->file('teacher_photo'), $teacher->teacher_image, 'teacher');
+        $data['teacher_photo'] = FileUploadService::updateImage($request->file('teacher_photo'), $teacher->teacher_image, 'teacher');
 
         $teacher->update($data);
 
-        return JsonService::responseSuccess("تم الحفظ بنجاح", $teacher);
+        return JsonService::responseSuccess("تم حذف المعلم بنجاح", $teacher);
     }
 
     /**
