@@ -117,7 +117,7 @@ class ClassesController extends Controller
 
     public function changeStudentClass(Request $request)
     {
-        $ids = explode(',', $request->ids);
+        $ids = is_array($request->ids) ? $request->ids : explode(',', $request->ids);
         $students = Student::findMany($ids);
 
         foreach ($students as $student) {
@@ -134,7 +134,7 @@ class ClassesController extends Controller
         ]);
 
         if ($request->teachers) {
-            $teachers = explode(',', $request->teachers);
+            $teachers = is_array($request->teachers) ? $request->teachers : explode(',', $request->teachers);
             $subject->teachers()->sync($teachers);
         }
 

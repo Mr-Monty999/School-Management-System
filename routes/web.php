@@ -70,10 +70,10 @@ Route::group(["middleware" => "auth"], function () {
 
 
     ////  Parents Routes  //////
-    Route::resource('parents', ParentsController::class)->middleware('permission:parent.view');
+    Route::resource('parents', ParentsController::class)->middleware('permission:student.view');
     Route::get('parents/table/{pageNumber}/{sortBy}/{name?}', [App\Http\Controllers\ParentsController::class, "table"])
         ->name("parents.table")
-        ->middleware('permission:parent.view');
+        ->middleware('permission:student.view');
 
 
 

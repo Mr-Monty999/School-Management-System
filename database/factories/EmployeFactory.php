@@ -20,8 +20,6 @@ class EmployeFactory extends Factory
 
     public function definition()
     {
-
-
         $user = User::create([
             'username' => 'emp_' . Str::random(7),
             'password' => Hash::make('password'),
@@ -42,5 +40,11 @@ class EmployeFactory extends Factory
             "user_id" => $user->id,
 
         ];
+    }
+
+    public function admin() {
+        return $this->afterCreating(function (Employe $employe) {
+            $employe->user->syncRoles('admin');
+        });
     }
 }

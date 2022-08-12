@@ -17,7 +17,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class StudentControllerTest extends TestCase
 {
-    private $user , $parent , $class;
+    private $parent , $class;
 
 
     use DatabaseTransactions;
@@ -26,11 +26,7 @@ class StudentControllerTest extends TestCase
     {
         parent::setUp();
 
-        $this->user = User::factory()->create()->first();
-
-        $this->user->assignRole('Super-Admin');
-
-        $this->actingAs($this->user);
+        $this->actingAs(User::factory()->owner()->create());
 
         $this->parent = Parents::factory()->create();
 
