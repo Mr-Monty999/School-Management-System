@@ -34,6 +34,14 @@ class ClassesControllerTest extends TestCase
             ->assertSee($class->class_name);
     }
 
+    public function test_edit_works() {
+        $class = Classes::factory()->create();
+
+
+        $this->get(route('classes.edit',$class))
+            ->assertSuccessful();
+    }
+
     public function test_show_works() {
         $class = Classes::factory()->create();
 
@@ -50,7 +58,6 @@ class ClassesControllerTest extends TestCase
             ->assertJson([
                 'data' => $data
             ]);
-
     }
 
     public function test_update_works() {
@@ -58,13 +65,9 @@ class ClassesControllerTest extends TestCase
 
         $class = Classes::factory()->create();
 
-        $this->put(route('classes.update',$class),$data);
-
-        $this->assertDatabaseHas(Classes::class,$data);
-
-        $this->assertDatabaseMissing(Classes::class,[
-            'class_name' => $class->class_name
-        ]);
+        $this->put(route('classes.update',$class),$data)
+            ->assertSuccessful()
+                ->assertJson(['data' => $data]);
     }
 
     public function test_change_student_class_works() {

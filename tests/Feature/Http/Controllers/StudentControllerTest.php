@@ -43,6 +43,18 @@ class StudentControllerTest extends TestCase
             ->assertSee($student->student_name);
     }
 
+    public function test_create_works() {
+        $this->get(route('subjects.create'))
+            ->assertSuccessful();
+    }
+
+    public function test_edit_works() {
+        $student = Student::factory()->create();
+
+        $this->get(route('students.edit',$student))
+            ->assertSuccessful();
+    }
+
     public function test_show_works() {
 
         $student = Student::factory()->create();
@@ -105,15 +117,11 @@ class StudentControllerTest extends TestCase
             'parent_phone' => 2222222222,
             'parent_national_number' => 121212121212,
         ];
-
         $student = Student::factory()->create();
 
-        $this->put(route('students.update',$student),$data);
-
-        $this->assertDatabaseHas(Student::class,[
-            'student_name' => $data['student_name']
-        ]);
-
+        $this->put(route('students.update',$student),$data)
+            ->assertSuccessful()
+            ->assertJson(['data' => $data]);
     }
 
     public function test_destory_works() {

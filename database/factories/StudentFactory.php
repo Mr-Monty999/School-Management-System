@@ -34,7 +34,6 @@ class StudentFactory extends Factory
             'student_registered_date' => $this->faker->date(),
             'student_paid_price' => $this->faker->numberBetween(10000, 50000),
             'student_gender' => $this->faker->randomElement(['ذكر', 'أنثى']),
-            'student_photo' => 'images/student/default.png',
             'student_national_number' => $this->faker->unique()->numerify('############'),
             'parent_id' => Parents::inRandomOrder()->first()->id,
             'class_id' => Classes::inRandomOrder()->first()->id,

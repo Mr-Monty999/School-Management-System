@@ -128,10 +128,10 @@ class SubjectController extends Controller
     {
         $subject->update($request->validated());
         if ($request->teachers) {
-            $teachers = explode(',', $request->teachers);
+            $teachers = is_array($request->teachers) ? $request->teachers :  explode(',', $request->teachers);
             $subject->teachers()->sync($teachers);
         }
-        return JsonService::responseSuccess("تم التعديل بنجاح !", $teachers);
+        return JsonService::responseSuccess("تم التعديل بنجاح !", $subject);
     }
 
     /**
@@ -151,15 +151,19 @@ class SubjectController extends Controller
 
     public function detachTeacher(Request $request, Subject $subject)
     {
-        $ids = explode(',', $request->teachers);
-        $subject->teachers()->detach($ids);
+        $teachers =  is_array($request->teachers) ? $request->teachers :  explode(',', $request->teachers);
+
+        $subject->teachers()->detach($teachers);
+
         return back();
     }
 
     public function attachTeacher(Request $request, Subject $subject)
     {
-        $ids = explode(',', $request->teachers);
-        $subject->teachers()->attach($ids);
+        $teachers = is_array($request->teachers) ? $request->teachers :  explode(',', $request->teachers);
+
+        $subject->teachers()->attach($teachers);
+
         return back();
     }
 }

@@ -42,13 +42,12 @@ class ParentsControllerTest extends TestCase
     }
 
     public function test_update_works() {
-        $data = Parents::factory()->make();
+        $data = Parents::factory()->make()->toArray();
         $parent = Parents::factory()->create();
 
-        $this->put(route('parents.update',$parent),$data->toArray())
-            ->assertSuccessful();
-
-        $this->assertDatabaseHas(Parents::class,$data->toArray());
+        $this->put(route('parents.update',$parent),$data)
+            ->assertSuccessful()
+            ->assertJson(['data' => $data]);
     }
 
 }

@@ -31,7 +31,6 @@ class TeacherFactory extends Factory
             'teacher_salary' => $this->faker->numberBetween(40000,90000),
             'teacher_phone' => $this->faker->phoneNumber(),
             'teacher_gender' => $this->faker->randomElement(['ذكر','أنثى']),
-            'teacher_photo' => 'images/teacher/default.png',
             'teacher_national_number' => $this->faker->unique()->numerify('############'),
             'user_id' => $user->id
         ];
