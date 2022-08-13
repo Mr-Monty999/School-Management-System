@@ -48,13 +48,21 @@ class TeacherControllerTest extends TestCase
             ->assertSee($teacher->teacher_name);
     }
 
+    public function test_store_works() {
+        $teacher = Teacher::factory()->make()->toArray();
+
+        $this->post(route('teachers.store',$teacher))
+            ->assertSuccessful()
+            ->assertJsonMissingValidationErrors();
+    }
+
     public function test_update_works() {
         $teacher = Teacher::factory()->create();
         $data = Teacher::factory()->make(['user_id' => $teacher->user_id])->toArray();
 
         $this->put(route('teachers.update',$teacher),$data)
             ->assertSuccessful()
-            ->assertJson(['data' => $data]);
+            ->assertJsonMissingValidationErrors();;
     }
 
     public function test_destroy_works() {

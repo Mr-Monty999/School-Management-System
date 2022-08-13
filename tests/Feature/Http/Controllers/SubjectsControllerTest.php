@@ -60,10 +60,7 @@ class SubjectsControllerTest extends TestCase
 
         $this->post(route('subjects.store'),$data)
             ->assertSuccessful()
-            ->assertJson([
-                'data' => $data
-            ]);
-
+            ->assertJsonMissingValidationErrors();
     }
 
     public function test_update_works() {
@@ -73,9 +70,7 @@ class SubjectsControllerTest extends TestCase
 
         $this->put(route('subjects.update',$subject),$data)
             ->assertSuccessful()
-            ->assertJson([
-                'data' => $data
-            ]);
+            ->assertJsonMissingValidationErrors();
     }
 
     public function test_destroy_works() {

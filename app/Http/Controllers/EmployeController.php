@@ -109,7 +109,6 @@ class EmployeController extends Controller
      */
     public function update(UpdateEmployeRequest $request, $id)
     {
-
         $data = $request->validated();
         $employe = Employe::findOrFail($id);
 

@@ -27,6 +27,11 @@ class Employe extends Model
 
     protected $table = "employees";
 
+    protected $casts = [
+        'employe_salary' => 'integer',
+        'employe_national_number' => 'integer'
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

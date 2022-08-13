@@ -26,7 +26,6 @@ class ClassesControllerTest extends TestCase
     }
 
     public function test_index_works() {
-
         $class = Classes::factory()->create();
 
         $this->get(route('classes.index'))
@@ -36,7 +35,6 @@ class ClassesControllerTest extends TestCase
 
     public function test_edit_works() {
         $class = Classes::factory()->create();
-
 
         $this->get(route('classes.edit',$class))
             ->assertSuccessful();
@@ -55,9 +53,7 @@ class ClassesControllerTest extends TestCase
 
         $this->post(route('classes.store'),$data)
             ->assertSuccessful()
-            ->assertJson([
-                'data' => $data
-            ]);
+            ->assertJsonMissingValidationErrors();
     }
 
     public function test_update_works() {
@@ -67,7 +63,7 @@ class ClassesControllerTest extends TestCase
 
         $this->put(route('classes.update',$class),$data)
             ->assertSuccessful()
-                ->assertJson(['data' => $data]);
+            ->assertJsonMissingValidationErrors();
     }
 
     public function test_change_student_class_works() {

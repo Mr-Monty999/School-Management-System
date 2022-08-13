@@ -83,20 +83,7 @@ class StudentControllerTest extends TestCase
 
         $response = $this->post(route('students.store',$data))
             ->assertSuccessful()
-            ->assertJson([
-                'data' => [
-                    'student_name' => $data['student_name'],
-                    'student_address' => $data['student_address'],
-                    'student_birthdate' => $data['student_birthdate'],
-                    'student_registered_date' => $data['student_registered_date'],
-                    'student_paid_price' => $data['student_paid_price'],
-                    'student_gender' => $data['student_gender'],
-                    'student_national_number' => $data['student_national_number'],
-                    'parent_name' => $data['parent_name'],
-                    'parent_phone' => $data['parent_phone'],
-                    'parent_national_number' => $data['parent_national_number'],
-                ]
-            ]);
+            ->assertJsonMissingValidationErrors();
 
     }
 
@@ -121,7 +108,7 @@ class StudentControllerTest extends TestCase
 
         $this->put(route('students.update',$student),$data)
             ->assertSuccessful()
-            ->assertJson(['data' => $data]);
+            ->assertJsonMissingValidationErrors();
     }
 
     public function test_destory_works() {
