@@ -38,7 +38,7 @@ Route::group(["middleware" => "auth"], function () {
 
 
     //// Users Route ////
-    Route::group(['middleware' => 'permission:admin.view'], function () {
+    Route::group([], function () {
         Route::resource('users', UserController::class);
         Route::get('users/table/{pageNumber}', [App\Http\Controllers\UserController::class, "table"])->name("users.table");
         Route::get('users/search/{pageNumber}/{name}', [App\Http\Controllers\UserController::class, "search"])->name("users.search");
@@ -46,34 +46,32 @@ Route::group(["middleware" => "auth"], function () {
 
 
     ////  Classes Routes  //////
-    Route::resource('classes', ClassesController::class)->middleware('permission:class.view');
+    Route::resource('classes', ClassesController::class);
     Route::post('classes/chnage_student_class', [App\Http\Controllers\ClassesController::class, 'changeStudentClass'])->name('classes.changeStudentClass');
     Route::post('classes/add_subject_to_class', [App\Http\Controllers\ClassesController::class, 'addSubjectToClass'])->name('classes.addSubjectToClass');
-    Route::get('classes/table/{pageNumber}/{sortBy}/{name?}', [App\Http\Controllers\ClassesController::class, "table"])->name("classes.table")->middleware('permission:class.view');
+    Route::get('classes/table/{pageNumber}/{sortBy}/{name?}', [App\Http\Controllers\ClassesController::class, "table"])->name("classes.table");
 
 
     ////  Results Routes  //////
-    Route::resource('results', ResultsController::class)->middleware('permission:result.view');
+    Route::resource('results', ResultsController::class);
     Route::get('results/show_result/{student}', [App\Http\Controllers\ResultsController::class, 'showResult'])->name('results.showResult');
     Route::post('results/assign_result/{student}', [App\Http\Controllers\ResultsController::class, 'assignResult'])->name('results.assignResult');
     Route::get('get_student_result', [App\Http\Controllers\ResultsController::class, 'getStudentResults'])
-        ->middleware('role:student')
         ->name('results.getStudentResult');
 
 
     ////  Employees Routes  //////
-    Route::resource('employees', EmployeController::class)->middleware('permission:employe.view');
-    Route::get('employees/table/{pageNumber}/{sortBy}/{name?}', [App\Http\Controllers\EmployeController::class, "table"])->name("employees.table")->middleware('permission:employe.view');
-    Route::post('employees/destroy-all', [App\Http\Controllers\EmployeController::class, "destroyAll"])->name("employees.destroy.all")->middleware('permission:employe.view');;
+    Route::resource('employees', EmployeController::class);
+    Route::get('employees/table/{pageNumber}/{sortBy}/{name?}', [App\Http\Controllers\EmployeController::class, "table"])->name("employees.table");
+    Route::post('employees/destroy-all', [App\Http\Controllers\EmployeController::class, "destroyAll"])->name("employees.destroy.all");
 
 
 
 
     ////  Parents Routes  //////
-    Route::resource('parents', ParentsController::class)->middleware('permission:student.view');
+    Route::resource('parents', ParentsController::class);
     Route::get('parents/table/{pageNumber}/{sortBy}/{name?}', [App\Http\Controllers\ParentsController::class, "table"])
-        ->name("parents.table")
-        ->middleware('permission:student.view');
+        ->name("parents.table");
 
 
 
@@ -81,22 +79,26 @@ Route::group(["middleware" => "auth"], function () {
     Route::resource('schools', SchoolController::class)->middleware('role:Super-Admin');
 
     ////  Students Routes  //////
-    Route::resource('students', StudentController::class)->middleware('permission:student.view');
-    Route::get('students/table/{pageNumber}/{sortBy}/{name?}', [App\Http\Controllers\StudentController::class, "table"])->name("students.table")->middleware('permission:student.view');
-    Route::post('student/destroy-all', [App\Http\Controllers\StudentController::class, "destroyAll"])->name("students.destroy.all")->middleware('permission:student.view');;
+    Route::resource('students', StudentController::class);
+    Route::get('students/table/{pageNumber}/{sortBy}/{name?}', [App\Http\Controllers\StudentController::class, "table"])->name("students.table");
+    Route::post('student/destroy-all', [App\Http\Controllers\StudentController::class, "destroyAll"])->name("students.destroy.all");;
 
 
     ////  Subjects Routes  //////
-    Route::resource('subjects', SubjectController::class)->middleware('permission:subject.view');
+    Route::resource('subjects', SubjectController::class);
     Route::post('subjects/{subject}/attach_teacher', [App\Http\Controllers\SubjectController::class, 'attachTeacher'])->name('subjects.attachTeacher');
     Route::post('subjects/{subject}/detach_teacher', [App\Http\Controllers\SubjectController::class, 'detachTeacher'])->name('subjects.detachTeacher');
-    Route::get('subjects/table/{pageNumber}/{sortBy}/{name?}', [App\Http\Controllers\SubjectController::class, "table"])->name("subjects.table")->middleware('permission:subject.view');
+    Route::get('subjects/table/{pageNumber}/{sortBy}/{name?}', [App\Http\Controllers\SubjectController::class, "table"])->name("subjects.table");
 
 
     ////  Teachers Routes  //////
-    Route::resource('teachers', TeacherController::class)->middleware('permission:teacher.view');
-    Route::get('teachers/table/{pageNumber}/{sortBy}/{name?}', [App\Http\Controllers\TeacherController::class, "table"])->name("teachers.table")->middleware('permission:teacher.view');
-    Route::post('teacher/destroy-all', [App\Http\Controllers\TeacherController::class, "destroyAll"])->name("teachers.destroy.all")->middleware('permission:teacher.view');
+    Route::resource('teachers', TeacherController::class);
+
+    Route::get('teachers/table/{pageNumber}/{sortBy}/{name?}', [App\Http\Controllers\TeacherController::class, "table"])
+    ->name("teachers.table");
+
+    Route::post('teacher/destroy-all', [App\Http\Controllers\TeacherController::class, "destroyAll"]
+    )->name("teachers.destroy.all");
 
     ////  Privacy Routes  //////
     Route::resource('privacy', PrivacyController::class);
@@ -105,7 +107,7 @@ Route::group(["middleware" => "auth"], function () {
     Route::resource('roles', RoleController::class);
 
     ////   Archive  \\\\
-    Route::group(['middleware' => 'permission:archive.view'], function () {
+    Route::group([], function () {
 
         Route::get('archive', [ArchiveController::class, 'index'])->name('archive.index');
         Route::delete('archive/destroy/{user}', [ArchiveController::class, 'destroy'])->name('archive.destroy')->withTrashed();

@@ -47,7 +47,7 @@ class ParentsControllerTest extends TestCase
 
         $this->put(route('parents.update',$parent),$data)
             ->assertSuccessful()
-            ->assertJson(['data' => $data]);
+            ->assertJsonMissingValidationErrors();
     }
 
 }

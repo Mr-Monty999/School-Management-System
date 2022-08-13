@@ -14,6 +14,14 @@ use Illuminate\Support\Facades\DB;
 
 class TeacherController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('permission:teacher.view',['only' => 'index','show' , 'table']);
+        $this->middleware('permission:teacher.add',['only' => 'create','store']);
+        $this->middleware('permission:teacher.edit',['only' => 'edit','update']);
+        $this->middleware('permission:teacher.delete',['only' => 'destroy','destroyAll']);
+    }
     /**
      * Display a listing of the resource.
      *

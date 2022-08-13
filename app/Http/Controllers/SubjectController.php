@@ -9,10 +9,18 @@ use App\Models\Subject;
 use App\Models\Teacher;
 use App\Services\JsonService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class SubjectController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('permission:subject.view',['only' => 'index','show' , 'table']);
+        $this->middleware('permission:subject.add',['only' => 'create','store']);
+        $this->middleware('permission:subject.edit',['only' => 'edit','update' , 'attachTeacher' , 'detachTeacher']);
+        $this->middleware('permission:subject.delete',['only' => 'destroy',]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -23,9 +31,6 @@ class SubjectController extends Controller
         $subjects = Subject::with('class')->withCount('teachers')->orderBy("id", "desc")->paginate(5);
         return view("subjects.index", compact('subjects'));
     }
-
-
-
 
     public function table($pageNumber, $sortBy, $name = "")
     {
