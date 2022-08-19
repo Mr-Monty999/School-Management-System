@@ -11,6 +11,14 @@ use Illuminate\Support\Facades\Auth;
 
 class ResultsController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('permission:result.view',['only' => 'index','show'.'showResult','showStudentResult']);
+        $this->middleware('permission:result.add',['only' => 'assignResult']);
+        $this->middleware('permission:result.delete',['only' => 'destroy']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -56,7 +64,6 @@ class ResultsController extends Controller
         return back();
     }
 
-
     public function showResult(Student $student)
     {
         if(Auth::user()->type == 'teacher') {
@@ -72,7 +79,6 @@ class ResultsController extends Controller
         return view('results.results',compact('student'));
     }
 
-
     public function assignResult(Request $request , Student $student) {
         Result::updateOrCreate(['subject_id' => $request->subject_id],[
             'student_id' => $student->id,
@@ -82,7 +88,6 @@ class ResultsController extends Controller
         ]);
         return back();
     }
-
 
     public function getStudentResults() {
 

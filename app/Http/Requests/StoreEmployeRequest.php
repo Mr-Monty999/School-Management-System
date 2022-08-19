@@ -33,7 +33,8 @@ class StoreEmployeRequest extends FormRequest
             "employe_photo" => "nullable|image",
             "employe_phone" => "required",
             "employe_job" => "required",
-            'employe_national_number' => 'required|numeric|unique:employees,employe_national_number|digits:12'
+            'employe_national_number' => 'required|numeric|unique:employees,employe_national_number|digits:12',
+            'give_admin' => 'nullable'
         ];
     }
 

@@ -14,6 +14,14 @@ use Illuminate\Http\Request;
 
 class ClassesController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:class.view',['only' => 'index','show' , 'table']);
+        $this->middleware('permission:class.add',['only' => 'store']);
+        $this->middleware('permission:class.edit',['only' => 'edit','update','changeStudentClass' , 'addSubjectToclass']);
+        $this->middleware('permission:class.delete',['only' => 'destroy']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -25,15 +33,8 @@ class ClassesController extends Controller
         return view("classes.index", compact('classes'));
     }
 
-
-
     public function table($pageNumber, $sortBy, $name = "")
     {
-        /* str_replace(
-            ['\\','%','_'],
-            ['\\\\','\%','\_'],
-            $name
-        ); */
 
         $name = trim($name);
         $classes = null;

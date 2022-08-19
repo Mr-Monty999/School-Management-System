@@ -102,7 +102,7 @@ class SubjectsControllerTest extends TestCase
             ->assertSee($teacher->teacher_name);
     }
 
-    public function test_detach_teacher() {
+    public function test_detach_teacher_works() {
         $teacher = Teacher::factory()->create();
 
         Classes::factory()->create();

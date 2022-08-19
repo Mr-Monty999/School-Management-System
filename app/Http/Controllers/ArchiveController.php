@@ -14,6 +14,13 @@ use App\Services\FileUploadService;
 
 class ArchiveController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:archive.view',['only' => 'index' , 'table']);
+        $this->middleware('permission:archive.edit',['only' => 'restore','restoreAll']);
+        $this->middleware('permission:archive.delete',['only' => 'destroy', 'destroyAll']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -27,7 +34,6 @@ class ArchiveController extends Controller
 
         return view('archive.index', compact('users'));
     }
-
 
     public function table($pageNumber, $viewBy, $name = "")
     {
@@ -89,12 +95,6 @@ class ArchiveController extends Controller
         return JsonService::responseSuccess("تم الإسترجاع بنجاح", null);
     }
 
-    public function destroyAll()
-    {
-        User::onlyTrashed()->forceDelete();
-        return JsonService::responseSuccess("تم الحذف بنجاح", null);
-    }
-
     public function destroy(User $user)
     {
         $type = $user->type;
@@ -103,4 +103,11 @@ class ArchiveController extends Controller
         $user->forceDelete();
         return JsonService::responseSuccess("تم الحذف بنجاح", $user);
     }
+
+    public function destroyAll()
+    {
+        User::onlyTrashed()->forceDelete();
+        return JsonService::responseSuccess("تم الحذف بنجاح", null);
+    }
+
 }

@@ -9,6 +9,8 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
+use function PHPUnit\Framework\assertTrue;
+
 class EmployeControllerTest extends TestCase
 {
     use DatabaseTransactions;

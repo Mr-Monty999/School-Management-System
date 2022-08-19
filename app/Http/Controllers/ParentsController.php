@@ -10,6 +10,13 @@ use Illuminate\Support\Facades\DB;
 
 class ParentsController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('permission:student.view',['only' => 'index','show' , 'table']);
+        $this->middleware('permission:student.edit',['only' => 'edit','update']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -47,27 +54,6 @@ class ParentsController extends Controller
         }
 
         return view("parents.table", compact('parents'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
     }
 
     /**
@@ -112,14 +98,4 @@ class ParentsController extends Controller
         return  JsonService::responseSuccess('تم حفظ البيانات بنجاح', $data);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Parents  $parents
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Parents $parents)
-    {
-        //
-    }
 }

@@ -16,6 +16,15 @@ use Illuminate\Support\Facades\Request;
 
 class StudentController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('permission:student.view',['only' => 'index','show' , 'table']);
+        $this->middleware('permission:student.add',['only' => 'create','store']);
+        $this->middleware('permission:student.edit',['only' => 'edit','update']);
+        $this->middleware('permission:student.delete',['only' => 'destroy', 'destroyAll']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -31,11 +40,6 @@ class StudentController extends Controller
 
     public function table($pageNumber, $sortBy, $name = "")
     {
-        /* str_replace(
-            ['\\','%','_'],
-            ['\\\\','\%','\_'],
-            $name
-        ); */
 
         $name = trim($name);
 

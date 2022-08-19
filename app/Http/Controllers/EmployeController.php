@@ -14,6 +14,15 @@ use Illuminate\Support\Facades\DB;
 
 class EmployeController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('permission:employe.view',['only' => 'index','show' , 'table']);
+        $this->middleware('permission:employe.add',['only' => 'create','store']);
+        $this->middleware('permission:employe.edit',['only' => 'edit','update']);
+        $this->middleware('permission:employe.delete',['only' => 'destroy', 'destroyAll']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -24,8 +33,6 @@ class EmployeController extends Controller
         $employees = Employe::orderBy("id", "desc")->paginate(5);
         return view("employees.index", compact('employees'));
     }
-
-
 
     public function table($pageNumber, $sortBy, $name = "")
     {
@@ -109,6 +116,7 @@ class EmployeController extends Controller
      */
     public function update(UpdateEmployeRequest $request, $id)
     {
+
         $data = $request->validated();
         $employe = Employe::findOrFail($id);
 

@@ -36,7 +36,7 @@ class EmployeFactory extends Factory
             "employe_hire_date" => $this->faker->date(),
             "employe_gender" => $this->faker->randomElement(["ذكر", "انثى"]),
             "employe_job" => $this->faker->jobTitle(),
-            "employe_national_number" => $this->faker->unique()->numerify("############"),
+            "employe_national_number" => $this->faker->unique()->numerify("1###########"),
             "user_id" => $user->id,
 
         ];
